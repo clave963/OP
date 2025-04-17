@@ -3,7 +3,7 @@ import requests
 import os
 
 # Path to your artworks JSON file
-ARTWORKS_JSON_PATH = "/Volumes/Seagate Backup /Harvard_Spring2025/fluxus-tile-map/Artworks.json"
+ARTWORKS_JSON_PATH = "/Users/carlylave/Documents/GitHub/OP/fluxus-tile-map/Artworks.json"
 
 # Directory where you want to save Fluxus images
 FLUXUS_IMAGE_DIR = "Fluxus_Images"
