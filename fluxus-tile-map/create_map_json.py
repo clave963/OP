@@ -1,0 +1,110 @@
+import os
+import json
+import random
+import urllib.request
+import cv2
+import requests
+import urllib
+
+SRC_JSON = "fluxus_metadata.json"
+MAP_NAME = "map_1"
+
+MAP_JSON = os.path.join(MAP_NAME, "tiles.json")
+THUMB_FOLDER = os.path.join(MAP_NAME, "thumbs")
+IMAGES_FOLDER = os.path.join(MAP_NAME, "images")  
+
+# Define the main image from which to create the tile map.
+SRC_IMAGE = "../Fluxus_Images/127300_Dynamitage,_performed_during_Fluxus_Festival_of_Total_Art_and_Comportment,_Nice,_July_27,_1963.jpg"
+
+os.makedirs(THUMB_FOLDER, exist_ok=True)
+os.makedirs(IMAGES_FOLDER, exist_ok=True)
+
+# Load the main image using OpenCV.
+src_image = cv2.imread(SRC_IMAGE)
+if src_image is None:
+    raise FileNotFoundError(f"Unable to load the image: {SRC_IMAGE}")
+
+# Debug: Confirm the type and shape of src_image.
+print("Type of src_image:", type(src_image))
+print("Original src_image shape:", src_image.shape)
+
+# Get the dimensions and compute the aspect ratio.
+src_w = src_image.shape[1]
+src_h = src_image.shape[0]
+src_aspect_ratio = src_w / src_h
+
+# Define the tile size based on the aspect ratio.
+tiles_x = 5
+tiles_y = int(tiles_x / src_aspect_ratio)
+
+# Resize the main image to the number of tiles.
+src_image = cv2.resize(src_image, (tiles_x, tiles_y), interpolation=cv2.INTER_AREA)
+print("Resized src_image shape (should match tile grid):", src_image.shape)
+
+# Load metadata from the JSON file.
+src = json.load(open(SRC_JSON, "r"))
+print("Type of src (metadata):", type(src))
+print("Number of metadata records loaded:", len(src))
+
+tiles_info = []
+
+# Loop over a grid defined by tiles_x and tiles_y.
+for i in range(tiles_x):
+    for j in range(tiles_y):
+        # Pick a random record from the metadata.
+        id = random.randint(0, len(src) - 1)
+        image = src[id]
+        image_url = image["ImageURL"]
+        
+        image_file_name = f"{id}.jpg"
+        image_name = os.path.basename(image_url)
+        image_path = os.path.join(IMAGES_FOLDER, image_file_name)
+        
+        # Download the image if it doesn't exist already.
+        if not os.path.exists(image_path):
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+                              '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+            }
+            response = requests.get(image_url, headers=headers, stream=True)
+            if response.status_code == 200:
+                with open(image_path, 'wb') as f:
+                    for chunk in response.iter_content(1024):
+                        f.write(chunk)
+            else:
+                print(f"Failed to download image {image_name}: {response.status_code}")
+        else:
+            print(f"Image {image_name} already exists, skipping download.")
+        
+        # Instead of accessing src[i][j] (which causes a KeyError on the metadata),
+        # we access the pixel from the main image (src_image), which is a NumPy array.
+        # Note: OpenCV images are in row, column order, so use [j, i].
+        pixel = src_image[j, i]
+        print(f"Pixel value at tile position ({i}, {j}):", pixel)
+        
+        # Open the downloaded image and process it for thumbnail creation.
+        image_cv = cv2.imread(image_path)
+        if image_cv is None:
+            print(f"Warning: Unable to load the downloaded image at {image_path}")
+            continue
+        image_cv = cv2.resize(image_cv, (64, 64))
+        image_cv = cv2.GaussianBlur(image_cv, (5, 5), 0)
+        
+        thumb_name = f"thumb_{i}_{j}.jpg"
+        thumb_path = os.path.join(THUMB_FOLDER, thumb_name)
+        cv2.imwrite(thumb_path, image_cv)
+        
+        # Create a dictionary for tile data.
+        tile_data = {}
+        tile_data['thumbnail_url'] = thumb_path.replace('\\', '/')  # Thumbnail URL.
+        tile_data['url'] = image_path.replace('\\', '/')             # Full image URL.
+        tile_data['pos'] = [i, j]                                     # Position in the grid.
+        tile_data['color'] = [1.0, 1.0, 1.0]
+        tile_data['data'] = image                                   # Metadata record.
+        tile_data['name'] = image["Title"]                          # Title from metadata.
+        
+        tiles_info.append(tile_data)
+
+# Save the combined tiles information to the JSON file.
+with open(MAP_JSON, "w") as f:
+    json.dump(tiles_info, f, indent=4)
