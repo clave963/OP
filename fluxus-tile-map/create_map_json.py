@@ -34,7 +34,7 @@ src_h = src_image.shape[0]
 src_aspect_ratio = src_w / src_h
 
 # Define the tile size based on the aspect ratio.
-tiles_x = 5
+tiles_x = 50
 tiles_y = int(tiles_x / src_aspect_ratio)
 
 # Resize the main image to the number of tiles.
@@ -52,9 +52,14 @@ tiles_info = []
 for i in range(tiles_x):
     for j in range(tiles_y):
         # Pick a random record from the metadata.
-        id = random.randint(0, len(src) - 1)
-        image = src[id]
-        image_url = image["ImageURL"]
+        image_url = None
+        image = None
+        while image_url is None:
+            id = random.randint(0, len(src) - 1)
+            image = src[id]
+            image_url = image["ImageURL"]
+            if image_url is None:
+                print(f"Image URL for ID {id} is None, retrying...")
         
         image_file_name = f"{id}.jpg"
         image_name = os.path.basename(image_url)
@@ -104,6 +109,8 @@ for i in range(tiles_x):
         tile_data['name'] = image["Title"]                          # Title from metadata.
         
         tiles_info.append(tile_data)
+print(f"Total tiles created: {len(tiles_info)}")
+print(f"Expected number of tiles: {tiles_x * tiles_y}")
 
 # Save the combined tiles information to the JSON file.
 with open(MAP_JSON, "w") as f:

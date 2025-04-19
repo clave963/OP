@@ -1,7 +1,7 @@
 [
     {
         "thumbnail_url": "map_1/thumbs/thumb_0_0.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/607.jpg",
         "pos": [
             0,
             0
@@ -12,49 +12,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 128083,
+            "Title": "Flux Box",
             "Artist": [
-                "Otto Wagner"
+                "Per Kirkeby"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "Danish, 1938\u20132018"
             ],
             "Nationality": [
-                "Austrian"
+                "Danish"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "overall (closed): 4 3/4 x 3 15/16 x 9/16\" (12 x 10 x 1.4 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjMwNjU4NyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=db796e615cf48507",
+            "Medium": "Plastic box with offset label, containing plastic",
+            "Date": "1969",
+            "Classification": "Multiple",
+            "LocalPath": "Fluxus_Images/128083_Flux_Box.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Flux Box"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_0_1.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/754.jpg",
         "pos": [
             0,
             1
@@ -65,49 +46,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 128655,
+            "Title": "Picasso Signature",
             "Artist": [
-                "Otto Wagner"
+                "Robert Watts"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, 1923\u20131988"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "15 7/8 x 33 3/16\" (40.3 x 84.2 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjIxNTg0MSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=e8c4becab8588978",
+            "Medium": "Neon and plastic",
+            "Date": "1966",
+            "Classification": "Sculpture",
+            "LocalPath": "Fluxus_Images/128655_Picasso_Signature.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Picasso Signature"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_0_2.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/2293.jpg",
         "pos": [
             0,
             2
@@ -118,208 +80,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 136720,
+            "Title": "Safe Post / K.u.K. Feldpost / Jockpost",
             "Artist": [
-                "Otto Wagner"
+                "Robert Watts"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, 1923\u20131988"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 4 9/16 x 5 9/16\" (11.6 x 14.2 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjI0Nzk4NyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=782c7daa577d6d64",
+            "Medium": "Letterpress on gummed and perforated paper",
+            "Date": "1962",
+            "Classification": "Print",
+            "LocalPath": "Fluxus_Images/136720_Safe_Post___K.u.K._Feldpost___Jockpost.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_0_3.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            0,
-            3
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_0_4.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            0,
-            4
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_0_5.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            0,
-            5
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Safe Post / K.u.K. Feldpost / Jockpost"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_1_0.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/456.jpg",
         "pos": [
             1,
             0
@@ -330,49 +114,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 127913,
+            "Title": "Aerophone from Mechanical Flux Orchestra",
             "Artist": [
-                "Otto Wagner"
+                "George Maciunas"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born Lithuania. 1931\u20131978"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "overall: 24 7/16 x 19 11/16 x 17 11/16\" (62 x 50 x 45 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjI0NjU1MiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=f475b8a5264d99bb",
+            "Medium": "Toy noisemaker and electric motor, on tripod stand",
+            "Date": "1966",
+            "Classification": "Sculpture",
+            "LocalPath": "Fluxus_Images/127913_Aerophone_from_Mechanical_Flux_Orchestra.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Aerophone from Mechanical Flux Orchestra"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_1_1.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/367.jpg",
         "pos": [
             1,
             1
@@ -383,49 +148,33 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 127636,
+            "Title": "La Monte Young's Composition 1960 #10 (to Bob Morris) performed by Nam June Paik during Fluxus Internationale Festspiele Neuester Musik, St\u00e4dtisches Museum, Wiesbaden, September 1\u201323, 1962",
             "Artist": [
-                "Otto Wagner"
+                "La Monte Young",
+                "Nam June Paik"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born 1935",
+                "American, born Korea. 1932\u20132006"
             ],
             "Nationality": [
-                "Austrian"
+                "American",
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "image and sheet: 6 15/16 x 9 3/8\" (17.6 x 23.8 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjI1NTYxMyJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=9988f9e30e611aba",
+            "Medium": "Gelatin silver print",
+            "Date": "1962",
+            "Classification": "Photograph",
+            "LocalPath": "Fluxus_Images/127636_La_Monte_Young's_Composition_1960_#10_(to_Bob_Morris)_performed_by_Nam_June_Paik_during_Fluxus_Internationale_Festspiele_Neuester_Musik,_St\u00e4dtisches_Museum,_Wiesbaden,_September_1\u201323,_1962.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "La Monte Young's Composition 1960 #10 (to Bob Morris) performed by Nam June Paik during Fluxus Internationale Festspiele Neuester Musik, St\u00e4dtisches Museum, Wiesbaden, September 1\u201323, 1962"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_1_2.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/424.jpg",
         "pos": [
             1,
             2
@@ -436,208 +185,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 127870,
+            "Title": "Chronology: 1881\u20131895 (France/England/Austro-Germany/Japan)",
             "Artist": [
-                "Otto Wagner"
+                "George Maciunas"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born Lithuania. 1931\u20131978"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 7 9/16 x 8 1/2\" (19.2 x 21.6 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjQwNjYwOCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=e91a1ebeaf750a32",
+            "Medium": "Ink and pencil on notebook paper",
+            "Date": "c. 1953\u201354",
+            "Classification": "Drawing",
+            "LocalPath": "Fluxus_Images/127870_Chronology:_1881\u20131895_(France_England_Austro-Germany_Japan).jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_1_3.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            1,
-            3
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_1_4.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            1,
-            4
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_1_5.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            1,
-            5
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Chronology: 1881\u20131895 (France/England/Austro-Germany/Japan)"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_2_0.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/2519.jpg",
         "pos": [
             2,
             0
@@ -648,49 +219,33 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 136984,
+            "Title": "Poster for Henry Flynt & Nova' Billy Concert, 80 Wooster St., New York, January 27, 1975",
             "Artist": [
-                "Otto Wagner"
+                "Henry Flynt",
+                "George Maciunas"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born 1940",
+                "American, born Lithuania. 1931\u20131978"
             ],
             "Nationality": [
-                "Austrian"
+                "American",
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 14 \u00d7 19 15/16\" (35.5 \u00d7 50.7 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjQyNjM2MSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=8407046916feca28",
+            "Medium": "Offset lithograph",
+            "Date": "1975",
+            "Classification": "Print",
+            "LocalPath": "Fluxus_Images/136984_Poster_for_Henry_Flynt_&_Nova'_Billy_Concert,_80_Wooster_St.,_New_York,_January_27,_1975.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Poster for Henry Flynt & Nova' Billy Concert, 80 Wooster St., New York, January 27, 1975"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_2_1.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/163.jpg",
         "pos": [
             2,
             1
@@ -701,49 +256,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 127412,
+            "Title": "Reading Work Piece No. 1: music while you work, performed during Festum Fluxorum/Fluxus/Musik und Antimusik/Das Instrumentale Theater, Staatliche Kunstakademie, D\u00fcsseldorf, February 3, 1963",
             "Artist": [
-                "Otto Wagner"
+                "Arthur K\u00f6pcke"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "Danish, born Germany, 1928\u20131977"
             ],
             "Nationality": [
-                "Austrian"
+                "German"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 6 15/16 x 9 5/16\" (17.6 x 23.7 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjI3MTc2MSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=7e3fe4f565697a17",
+            "Medium": "Gelatin silver print",
+            "Date": "1962, performed 1963",
+            "Classification": "Photograph",
+            "LocalPath": "Fluxus_Images/127412_Reading_Work_Piece_No._1:_music_while_you_work,_performed_during_Festum_Fluxorum_Fluxus_Musik_und_Antimusik_Das_Instrumentale_Theater,_Staatliche_Kunstakademie,_D\u00fcsseldorf,_February_3,_1963.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Reading Work Piece No. 1: music while you work, performed during Festum Fluxorum/Fluxus/Musik und Antimusik/Das Instrumentale Theater, Staatliche Kunstakademie, D\u00fcsseldorf, February 3, 1963"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_2_2.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/4843.jpg",
         "pos": [
             2,
             2
@@ -754,208 +290,33 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 270915,
+            "Title": "Postcard from Nam June Paik to Jan van der Marck",
             "Artist": [
-                "Otto Wagner"
+                "Nam June Paik",
+                "Charlotte Moorman"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born Korea. 1932\u20132006",
+                "American, 1933\u20131991"
             ],
             "Nationality": [
-                "Austrian"
+                "American",
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 4 \u00d7 5 11/16\" (10.2 \u00d7 14.5 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjU1NjU4NCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=2442dc893edd6b87",
+            "Medium": "Mailed postcard with ballpoint pen",
+            "Date": "1974",
+            "Classification": "Correspondence",
+            "LocalPath": "Fluxus_Images/270915_Postcard_from_Nam_June_Paik_to_Jan_van_der_Marck.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_2_3.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            2,
-            3
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_2_4.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            2,
-            4
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_2_5.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            2,
-            5
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Postcard from Nam June Paik to Jan van der Marck"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_3_0.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/3510.jpg",
         "pos": [
             3,
             0
@@ -966,49 +327,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 150235,
+            "Title": "Trace (Fluxfilm no. 11)",
             "Artist": [
-                "Otto Wagner"
+                "Robert Watts"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, 1923\u20131988"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "1:21 min.",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjI1NTAwNSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=a6678f8eff864187",
+            "Medium": "16mm film (black and white, silent)",
+            "Date": "1966",
+            "Classification": "Film",
+            "LocalPath": "Fluxus_Images/150235_Trace_(Fluxfilm_no._11).jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Trace (Fluxfilm no. 11)"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_3_1.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/189.jpg",
         "pos": [
             3,
             1
@@ -1019,49 +361,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 127439,
+            "Title": "Homage to Philip Corner",
             "Artist": [
-                "Otto Wagner"
+                "George Maciunas"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born Lithuania. 1931\u20131978"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 4 3/16 x 8 3/4\" (10.6 x 22.3 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjMwNDk5MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=239a32d394b29696",
+            "Medium": "Typewriting and felt-tip pen on transparentized paper",
+            "Date": "1962",
+            "Classification": "Drawing",
+            "LocalPath": "Fluxus_Images/127439_Homage_to_Philip_Corner.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Homage to Philip Corner"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_3_2.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/1061.jpg",
         "pos": [
             3,
             2
@@ -1072,208 +395,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 131569,
+            "Title": "Be\u00fcys Jet",
             "Artist": [
-                "Otto Wagner"
+                "Nam June Paik"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born Korea. 1932\u20132006"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "overall: 3 15/16 \u00d7 13 3/8 \u00d7 3 1/8\" (10 \u00d7 34 \u00d7 8 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjM2OTIzMCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=e95d4c56ad3d1148",
+            "Medium": "Airplane clock with paint additions",
+            "Date": "1985",
+            "Classification": "Multiple",
+            "LocalPath": "Fluxus_Images/131569_Be\u00fcys_Jet.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_3_3.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            3,
-            3
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_3_4.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            3,
-            4
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_3_5.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            3,
-            5
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Be\u00fcys Jet"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_4_0.jpg",
-        "url": "map_1/images/1.jpg",
+        "url": "map_1/images/579.jpg",
         "pos": [
             4,
             0
@@ -1284,49 +429,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 128054,
+            "Title": "Flux Food",
             "Artist": [
-                "Otto Wagner"
+                "John Chick"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "overall (closed): 3 15/16 x 4 3/4 x 1/2\" (10 x 12 x 1.3 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjI3NjM1OSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=a913679b026ad018",
+            "Medium": "Plastic box with offset label, containing eleven commercial food labels",
+            "Date": "1969",
+            "Classification": "Multiple",
+            "LocalPath": "Fluxus_Images/128054_Flux_Food.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Flux Food"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_4_1.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/1775.jpg",
         "pos": [
             4,
             1
@@ -1337,49 +463,30 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 135459,
+            "Title": "The Frozen Exhibition",
             "Artist": [
-                "Otto Wagner"
+                "Robert Filliou"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "French, 1926\u20131987"
             ],
             "Nationality": [
-                "Austrian"
+                "French"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "overall: 8 1/16 x 12 5/8 x 3/16\" (20.5 x 32 x 0.5 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjQyMjYzNiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=9b752cf0bddff3b2",
+            "Medium": "Multiple of felt-covered paper hat, photographs, and facsimiles of press clippings",
+            "Date": "1972",
+            "Classification": "Multiple",
+            "LocalPath": "Fluxus_Images/135459_The_Frozen_Exhibition.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "The Frozen Exhibition"
     },
     {
         "thumbnail_url": "map_1/thumbs/thumb_4_2.jpg",
-        "url": "map_1/images/0.jpg",
+        "url": "map_1/images/245.jpg",
         "pos": [
             4,
             2
@@ -1390,203 +497,25 @@
             1.0
         ],
         "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
+            "ObjectID": 127504,
+            "Title": "Half-Time",
             "Artist": [
-                "Otto Wagner"
+                "Nam June Paik"
             ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
+            "Artist Bio": [
+                "American, born Korea. 1932\u20132006"
             ],
             "Nationality": [
-                "Austrian"
+                "American"
             ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
+            "Dimensions": "sheet: 11 1/2 x 8 3/16\" (29.2 x 20.8 cm)",
+            "Department": "Drawings & Prints",
+            "ImageURL": "https://www.moma.org/media/W1siZiIsIjIxNjA4NSJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=dc6219f021a85327",
+            "Medium": "Ballpoint pen, felt-tip pen, and printed paper on paper",
+            "Date": "1962",
+            "Classification": "Drawing",
+            "LocalPath": "Fluxus_Images/127504_Half-Time.jpg"
         },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_4_3.jpg",
-        "url": "map_1/images/1.jpg",
-        "pos": [
-            4,
-            3
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_4_4.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            4,
-            4
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
-    },
-    {
-        "thumbnail_url": "map_1/thumbs/thumb_4_5.jpg",
-        "url": "map_1/images/0.jpg",
-        "pos": [
-            4,
-            5
-        ],
-        "color": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "data": {
-            "Title": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)",
-            "Artist": [
-                "Otto Wagner"
-            ],
-            "ConstituentID": [
-                6210
-            ],
-            "ArtistBio": [
-                "Austrian, 1841\u20131918"
-            ],
-            "Nationality": [
-                "Austrian"
-            ],
-            "BeginDate": [
-                1841
-            ],
-            "EndDate": [
-                1918
-            ],
-            "Gender": [
-                "male"
-            ],
-            "Date": "1896",
-            "Medium": "Ink and cut-and-pasted painted pages on paper",
-            "Dimensions": "19 1/8 x 66 1/2\" (48.6 x 168.9 cm)",
-            "CreditLine": "Fractional and promised gift of Jo Carole and Ronald S. Lauder",
-            "AccessionNumber": "885.1996",
-            "Classification": "Architecture",
-            "Department": "Architecture & Design",
-            "DateAcquired": "1996-04-09",
-            "Cataloged": "Y",
-            "ObjectID": 2,
-            "URL": "https://www.moma.org/collection/works/2",
-            "ImageURL": "https://www.moma.org/media/W1siZiIsIjUyNzc3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDEwMjR4MTAyNFx1MDAzZSJdXQ.jpg?sha=712ac0fd74ea5bd5",
-            "OnView": "",
-            "Height (cm)": 48.6,
-            "Width (cm)": 168.9
-        },
-        "name": "Ferdinandsbr\u00fccke Project, Vienna, Austria (Elevation, preliminary version)"
+        "name": "Half-Time"
     }
 ]
