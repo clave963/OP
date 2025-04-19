@@ -49,11 +49,33 @@ body {
 
 #info_div{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 10px;
+    left: 10px;
     /* width: 10%;
     height: 10%; */
     background-color: rgba(0, 0, 0, 0.26);
     color: white;
     font-size: 20px;
 }
+
+#info_div .info-header {
+    position: relative;
+  }
+  
+  #info_div .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  #info_div .close-button:hover {
+    color: #000;
+  }

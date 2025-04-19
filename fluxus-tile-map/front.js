@@ -11,50 +11,54 @@ var image_sprites = [];
 
 //______________________________Handle sprite selection and display metadata
 function on_sprite_selected(sprite) {
-    if (!sprite.image_info) return;         // guard
-  
+    if (!sprite.image_info) return;
     const info = sprite.image_info;
   
-    // 1) Define the exact order of keys
     const keyOrder = [
-      "Title",
-      "Name",
-      "Date",
-      "Artist",
-      "Artist Bio",
-      "Nationality",
-      "Dimensions",
-      "Medium",
-      "ImageURL"
+      "Title", "Name", "Date",
+      "Artist", "Artist Bio", "Nationality",
+      "Dimensions", "Medium", "ImageURL"
     ];
   
-    // 2) Build the HTML string
+    // Build HTML with a close button
     let html = `
+      <div class="info-header">
+        <button id="closeBtn" class="close-button">&times;</button>
+      </div>
       <img src="${info.url}" class="info-image">
       <h3>Metadata:</h3>
       <ul class="info-list">
     `;
-  
     keyOrder.forEach(key => {
       let val = info[key];
       if (Array.isArray(val)) val = val.join(', ');
       html += `<li><strong>${key}:</strong> ${val ?? ''}</li>`;
     });
-  
     html += `</ul>`;
   
-    // 3) Inject into the info panel
     info_div.innerHTML = html;
   
-    // 4) Highlight the newly selected sprite
+    // Wire up the close button
+    document.getElementById('closeBtn').addEventListener('click', () => {
+      // reset highlight
+      if (selected_sprite) {
+        const prev = selected_sprite.image_info;
+        selected_sprite.material.color.set(prev.color[0], prev.color[1], prev.color[2]);
+        selected_sprite = null;
+      }
+      // clear panel
+      info_div.innerHTML = '';
+    });
+  
+    // Highlight the selected sprite
     if (selected_sprite) {
-      // reset previous color
       const prev = selected_sprite.image_info;
       selected_sprite.material.color.set(prev.color[0], prev.color[1], prev.color[2]);
     }
-    sprite.material.color.set(0xff0000);  // red highlight
+    sprite.material.color.set(0xff0000);
     selected_sprite = sprite;
-  }  
+  }
+  
 
 
 
