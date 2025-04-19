@@ -11,27 +11,50 @@ var image_sprites = [];
 
 //______________________________Handle sprite selection and display metadata
 function on_sprite_selected(sprite) {
-
-    if (sprite.image_info) {
-        // Create HTML content for the info div
-        // this is where we can modify the DOM and display metadata of the selected sprite
-        const image_info = sprite.image_info;
-        const html = `
-            <img src="${image_info.url}" style="max-width: 100%; margin-bottom: 10px;">
-            <h3>Metadata:</h3>
-            <pre>${JSON.stringify(image_info, null, 2)}</pre>
-        `;
-        info_div.innerHTML = html;
-    }
-
+    if (!sprite.image_info) return;         // guard
+  
+    const info = sprite.image_info;
+  
+    // 1) Define the exact order of keys
+    const keyOrder = [
+      "Title",
+      "Name",
+      "Date",
+      "Artist",
+      "Artist Bio",
+      "Nationality",
+      "Dimensions",
+      "Medium",
+      "ImageURL"
+    ];
+  
+    // 2) Build the HTML string
+    let html = `
+      <img src="${info.url}" class="info-image">
+      <h3>Metadata:</h3>
+      <ul class="info-list">
+    `;
+  
+    keyOrder.forEach(key => {
+      let val = info[key];
+      if (Array.isArray(val)) val = val.join(', ');
+      html += `<li><strong>${key}:</strong> ${val ?? ''}</li>`;
+    });
+  
+    html += `</ul>`;
+  
+    // 3) Inject into the info panel
+    info_div.innerHTML = html;
+  
+    // 4) Highlight the newly selected sprite
     if (selected_sprite) {
-        const image_info = selected_sprite.image_info;
-        selected_sprite.material.color.set(image_info.color[0], image_info.color[1], image_info.color[2]); // Reset previous sprite color
+      // reset previous color
+      const prev = selected_sprite.image_info;
+      selected_sprite.material.color.set(prev.color[0], prev.color[1], prev.color[2]);
     }
-    sprite.material.color.set(0xff0000); // Highlight selected sprite
-    selected_sprite = sprite; // Store the selected sprite
-}
-
+    sprite.material.color.set(0xff0000);  // red highlight
+    selected_sprite = sprite;
+  }  
 
 
 

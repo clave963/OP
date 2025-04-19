@@ -11,6 +11,9 @@ image_files = [IMAGES_FOLDER + '/' + f for f in os.listdir(IMAGES_FOLDER)
 
 app = Flask(__name__, static_folder='.')
 
+# —– Load the full Fluxus metadata once —–
+METADATA = json.load(open("fluxus_metadata.json"))
+
 @app.route('/random-images', methods=['POST'])
 def get_random_images():
     try:
@@ -31,7 +34,24 @@ def get_random_images():
             img['pos'] = [i, 0]     #this is the position of the image in the grid
             img['color'] = [0.0, 1.0, 1.0]
             img['name'] = os.path.basename(img_url)  #this is the image title
-            img['description'] = "Image description goes here."
+            #img['description'] = "Image description goes here."
+
+           # —– Attach Fluxus metadata fields —–
+            # Derive the ObjectID from the filename (e.g. "65678_Fluxus_II...jpg")
+            filename = os.path.basename(img_url)
+            objid = filename.split('_')[0]
+            # Find the matching record (or {} if none)
+            rec = next((r for r in METADATA if str(r.get("ObjectID")) == objid), {})
+            # Now inject each field:
+            img['Title']       = rec.get("Title")
+            img['Name']        = rec.get("Title")          # swap if you have a separate Name field
+            img['Date']        = rec.get("Date")
+            img['Artist']      = rec.get("Artist")
+            img['Artist Bio']  = rec.get("Artist Bio")
+            img['Nationality'] = rec.get("Nationality")
+            img['Dimensions']  = rec.get("Dimensions")
+            img['Medium']      = rec.get("Medium")
+            img['ImageURL']    = rec.get("ImageURL")
  
             image_data.append(img)
         
