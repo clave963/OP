@@ -82,7 +82,7 @@ for i in range(tiles_x):
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
             }
             response = requests.get(image_url, headers=headers, stream=True)
-            if response.status_code == 200:
+            if response.status_code != 404:
                 with open(image_path, 'wb') as f:
                     for chunk in response.iter_content(1024):
                         f.write(chunk)
@@ -115,6 +115,15 @@ for i in range(tiles_x):
         tile_data['color']         = [1.0, 1.0, 1.0]
         tile_data['data']          = image                          # Metadata record.
         tile_data['name']          = image["Title"]                 # Title from metadata.
+        tile_data['Title']         = image["Title"]
+        tile_data['Name']          = image["Title"]        # swap if you have a separate Name field
+        tile_data['Date']          = image["Date"] 
+        tile_data['Artist']        = image["Artist"]
+        tile_data['Artist Bio']    = image["Artist Bio"]
+        tile_data['Nationality']   = image["Nationality"]
+        tile_data['Dimensions']    = image["Dimensions"]
+        tile_data['Medium']        = image["Medium"]
+        tile_data['ImageURL']      = image["ImageURL"]
         
         tiles_info.append(tile_data)
 

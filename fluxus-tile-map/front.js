@@ -164,9 +164,11 @@ function createSprite(image_info) {
         const y = image_info.pos[1]*sprite_size
         sprite.position.set(x,y,0);
         sprite.scale.set(sprite_size, sprite_size, 1); // Set the scale of the sprite
+        sprite.updateMatrix(); // Update the matrix  of the sprite
         sprite.image_info = image_info; // Store metadata in userData property
         scene.add(sprite);
         image_sprites.push(sprite); // Add sprite to the array
+        console.log(image_info.pos);
     });
 }
 
@@ -187,6 +189,7 @@ function update_images_from_json(json_data) {
     clearSprites();
 
     const image_data = json_data.images
+    console.log(image_data[100].pos);
 
     // Create new image sprites from the JSON data
     for (let i = 0; i < image_data.length; i++) {
@@ -220,7 +223,7 @@ function update_images(request_json) {
 }
 
 //this is the main request to the server. We can modify this request to point to a folder of images 
-update_images({count: 25});
+update_images({count: 1750});
 //update_images({folder_id: "fluxus_1"});
 
 // Animation loop
