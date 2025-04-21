@@ -6,12 +6,12 @@ import cv2
 import requests
 import urllib
 
-SRC_JSON = "fluxus_metadata.json"
-MAP_NAME = "map_1"
+SRC_JSON     = "fluxus_metadata.json"
+MAP_NAME     = "map_1"
 
-MAP_JSON = os.path.join(MAP_NAME, "tiles.json")
+MAP_JSON     = os.path.join(MAP_NAME, "tiles.json")
 THUMB_FOLDER = os.path.join(MAP_NAME, "thumbs")
-IMAGES_FOLDER = os.path.join(MAP_NAME, "images")  
+IMAGES_FOLDER= os.path.join(MAP_NAME, "images")  
 
 # Define the main image from which to create the tile map.
 SRC_IMAGE = "../Fluxus_Images/127300_Dynamitage,_performed_during_Fluxus_Festival_of_Total_Art_and_Comportment,_Nice,_July_27,_1963.jpg"
@@ -29,13 +29,24 @@ print("Type of src_image:", type(src_image))
 print("Original src_image shape:", src_image.shape)
 
 # Get the dimensions and compute the aspect ratio.
-src_w = src_image.shape[1]
-src_h = src_image.shape[0]
+src_h, src_w = src_image.shape[:2]
 src_aspect_ratio = src_w / src_h
 
-# Define the tile size based on the aspect ratio.
-tiles_x = 50
-tiles_y = int(tiles_x / src_aspect_ratio)
+# ——— UPDATED GRID-SIZING LOGIC ———
+# Clamp the long side to MAX_TILES, compute the other dimension
+MAX_TILES = 50
+
+if src_aspect_ratio >= 1:
+    # wide image → 50 columns, proportional rows
+    tiles_x = MAX_TILES
+    tiles_y = max(1, int(MAX_TILES / src_aspect_ratio))
+else:
+    # tall image → 50 rows, proportional columns
+    tiles_y = MAX_TILES
+    tiles_x = max(1, int(MAX_TILES * src_aspect_ratio))
+
+print(f"Grid size: {tiles_x} columns × {tiles_y} rows")
+# —————————————————————————————
 
 # Resize the main image to the number of tiles.
 src_image = cv2.resize(src_image, (tiles_x, tiles_y), interpolation=cv2.INTER_AREA)
@@ -68,8 +79,7 @@ for i in range(tiles_x):
         # Download the image if it doesn't exist already.
         if not os.path.exists(image_path):
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-                              '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
             }
             response = requests.get(image_url, headers=headers, stream=True)
             if response.status_code == 200:
@@ -81,9 +91,7 @@ for i in range(tiles_x):
         else:
             print(f"Image {image_name} already exists, skipping download.")
         
-        # Instead of accessing src[i][j] (which causes a KeyError on the metadata),
-        # we access the pixel from the main image (src_image), which is a NumPy array.
-        # Note: OpenCV images are in row, column order, so use [j, i].
+        # Access the pixel from the main image (for any color logic you might add)
         pixel = src_image[j, i]
         print(f"Pixel value at tile position ({i}, {j}):", pixel)
         
@@ -102,13 +110,14 @@ for i in range(tiles_x):
         # Create a dictionary for tile data.
         tile_data = {}
         tile_data['thumbnail_url'] = thumb_path.replace('\\', '/')  # Thumbnail URL.
-        tile_data['url'] = image_path.replace('\\', '/')             # Full image URL.
-        tile_data['pos'] = [i, j]                                     # Position in the grid.
-        tile_data['color'] = [1.0, 1.0, 1.0]
-        tile_data['data'] = image                                   # Metadata record.
-        tile_data['name'] = image["Title"]                          # Title from metadata.
+        tile_data['url']           = image_path.replace('\\', '/')  # Full image URL.
+        tile_data['pos']           = [i, j]                         # Position in the grid.
+        tile_data['color']         = [1.0, 1.0, 1.0]
+        tile_data['data']          = image                          # Metadata record.
+        tile_data['name']          = image["Title"]                 # Title from metadata.
         
         tiles_info.append(tile_data)
+
 print(f"Total tiles created: {len(tiles_info)}")
 print(f"Expected number of tiles: {tiles_x * tiles_y}")
 
