@@ -223,6 +223,7 @@ function update_images(request_json) {
 }
 
 //this is the main request to the server. We can modify this request to point to a folder of images 
+//update_images({folder_id: "fluxus_images"});
 update_images({count: 1750});
 //update_images({folder_id: "fluxus_1"});
 

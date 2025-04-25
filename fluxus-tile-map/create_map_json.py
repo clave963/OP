@@ -115,6 +115,7 @@ for i in range(tiles_x):
         tile_data['color']         = [1.0, 1.0, 1.0]
         tile_data['data']          = image                          # Metadata record.
         tile_data['name']          = image["Title"]                 # Title from metadata.
+    
         tile_data['Title']         = image["Title"]
         tile_data['Name']          = image["Title"]        # swap if you have a separate Name field
         tile_data['Date']          = image["Date"] 

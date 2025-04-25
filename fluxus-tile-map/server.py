@@ -14,9 +14,24 @@ app = Flask(__name__, static_folder='.')
 # —– Load the full Fluxus metadata once —–
 METADATA = json.load(open("fluxus_metadata.json"))
 
+# Load your pre-computed tiles (the full array) once at startup
+TILES = json.load(open("map_1/tiles.json", "r"))
+
 @app.route('/random-images', methods=['POST'])
 def get_random_images():
     try:
+        # If you want all tiles:
+        return jsonify({ "images": TILES })
+        
+        #—or, if you still want to sample some of them:
+        # data = request.get_json() or {}
+        # n = data.get("count", len(TILES))
+        # sampled = random.sample(TILES, min(n, len(TILES)))
+        # return jsonify({ "images": sampled })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    
+    #--Pan's Code--
         # data = request.get_json()
         # n = data.get('count', 1)  # Default to 1 if count not provided
 
@@ -55,12 +70,11 @@ def get_random_images():
  
         #     image_data.append(img)
         
-        return jsonify({
-            'images': image_data
-            #look up how to read json file in python via chatgpt and then return image data
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        # return jsonify({
+            # 'images': image_data
+    #     })
+    # except Exception as e:
+    #     return jsonify({'error': str(e)}), 400
 
 @app.route('/')
 def serve_index():
