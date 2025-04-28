@@ -134,3 +134,5 @@ print(f"Expected number of tiles: {tiles_x * tiles_y}")
 # Save the combined tiles information to the JSON file.
 with open(MAP_JSON, "w") as f:
     json.dump(tiles_info, f, indent=4)
+
+#add all functions for mapping thumbnails to pixels and further image processing here

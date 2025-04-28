@@ -113,7 +113,7 @@ const camera = new THREE.OrthographicCamera(
     1,
     1000
 );
-camera.position.set(0, 50, 0);
+camera.position.set(0, 50, 0); // move camera position here to set the initial view. Can also make it change camera position depending on number of tiles
 camera.lookAt(0, 0, 0);
 camera.up.set(0, 0, -1); // This makes +Y axis point north
 
@@ -162,7 +162,7 @@ function createSprite(image_info) {
         const sprite = new THREE.Sprite(spriteMaterial);
         const x = image_info.pos[0]*sprite_size
         const y = image_info.pos[1]*sprite_size
-        sprite.position.set(x,y,0);
+        sprite.position.set(x,0,y); // 
         sprite.scale.set(sprite_size, sprite_size, 1); // Set the scale of the sprite
         sprite.updateMatrix(); // Update the matrix  of the sprite
         sprite.image_info = image_info; // Store metadata in userData property
