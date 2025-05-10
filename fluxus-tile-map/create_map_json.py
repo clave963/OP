@@ -8,6 +8,7 @@ import urllib
 import re
 import numpy as np
 from collections import Counter
+from math import sqrt
 
 SRC_JSON     = "fluxus_metadata.json"
 MAP_NAME     = "map_1"
@@ -21,6 +22,144 @@ SRC_IMAGE = "../Fluxus_Images/127300_Dynamitage,_performed_during_Fluxus_Festiva
 
 os.makedirs(THUMB_FOLDER, exist_ok=True)
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
+
+# === CONFIGURATION SETTINGS ===
+# Year range for the entire collection
+YEAR_MIN = 1953
+YEAR_MAX = 1984
+
+# Maximum number of duplications allowed for any single artwork
+MAX_DUPLICATIONS = 8
+
+# Colorization settings
+HERO_INFLUENCE = 0.6       # How strongly the hero image affects the tiles (0.0-1.0)
+COLORIZATION_STRENGTH = {  # Era-specific colorization strength
+    "early": 0.9,          # Strong grayscale effect for early works (1953-1963)
+    "middle": 0.7,         # Medium sepia effect for middle works (1964-1973)
+    "late": 0.5            # Lighter color effect for late works (1974-1984)
+}
+
+# Era ranges
+ERA_RANGES = {
+    "early": (1950, 1963),   # Early Fluxus
+    "middle": (1964, 1973),  # Core Fluxus period
+    "late": (1974, 1985)     # Later Fluxus
+}
+
+# === COLOR PROCESSING FUNCTIONS ===
+
+def get_era_from_year(year):
+    """Determine which era a year belongs to."""
+    if year <= ERA_RANGES["early"][1]:
+        return "early"
+    elif year <= ERA_RANGES["middle"][1]:
+        return "middle"
+    else:
+        return "late"
+
+def color_distance(c1, c2):
+    """
+    Calculate Euclidean distance between two colors.
+    """
+    return sqrt((c1[0] - c2[0])**2 + (c1[1] - c2[1])**2 + (c1[2] - c2[2])**2)
+
+def colorize_tile(image, target_color, strength):
+    """
+    Colorize an image toward target_color with specified strength.
+    
+    Args:
+        image: OpenCV image in BGR format
+        target_color: BGR tuple (b, g, r)
+        strength: 0.0-1.0 where 0 is no effect, 1.0 is full colorization
+    
+    Returns:
+        Colorized image
+    """
+    if strength <= 0:
+        return image.copy()
+    
+    # Convert target_color to float
+    b_target, g_target, r_target = [float(c) for c in target_color]
+    
+    # Create copy of image as float32
+    result = image.astype(np.float32)
+    
+    # Apply colorization: img*(1-strength) + target_color*strength
+    result[:,:,0] = result[:,:,0] * (1 - strength) + b_target * strength
+    result[:,:,1] = result[:,:,1] * (1 - strength) + g_target * strength
+    result[:,:,2] = result[:,:,2] * (1 - strength) + r_target * strength
+    
+    # Convert back to uint8
+    return np.clip(result, 0, 255).astype(np.uint8)
+
+def apply_era_effect(image, year, hero_pixel):
+    """
+    Apply era-appropriate visual effect to an image.
+    
+    Args:
+        image: OpenCV image
+        year: Year of the artwork
+        hero_pixel: BGR color from hero image at the same position
+    
+    Returns:
+        Processed image
+    """
+    era = get_era_from_year(year)
+    
+    # Create a copy of the original
+    processed = image.copy()
+    
+    # Step 1: Apply era-specific effect
+    if era == "early":
+        # Convert to grayscale for early works
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        processed = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+    
+    elif era == "middle":
+        # Apply sepia effect for middle era
+        sepia_kernel = np.array([
+            [0.272, 0.534, 0.131],
+            [0.349, 0.686, 0.168],
+            [0.393, 0.769, 0.189]
+        ])
+        processed = cv2.transform(image, sepia_kernel)
+        processed = np.clip(processed, 0, 255).astype(np.uint8)
+    
+    elif era == "late":
+        # For late era, slight red enhancement
+        b, g, r = cv2.split(image)
+        r = np.clip(r * 1.1, 0, 255).astype(np.uint8)
+        processed = cv2.merge([b, g, r])
+    
+    # Step 2: Blend with hero pixel color to maintain hero image visibility
+    # Get era-specific colorization strength
+    hero_blend = HERO_INFLUENCE
+    processed = colorize_tile(processed, hero_pixel, hero_blend)
+    
+    return processed
+
+def get_era_color(era, pixel):
+    """Get a representative color for an era, influenced by the pixel."""
+    if era == "early":
+        # Grayscale with slight blue tint
+        gray_value = 0.3 * pixel[0] + 0.6 * pixel[1] + 0.1 * pixel[2]
+        gray_value = min(255, max(0, gray_value))
+        r, g, b = gray_value, gray_value, gray_value
+        return [r/255.0, g/255.0, b/255.0]  # Convert to 0-1 range
+    
+    elif era == "middle":
+        # Sepia tone
+        r = min(255, pixel[2] * 1.1)
+        g = min(255, pixel[1] * 0.9)
+        b = min(255, pixel[0] * 0.7)
+        return [r/255.0, g/255.0, b/255.0]
+    
+    else:  # late
+        # Slight red enhancement
+        r = min(255, pixel[2] * 1.2)
+        g = min(255, pixel[1] * 0.95)
+        b = min(255, pixel[0] * 0.9)
+        return [r/255.0, g/255.0, b/255.0]
 
 # === HELPER FUNCTIONS ===
 
@@ -64,7 +203,7 @@ def assign_positions_densely(metadata_with_years, tiles_x, tiles_y):
     
     # Place items in a tight grid, row by row from bottom to top
     for item in sorted_items:
-        positions.append((item[0], item[1], col, row))  # id, image, x, y
+        positions.append((item[0], item[1], col, row, item[2]))  # id, image, x, y, year
         
         # Move to next position
         col += 1
@@ -77,8 +216,8 @@ def assign_positions_densely(metadata_with_years, tiles_x, tiles_y):
     
     return positions
 
-def distribute_artworks_with_duplication(metadata, tiles_x, tiles_y):
-    """Distribute artworks across the grid, with duplication if needed."""
+def distribute_artworks_with_duplications(metadata, tiles_x, tiles_y):
+    """Distribute artworks across the grid, allowing more duplications."""
     total_cells = tiles_x * tiles_y
     
     # Filter for valid metadata with image URLs
@@ -91,97 +230,96 @@ def distribute_artworks_with_duplication(metadata, tiles_x, tiles_y):
     
     # Sort by year
     sorted_metadata = sorted(metadata_with_years, key=lambda x: x[2])
+    unique_artwork_count = len(sorted_metadata)
     
-    # If we have fewer artworks than grid cells, we need to duplicate
-    if len(sorted_metadata) < total_cells:
-        print(f"Need to duplicate: {total_cells} cells but only {len(sorted_metadata)} artworks")
+    print(f"Total grid cells: {total_cells}, unique artworks: {unique_artwork_count}")
+    
+    # If we have enough unique artworks, no need to duplicate
+    if unique_artwork_count >= total_cells:
+        print("No duplication needed - enough unique artworks")
+        return assign_positions_densely(sorted_metadata[:total_cells], tiles_x, tiles_y)
+    
+    # We need to duplicate artworks to fill the grid
+    print(f"Need to duplicate: {total_cells - unique_artwork_count} additional cells")
+    
+    # Simple approach: repeat the list until we have enough
+    full_list = []
+    while len(full_list) < total_cells:
+        # Each pass through the list, shuffle to avoid patterns
+        shuffled = list(sorted_metadata)
+        random.shuffle(shuffled)
+        full_list.extend(shuffled)
+    
+    # Trim to exactly what we need
+    full_list = full_list[:total_cells]
+    
+    # Resort by year to maintain chronological order
+    full_list.sort(key=lambda x: x[2])
+    
+    print(f"Final list size: {len(full_list)} items")
+    
+    # Count duplicates
+    id_counts = Counter([item[0] for item in full_list])
+    most_common = id_counts.most_common(5)
+    max_duplicates = most_common[0][1] if most_common else 0
+    print(f"Maximum duplications of any single artwork: {max_duplicates}")
+    
+    # If we have too many duplications of any artwork, limit them
+    if max_duplicates > MAX_DUPLICATIONS:
+        print(f"Limiting duplications to {MAX_DUPLICATIONS} per artwork...")
         
-        # Create a list to hold duplicated items
-        duplicated_metadata = []
+        # First, count how many of each ID we have
+        id_counts = Counter([item[0] for item in full_list])
         
-        # First, calculate how many copies of each artwork we need
-        copies_needed = total_cells
-        base_copies = copies_needed // len(sorted_metadata)
-        extra_copies = copies_needed % len(sorted_metadata)
+        # Identify IDs that are over the limit
+        over_limit_ids = {id: count for id, count in id_counts.items() 
+                         if count > MAX_DUPLICATIONS}
         
-        print(f"Base copies per artwork: {base_copies}, plus {extra_copies} extra")
-        
-        # Add base copies of each artwork
-        for item in sorted_metadata:
-            for _ in range(base_copies):
-                duplicated_metadata.append(item)
-        
-        # Add extra copies from random selection (prioritizing middle years for better distribution)
-        mid_range_items = [item for item in sorted_metadata 
-                          if 1960 <= item[2] <= 1975]  # Core Fluxus period
-        
-        # If no mid-range items, use the full list
-        if not mid_range_items:
-            mid_range_items = sorted_metadata
-        
-        # Add extra copies
-        for _ in range(extra_copies):
-            random_item = random.choice(mid_range_items)
-            duplicated_metadata.append(random_item)
-        
-        # Re-sort by year to maintain chronological order
-        duplicated_metadata.sort(key=lambda x: x[2])
-        
-        sorted_metadata = duplicated_metadata
-        print(f"After duplication: {len(sorted_metadata)} items")
-        
-        # Count duplicates for tracking
-        id_counts = Counter([item[0] for item in sorted_metadata])
-        most_common = id_counts.most_common(5)
-        print(f"Most duplicated items: {most_common}")
+        if over_limit_ids:
+            # Create a filtered list that respects the limit
+            limited_list = []
+            id_usage = Counter()
+            
+            for item in full_list:
+                id = item[0]
+                if id_usage[id] < MAX_DUPLICATIONS:
+                    limited_list.append(item)
+                    id_usage[id] += 1
+            
+            # We need to fill any remaining slots
+            remaining_slots = total_cells - len(limited_list)
+            if remaining_slots > 0:
+                print(f"Filling {remaining_slots} remaining slots after limiting duplications...")
+                
+                # Find IDs that haven't reached the limit
+                available_items = [item for item in sorted_metadata 
+                                 if id_usage[item[0]] < MAX_DUPLICATIONS]
+                
+                # If we have available items, use them
+                while remaining_slots > 0 and available_items:
+                    # Pick a random available item
+                    item = random.choice(available_items)
+                    limited_list.append(item)
+                    
+                    # Update usage count
+                    id_usage[item[0]] += 1
+                    if id_usage[item[0]] >= MAX_DUPLICATIONS:
+                        # Remove from available items if we've reached the limit
+                        available_items = [i for i in available_items if i[0] != item[0]]
+                    
+                    remaining_slots -= 1
+            
+            # Resort the limited list by year
+            limited_list.sort(key=lambda x: x[2])
+            full_list = limited_list
+                
+            # Recount
+            id_counts = Counter([item[0] for item in full_list])
+            most_common = id_counts.most_common(5)
+            print(f"After limiting, maximum duplications: {most_common[0][1] if most_common else 0}")
     
     # Assign positions in a dense grid
-    return assign_positions_densely(sorted_metadata, tiles_x, tiles_y)
-
-def blend_with_hero_pixel(thumbnail, hero_pixel, blend_factor=0.5):
-    """Blend the thumbnail with the hero image pixel color."""
-    # Convert hero pixel to float array
-    hero_pixel = np.array(hero_pixel, dtype=np.float32) / 255.0
-    
-    # Convert thumbnail to float
-    thumbnail = thumbnail.astype(np.float32) / 255.0
-    
-    # Blend thumbnail with hero pixel color
-    blended = thumbnail * blend_factor + hero_pixel * (1 - blend_factor)
-    
-    # Convert back to uint8
-    return (blended * 255).astype(np.uint8)
-
-def adjust_thumbnail_to_match_hero(thumbnail, hero_pixel, blend_amount=0.4):
-    """Adjust thumbnail colors to better represent the hero image."""
-    # Extract color components from hero pixel (BGR format in OpenCV)
-    b, g, r = hero_pixel
-    
-    # Calculate brightness and contrast adjustments
-    brightness = (r + g + b) / 3.0
-    brightness_factor = 1.0
-    
-    if brightness < 100:
-        # Lighten thumbnails in dark areas
-        brightness_factor = 1.2
-    elif brightness > 200:
-        # Darken thumbnails in light areas
-        brightness_factor = 0.8
-    
-    # Convert to HSV for better color adjustments
-    hsv = cv2.cvtColor(thumbnail, cv2.COLOR_BGR2HSV).astype(np.float32)
-    
-    # Adjust value (brightness)
-    hsv[:,:,2] = np.clip(hsv[:,:,2] * brightness_factor, 0, 255)
-    
-    # Convert back to BGR
-    adjusted = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
-    
-    # Blend with hero pixel for subtle color influence
-    if blend_amount > 0:
-        adjusted = blend_with_hero_pixel(adjusted, hero_pixel, 1 - blend_amount)
-    
-    return adjusted
+    return assign_positions_densely(full_list, tiles_x, tiles_y)
 
 # === MAIN CODE ===
 
@@ -197,7 +335,7 @@ print(f"Hero image dimensions: {src_w}x{src_h}, aspect ratio: {src_aspect_ratio:
 
 # ——— GRID-SIZING LOGIC ———
 # Adjust MAX_TILES for desired detail level
-MAX_TILES = 150  # Horizontal cells for a wide image
+MAX_TILES = 200  # Horizontal cells for a wide image
 
 # Calculate grid dimensions based on aspect ratio
 if src_aspect_ratio >= 1:
@@ -231,14 +369,22 @@ print(f"Number of metadata records loaded: {len(src)}")
 occupied_positions = set()
 tiles_info = []
 
-# Step 1: Distribute artworks across the grid with duplication if needed
+# Print configuration
+print("\nConfiguration:")
+print(f"Hero image influence: {HERO_INFLUENCE * 100:.0f}%")
+print(f"Maximum duplications per artwork: {MAX_DUPLICATIONS}")
+for era, strength in COLORIZATION_STRENGTH.items():
+    print(f"{era.title()} era colorization strength: {strength * 100:.0f}%")
+print()
+
+# Step 1: Distribute artworks across the grid with duplications
 print("Distributing artworks across the grid...")
-positioned_items = distribute_artworks_with_duplication(src, tiles_x, tiles_y)
+positioned_items = distribute_artworks_with_duplications(src, tiles_x, tiles_y)
 print(f"Positioned {len(positioned_items)} items in the grid")
 
 # Step 2: Create tiles based on assigned positions
-print("Creating tiles...")
-for id, image, x_pos, y_pos in positioned_items:
+print("\nCreating tiles...")
+for id, image, x_pos, y_pos, year in positioned_items:
     image_url = image["ImageURL"]
     if not image_url:
         continue
@@ -285,8 +431,8 @@ for id, image, x_pos, y_pos in positioned_items:
     # Resize to thumbnail size
     image_cv = cv2.resize(image_cv, (64, 64))
     
-    # Adjust thumbnail to better match the hero image
-    image_cv = adjust_thumbnail_to_match_hero(image_cv, pixel, blend_amount=0.4)
+    # Apply era-based visual effects
+    image_cv = apply_era_effect(image_cv, year, pixel)
     
     # Apply final blur for smoother appearance
     image_cv = cv2.GaussianBlur(image_cv, (3, 3), 0)
@@ -296,16 +442,15 @@ for id, image, x_pos, y_pos in positioned_items:
     thumb_path = os.path.join(THUMB_FOLDER, thumb_name)
     cv2.imwrite(thumb_path, image_cv)
     
+    # Get era for this artwork
+    era = get_era_from_year(year)
+    
     # Create a dictionary for tile data
     tile_data = {}
     tile_data['thumbnail_url'] = thumb_path.replace('\\', '/')
     tile_data['url'] = image_path.replace('\\', '/')
     tile_data['pos'] = [x_pos, y_pos]
-    
-    # Calculate color components from pixel
-    r, g, b = pixel[2] / 255.0, pixel[1] / 255.0, pixel[0] / 255.0  # BGR to RGB
-    tile_data['color'] = [r, g, b]  # Use hero image color
-    
+    tile_data['color'] = get_era_color(era, pixel)
     tile_data['data'] = image
     tile_data['name'] = image["Title"]
     
@@ -319,6 +464,10 @@ for id, image, x_pos, y_pos in positioned_items:
     tile_data['Dimensions'] = image["Dimensions"]
     tile_data['Medium'] = image["Medium"]
     tile_data['ImageURL'] = image["ImageURL"]
+    
+    # Add era and year metadata
+    tile_data['Era'] = era
+    tile_data['Year'] = year
     
     tiles_info.append(tile_data)
 
