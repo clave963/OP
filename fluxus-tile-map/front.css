@@ -1,5 +1,12 @@
+/* Modifications to front.css */
+
 body {
-    background-color: rgb(158, 167, 175);
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-y: auto; /* Enable vertical scrolling */
+    color: #e0e0e0;
 }
 
 #main {
@@ -14,8 +21,8 @@ body {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
+    background-color: transparent !important;
 }
-
 
 #overlay{
     flex: 1 1 auto;
@@ -25,7 +32,7 @@ body {
 
 #ui {
     flex: 0 1 auto;
-    justify-content:center;
+    justify-content: center;
 }
 
 #bottom_div{
@@ -46,23 +53,27 @@ body {
     position: absolute;
 }
 
-
-#info_div{
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    /* width: 10%;
-    height: 10%; */
-    background-color: rgba(0, 0, 0, 0.26);
+#info_div {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 300px;
+    max-height: 80vh;
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    font-size: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    z-index: 900;
 }
 
 #info_div .info-header {
     position: relative;
-  }
-  
-  #info_div .close-button {
+}
+
+#info_div .close-button {
     position: absolute;
     top: 0;
     right: 0;
@@ -73,9 +84,712 @@ body {
     font-size: 18px;
     line-height: 1;
     cursor: pointer;
-    color: #333;
-  }
-  
-  #info_div .close-button:hover {
-    color: #000;
-  }
+    color: #fff;
+}
+
+#info_div .close-button:hover {
+    color: #ff4444;
+}
+
+.info-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+/* Adding a style for canvas to ensure it has the right cursor */
+canvas {
+    cursor: move; /* Shows users they can drag */
+}
+
+/* Add these rules to your front.css file */
+
+/* Fix for info_div visibility */
+#info_div {
+    position: fixed !important; /* Override any positioning */
+    top: 80px !important;
+    right: 20px !important;
+    width: 300px !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 8px !important;
+    overflow-y: auto !important;
+    z-index: 9999 !important; /* Ensure it's above everything */
+    display: block !important; /* Force display */
+}
+
+/* For header and filters */
+#header {
+    position: fixed;
+    top: 60px; /* Increased to make room for navbar */
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    display: flex !important; /* Force display */
+    justify-content: space-between;
+    align-items: center;
+    z-index: 950;
+    box-sizing: border-box;
+}
+
+#title-area {
+    flex: 1;
+}
+
+#title {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+#subtitle {
+    margin: 0;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+#controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.control-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Updated era-filters positioning */
+#era-filters {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* Changed from left to right */
+    left: auto;  /* Reset left value */
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 900;
+    display: block !important;
+}
+
+.era-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.era-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.era-btn.active {
+    background-color: rgba(76, 175, 80, 0.6);
+    color: white;
+}
+
+/* Navigation bar styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.nav-logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: white !important;
+    text-decoration: none;
+}
+
+.nav-subtitle {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-left: 20px;
+    flex-grow: 1;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: white !important;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+    color: white !important;
+    background-color: rgba(76, 175, 80, 0.3);
+}
+/* Consolidated control bar */
+#control-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 900;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Footer styles */
+.site-footer {
+    text-align: center;
+    padding: 15px 20px;
+    color: #bbb !important;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: relative; /* Not fixed to allow scrolling */
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 900;
+    font-size: 14px;
+    margin-top: 40px;
+    border-top: 1px solid #333;
+}
+
+.site-footer p {
+    margin: 0;
+    color: #bbb !important;
+}
+
+/* Enhanced close button styles */
+#info_div .metadata-close,
+#info_div .close-button {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    width: 36px !important;
+    height: 36px !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    z-index: 10000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+#info_div .metadata-close:hover,
+#info_div .close-button:hover {
+    background-color: rgba(255, 80, 80, 0.8) !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* About page specific styles */
+.about-container {
+    max-width: 1000px;
+    margin: 80px auto 0;
+    padding: 20px 20px 60px;
+    color: #f0f0f0 !important;
+}
+
+.about-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    color: #ffffff !important;
+}
+
+.about-container h2 {
+    font-size: 1.8em;
+    margin: 1.5em 0 0.5em;
+    color: #ffffff !important;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.3em;
+}
+
+.about-container p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+    font-size: 1.1em;
+    color: #e0e0e0 !important;
+}
+
+.about-container ul, 
+.about-container li {
+    color: #e0e0e0 !important;
+    line-height: 1.6;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.quote {
+    border-left: 4px solid #4CAF50;
+    padding-left: 20px;
+    margin: 20px 0;
+    font-style: italic;
+    color: #cccccc !important;
+}
+
+.artist-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.artist-tag {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #e0e0e0 !important;
+}
+
+.timeline {
+    margin: 30px 0;
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #444;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    color: #e0e0e0 !important;
+}
+
+.timeline-year {
+    font-weight: bold;
+    color: #4CAF50 !important;
+    margin-bottom: 5px;
+}
+
+.timeline-item:before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+}
+
+.source-link {
+    color: #4CAF50 !important;
+    text-decoration: none;
+    border-bottom: 1px dotted #4CAF50;
+}
+
+.source-link:hover {
+    border-bottom: 1px solid #4CAF50;
+}
+
+.image-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.about-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.image-caption {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #aaa !important;
+    font-style: italic;
+}
+
+.viz-explanation {
+    background-color: rgba(76, 175, 80, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+    color: #e0e0e0 !important;
+}
+
+.viz-explanation h2 {
+    color: #ffffff !important;
+}
+
+.viz-explanation ul,
+.viz-explanation li {
+    color: #e0e0e0 !important;
+}
+
+/* Loading overlay */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    color: white;
+    flex-direction: column;
+    transition: opacity 0.5s ease;
+}
+
+.loader {
+    border: 5px solid #333;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Help modal */
+#help-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#help-content {
+    width: 60%;
+    max-width: 700px;
+    background-color: #222;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    position: relative;
+}
+
+#help-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Only show it when it has content AND the show-info class */
+#info_div.show-info:not(:empty) {
+    display: block !important;
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 80% !important;
+    max-width: 500px !important;
+    max-height: 80vh !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    color: white !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    z-index: 9999 !important;
+    overflow-y: auto !important;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Make image fit better */
+#info_div img, #info_div .info-image {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto 15px auto !important;
+    display: block !important;
+    border-radius: 4px !important;
+}
+
+/* Improve text readability */
+#info_div h2 {
+    margin-top: 0 !important;
+    font-size: 1.6em !important;
+}
+
+#info_div h3 {
+    font-size: 1.3em !important;
+}
+
+#info_div ul, #info_div .info-list {
+    padding-left: 0 !important;
+}
+
+#info_div li, #info_div .info-list li {
+    margin-bottom: 8px !important;
+    line-height: 1.5 !important;
+}
+
+/* Improved close button for metadata popup */
+.metadata-close {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    width: 36px !important;
+    height: 36px !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background-color 0.2s ease !important;
+    z-index: 10000 !important;
+}
+
+.metadata-close:hover {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Position the info_div content to accommodate the close button */
+#info_div {
+    position: relative !important;
+    padding-top: 35px !important;
+}
+
+/* Make headings and content more readable */
+#info_div h2 {
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+    font-size: 1.8em !important;
+    line-height: 1.2 !important;
+}
+
+#info_div h3 {
+    margin-top: 5px !important;
+    margin-bottom: 15px !important;
+    font-size: 1.4em !important;
+    opacity: 0.85 !important;
+}
+
+/* Style the image better */
+#info_div img {
+    max-width: 100% !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    margin-bottom: 20px !important;
+}
+
+/* Improve list presentation */
+#info_div ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style-type: none !important;
+}
+
+#info_div li {
+    position: relative !important;
+    padding-left: 1.5em !important;
+    margin-bottom: 10px !important;
+    line-height: 1.5 !important;
+}
+
+#info_div li:before {
+    content: "•" !important;
+    position: absolute !important;
+    left: 0.5em !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .nav-links {
+        margin-top: 10px;
+        margin-right: 0;
+    }
+    
+    .about-container {
+        padding: 15px;
+        margin-top: 120px; /* More space for stacked navbar on mobile */
+    }
+    
+    #header {
+        padding: 10px;
+        top: 80px; /* More space for stacked navbar on mobile */
+    }
+    
+    body {
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+}
+
+/* This variation works for HTML/DOM-based tiles but not for THREE.js sprites */
+.tile, .thumbnail, .artwork-tile {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tile:hover, .thumbnail:hover, .artwork-tile:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+/* Alternative approach using filter for a subtle glow effect */
+.tile:hover, .thumbnail:hover, .artwork-tile:hover {
+    filter: brightness(1.2);
+}
+
+/* 3D effect for viewport */
+#viewport {
+    background: linear-gradient(135deg, #111111 0%, #232323 100%);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+/* Create a subtle inner glow */
+#viewport::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    border-radius: 8px;
+}
+
+/* Add a subtle frame around the viewport */
+#main {
+    padding: 20px;
+    background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+    border-radius: 12px;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Improve main canvas appearance */
+#main_canvas {
+    position: absolute;
+    border-radius: 8px; /* Slightly rounded corners */
+}
+
+/* Subtle ambient light effect */
+body {
+    background: linear-gradient(-45deg, #111111, #191919, #202020, #151515);
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite !important;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+/* Vignette overlay for 3D depth */
+/* #viewport::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    pointer-events: none;
+    z-index: 10; /* Above the content but below UI elements */

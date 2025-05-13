@@ -18,7 +18,7 @@ THUMB_FOLDER = os.path.join(MAP_NAME, "thumbs")
 IMAGES_FOLDER= os.path.join(MAP_NAME, "images")  
 
 # Define the main image from which to create the tile map.
-SRC_IMAGE = "../Fluxus_Images/127300_Dynamitage,_performed_during_Fluxus_Festival_of_Total_Art_and_Comportment,_Nice,_July_27,_1963.jpg"
+SRC_IMAGE = "../Fluxus_Images/127910_Face_Anatomy_Mask.jpg"
 
 os.makedirs(THUMB_FOLDER, exist_ok=True)
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
@@ -26,10 +26,10 @@ os.makedirs(IMAGES_FOLDER, exist_ok=True)
 # === CONFIGURATION SETTINGS ===
 # Year range for the entire collection
 YEAR_MIN = 1953
-YEAR_MAX = 1984
+YEAR_MAX = 2000
 
 # Maximum number of duplications allowed for any single artwork
-MAX_DUPLICATIONS = 8
+MAX_DUPLICATIONS = 15
 
 # Colorization settings
 HERO_INFLUENCE = 0.6       # How strongly the hero image affects the tiles (0.0-1.0)
@@ -43,7 +43,7 @@ COLORIZATION_STRENGTH = {  # Era-specific colorization strength
 ERA_RANGES = {
     "early": (1950, 1963),   # Early Fluxus
     "middle": (1964, 1973),  # Core Fluxus period
-    "late": (1974, 1985)     # Later Fluxus
+    "late": (1974, 2000)     # Later Fluxus
 }
 
 # === COLOR PROCESSING FUNCTIONS ===
@@ -333,9 +333,12 @@ src_h, src_w = src_image.shape[:2]
 src_aspect_ratio = src_w / src_h
 print(f"Hero image dimensions: {src_w}x{src_h}, aspect ratio: {src_aspect_ratio:.2f}")
 
+src = json.load(open(SRC_JSON, "r"))
+print(f"Number of metadata records loaded: {len(src)}")
+
 # ——— GRID-SIZING LOGIC ———
-# Adjust MAX_TILES for desired detail level
-MAX_TILES = 200  # Horizontal cells for a wide image
+# Adjust MAX_TILES for desired detail level - reduced for better coverage
+MAX_TILES = 120  # Reduced from 200 to ensure full image coverage
 
 # Calculate grid dimensions based on aspect ratio
 if src_aspect_ratio >= 1:
@@ -343,13 +346,29 @@ if src_aspect_ratio >= 1:
     tiles_x = MAX_TILES
     tiles_y = int(MAX_TILES / src_aspect_ratio)
 else:
-    # Tall image
+    # Tall image - for portrait images like the face anatomy
     tiles_y = MAX_TILES
     tiles_x = int(MAX_TILES * src_aspect_ratio)
 
-# Ensure minimum dimensions and adjust for proper viewing
+# Ensure minimum dimensions
 tiles_x = max(tiles_x, 20)  # At least 20 columns
 tiles_y = max(tiles_y, 20)  # At least 20 rows
+
+# Additional check: calculate total cells and limit them to a reasonable number
+# based on available artworks and max duplications
+available_artworks = len(src)
+max_possible_tiles = available_artworks * MAX_DUPLICATIONS
+target_max_cells = min(tiles_x * tiles_y, max_possible_tiles * 0.9)  # 90% of max possible
+
+# If we're trying to create too many cells, reduce dimensions proportionally
+if tiles_x * tiles_y > target_max_cells:
+    reduction_factor = sqrt(target_max_cells / (tiles_x * tiles_y))
+    tiles_x = max(20, int(tiles_x * reduction_factor))
+    tiles_y = max(20, int(tiles_y * reduction_factor))
+
+print(f"Adjusted grid size: {tiles_x} columns × {tiles_y} rows (total cells: {tiles_x * tiles_y})")
+print(f"Available artworks: {available_artworks} with up to {MAX_DUPLICATIONS} duplications each")
+print(f"Maximum possible tiles: {max_possible_tiles}")
 
 # For wide hero images, increase the height of the grid to make it more visible
 if src_aspect_ratio > 3:  # Very wide image

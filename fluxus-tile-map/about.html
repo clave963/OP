@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Fluxus - Mosaic Explorer</title>
+    
+    <link rel="stylesheet" href="front.css">
+    
+    <style>
+        /* Inline styles to ensure text visibility and scrolling */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            overflow-y: auto !important; /* Force scrolling */
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        
+        html {
+            overflow-y: auto !important;
+        }
+        
+        .about-container {
+            color: #e0e0e0;
+            padding-bottom: 80px; /* Add space at bottom */
+        }
+        
+        .about-container p, 
+        .about-container li,
+        .timeline-item,
+        .artist-tag {
+            color: #e0e0e0;
+        }
+        
+        /* Ensure navbar fits within viewport */
+        .navbar {
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        
+        /* Make footer NOT fixed position to allow scrolling to bottom content */
+        .site-footer {
+            position: relative;
+            margin-top: 40px;
+        }
+        
+        /* Ensure image is centered and properly sized */
+        .about-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+ 
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
+        <div class="nav-links">
+            <a href="front.html" class="nav-link">Visualization</a>
+            <a href="about.html" class="nav-link active">About</a>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <h1>About the Fluxus Collective</h1>
+        
+        <div class="section">
+            <p>
+                Fluxus was an international, interdisciplinary community of artists, composers, designers and poets that took shape in the 1960s and 1970s. The word "fluxus" (derived from "to flow") was first used as the title of a publication featuring the work of this community, and was later adopted to identify their collective activities.
+            </p>
+            
+            <div class="quote">
+                "Fluxus is not: a moment in history, or an art movement. Fluxus is: a way of doing things, a tradition, and a way of life and death."
+                <br>— Dick Higgins, Fluxus artist
+            </div>
+            
+            <p>
+                Taking inspiration from the concepts of composer John Cage, Fluxus challenged the conventional definitions of art by embracing an anti-art sensibility and blurring the boundaries between different artistic disciplines. The movement aimed to bring art closer to everyday life and to democratize artistic expression by creating works that were often ephemeral, participatory, and deliberately unpretentious.
+            </p>
+        </div>
+        
+        <div class="image-container">
+            <!-- OPTION 1: Use remote MoMA image -->
+            <!-- <img src="https://www.moma.org/d/assets/W1siZiIsIjIwMTUvMTAvMjEvN3QzY2xqcjZ1X2ZsdXh1c19tYW5pZmVzdG8uanBnIl0sWyJwIiwiY29udmVydCIsIi1xdWFsaXR5IDkwIC1yZXNpemUgMjAwMHgyMDAwXHUwMDNlIl1d/fluxus_manifesto.jpg?sha=4fca4464be54f0a5" alt="Fluxus Manifesto" class="about-image">
+             -->
+            <!-- OPTION 2: Use local image (RECOMMENDED) -->
+            <!-- Replace the above img tag with this one after downloading the image: -->
+            <img src="../../Fluxus_Images/136810_Who_Me_Fluxus.jpg" alt="Fluxus Manifesto" class="about-image">
+            
+            <div class="image-caption">George Maciunas, Fluxus Manifesto, 1963. © 2023 George Maciunas Foundation</div>
+        </div>
+        
+        <div class="section">
+            <h2>Key Characteristics of Fluxus</h2>
+            <p>
+                Fluxus works are characterized by several distinctive traits:
+            </p>
+            <ul>
+                <li>Intermedia approach that crosses boundaries between art forms</li>
+                <li>Emphasis on simplicity and minimalism</li>
+                <li>Use of humor, playfulness, and chance operations</li>
+                <li>Creation of "events" and performances rather than traditional art objects</li>
+                <li>Publication of scores, instructions, and multiples</li>
+                <li>Rejection of commercial art markets and institutions</li>
+                <li>Global, democratic, and collective orientation</li>
+            </ul>
+            
+            <p>
+                Fluxus artists created "event scores"—short textual instructions for actions that could be performed by anyone—as well as objects, publications, and concerts. Their work often incorporated everyday materials and actions, challenging the notion that art required specialized skills or expensive materials.
+            </p>
+        </div>
+        
+        <div class="section">
+            <h2>Historical Context and Timeline</h2>
+            <p>
+                Fluxus emerged during a period of significant social and cultural change, influenced by earlier avant-garde movements such as Dada and Futurism. Though it lacks precise start and end dates, several key moments define its development:
+            </p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1959-1960</div>
+                    <div>John Cage teaches composition classes at the New School for Social Research in New York, influencing many future Fluxus artists.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1961</div>
+                    <div>George Maciunas first uses the word "Fluxus" as the title for a planned publication to feature works by the new experimental artists.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1962</div>
+                    <div>First Fluxus festival, "Fluxus Internationale Festspiele Neuester Musik," takes place in Wiesbaden, Germany, marking the public debut of Fluxus as a collective.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1963</div>
+                    <div>Maciunas publishes his "Fluxus Manifesto," calling for a "revolution" against traditional art forms and for art that could be understood by "all peoples."</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1964-1970</div>
+                    <div>Core period of Fluxus activity with festivals, concerts, and publications throughout Europe, the United States, and Japan.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1970s</div>
+                    <div>Fluxus activities continue but become more dispersed; many artists continue working in the Fluxus spirit while pursuing individual careers.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1978</div>
+                    <div>Death of George Maciunas, often considered the end of Fluxus as an organized movement, though many artists continued creating Fluxus-inspired work.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Key Fluxus Artists</h2>
+            <p>
+                Fluxus brought together artists from diverse backgrounds and nationalities. Some of the most notable participants include:
+            </p>
+            
+            <div class="artist-list">
+                <span class="artist-tag">George Maciunas</span>
+                <span class="artist-tag">Nam June Paik</span>
+                <span class="artist-tag">Yoko Ono</span>
+                <span class="artist-tag">Dick Higgins</span>
+                <span class="artist-tag">Alison Knowles</span>
+                <span class="artist-tag">George Brecht</span>
+                <span class="artist-tag">Ben Vautier</span>
+                <span class="artist-tag">Robert Filliou</span>
+                <span class="artist-tag">Takako Saito</span>
+                <span class="artist-tag">Shigeko Kubota</span>
+                <span class="artist-tag">Mieko Shiomi</span>
+                <span class="artist-tag">La Monte Young</span>
+                <span class="artist-tag">Ken Friedman</span>
+                <span class="artist-tag">Benjamin Patterson</span>
+                <span class="artist-tag">Wolf Vostell</span>
+                <span class="artist-tag">Joseph Beuys</span>
+                <span class="artist-tag">Emmett Williams</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Fluxus at MoMA</h2>
+            <p>
+                The Museum of Modern Art (MoMA) holds one of the most significant collections of Fluxus works in the world. The Gilbert and Lila Silverman Fluxus Collection, donated to MoMA in 2008, includes approximately 4,000 works and significantly expanded the museum's holdings of this important movement.
+            </p>
+            
+            <p>
+                The collection encompasses a wide range of Fluxus materials, including:
+            </p>
+            <ul>
+                <li>Fluxkits and Fluxboxes (collections of objects and instructional materials)</li>
+                <li>Event scores and performance documentation</li>
+                <li>Mail art and correspondence</li>
+                <li>Artist books and publications</li>
+                <li>Multiples and editions</li>
+                <li>Films and videos</li>
+                <li>Posters and ephemera from Fluxus events</li>
+            </ul>
+            
+            <p>
+                MoMA has exhibited Fluxus works in various exhibitions, both dedicated to the movement and integrated into broader surveys of experimental art from the period. Through its collection, research, and exhibitions, MoMA plays a vital role in preserving the legacy of Fluxus and introducing new generations to this influential movement.
+            </p>
+        </div>
+        
+        <div class="section viz-explanation">
+            <h2>About This Visualization</h2>
+            <p>
+                The Fluxus Mosaic Explorer presents a chronological visualization of works from the Fluxus movement, drawn from MoMA's collection. This interactive tool allows viewers to explore the development and diversity of Fluxus across its roughly three-decade span (1953-1984).
+            </p>
+            
+            <p>
+                <strong>How the Visualization Works:</strong>
+            </p>
+            <ul>
+                <li><strong>Chronological Organization:</strong> Works are arranged from bottom to top, with earlier works at the bottom and later works toward the top, creating a visual timeline of Fluxus history.</li>
+                <li><strong>Color Coding:</strong> The visualization uses different color treatments to distinguish between three key periods of Fluxus:
+                    <ul>
+                        <li>Early Fluxus (1953-1963): Grayscale tones</li>
+                        <li>Core Fluxus (1964-1973): Sepia tones</li>
+                        <li>Late Fluxus (1974-1984): Color with red enhancement</li>
+                    </ul>
+                </li>
+                <li><strong>Navigation:</strong> Users can pan, zoom, and click on individual works to view detailed information about each piece, including the artist, date, medium, and other contextual details.</li>
+                <li><strong>Filtering:</strong> The era filters at the bottom allow users to highlight specific periods within the Fluxus movement.</li>
+            </ul>
+            
+            <p>
+                This visualization aims to provide both an aesthetic experience and an educational tool, offering insights into the patterns, transitions, and diverse expressions that characterized the Fluxus movement throughout its evolution.
+            </p>
+        </div>
+        
+        <div class="section">
+            <h2>Sources and Further Reading</h2>
+            <ul>
+                <li><a href="https://www.moma.org/collection/terms/fluxus" target="_blank" class="source-link">MoMA: Fluxus Collection</a></li>
+                <li><a href="https://www.theartstory.org/movement/fluxus/" target="_blank" class="source-link">The Art Story: Fluxus Movement</a></li>
+                <li><a href="http://fluxus.lib.uiowa.edu/history.html" target="_blank" class="source-link">University of Iowa Libraries: Fluxus History</a></li>
+                <li>Higgins, Hannah. <em>Fluxus Experience</em>. University of California Press, 2002.</li>
+                <li>Smith, Owen F. <em>Fluxus: The History of an Attitude</em>. San Diego State University Press, 1998.</li>
+                <li>Friedman, Ken, ed. <em>The Fluxus Reader</em>. Academy Editions, 1998.</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer class="site-footer">
+        <p>© 2025 Fluxus Mosaic Explorer | Created using data from the Museum of Modern Art Collection</p>
+    </footer>
+</body>
+</html>
