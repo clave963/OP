@@ -5,31 +5,65 @@ from flask import Flask, request, jsonify, send_from_directory
 
 IMAGES_FOLDER = "../Fluxus_Images"  # Folder containing images
 
-#Get list of all image files
+# Get list of all image files
 image_files = [IMAGES_FOLDER + '/' + f for f in os.listdir(IMAGES_FOLDER) 
                 if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
 
 app = Flask(__name__, static_folder='.')
 
-# —– Load the full Fluxus metadata once —–
+# Load the full Fluxus metadata once
 METADATA = json.load(open("fluxus_metadata.json"))
 
-# Load your pre-computed tiles (the full array) once at startup
-TILES = json.load(open("map_1/tiles.json", "r"))
+# Load pre-computed tiles for different mosaics
+CHRONOLOGICAL_TILES = json.load(open("map_1/tiles.json", "r"))  # Original tiles
+MEDIUM_TILES = json.load(open("medium_map/tiles.json", "r"))    # New medium-based tiles
 
 @app.route('/random-images', methods=['POST'])
 def get_random_images():
     try:
-        # If you want all tiles:
-        return jsonify({ "images": TILES })
-        
-        #—or, if you still want to sample some of them:
-        # data = request.get_json() or {}
-        # n = data.get("count", len(TILES))
-        # sampled = random.sample(TILES, min(n, len(TILES)))
-        # return jsonify({ "images": sampled })
+        # This preserves the original functionality - unchanged
+        return jsonify({"images": CHRONOLOGICAL_TILES})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@app.route('/medium-images', methods=['POST'])
+def get_medium_images():
+    try:
+        # New endpoint for medium-based mosaic
+        return jsonify({"images": MEDIUM_TILES})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/')
+def serve_index():
+    return send_from_directory('.', 'front.html')
+
+@app.route('/medium')
+def serve_medium():
+    return send_from_directory('.', 'medium.html')  # New route for medium page
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('.', path)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
+# Load your pre-computed tiles (the full array) once at startup
+# TILES = json.load(open("map_1/tiles.json", "r"))
+
+# @app.route('/random-images', methods=['POST'])
+# def get_random_images():
+#     try:
+#         # If you want all tiles:
+#         return jsonify({ "images": TILES })
+        
+#         #—or, if you still want to sample some of them:
+#         # data = request.get_json() or {}
+#         # n = data.get("count", len(TILES))
+#         # sampled = random.sample(TILES, min(n, len(TILES)))
+#         # return jsonify({ "images": sampled })
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 400
     
     #--Pan's Code--
         # data = request.get_json()
@@ -76,13 +110,13 @@ def get_random_images():
     # except Exception as e:
     #     return jsonify({'error': str(e)}), 400
 
-@app.route('/')
-def serve_index():
-    return send_from_directory('.', 'front.html')
+# @app.route('/')
+# def serve_index():
+#     return send_from_directory('.', 'front.html')
 
-@app.route('/<path:path>')
-def serve_static(path):
-    return send_from_directory('.', path)
+# @app.route('/<path:path>')
+# def serve_static(path):
+#     return send_from_directory('.', path)
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+# if __name__ == '__main__':
+#     app.run(debug=True, port=5000)

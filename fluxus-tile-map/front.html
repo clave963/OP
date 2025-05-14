@@ -14,7 +14,7 @@
             }
         }
     </script>
-    
+    <link rel="stylesheet" href="enhanced-ui.css">
     <link rel="stylesheet" href="front.css">
     
     <style>
@@ -344,12 +344,83 @@
             <a href="about.html" class="nav-link">About</a>
         </div>
     </nav>
+    
     <!-- Loading overlay with spinner -->
     <div id="loading-overlay">
         <div class="loader"></div>
         <p>Loading Fluxus Art Mosaic...</p>
     </div>
-    <div id="control-bar">
+    <!-- HTML to add to front.html -->
+
+<!-- Add this after the navbar and before the main content -->
+<div id="sidebar-panel">
+    <h2>Fluxus Mosaic Explorer</h2>
+    <p>This interactive visualization displays Fluxus movement artworks (1953-2000), arranged chronologically from bottom to top. Use the controls below to explore the collection.</p>
+    
+    <button id="reset-view-btn" class="sidebar-btn">
+      <i class="icon">⟲</i> Reset View
+    </button>
+    <button id="toggle-ruler-btn" class="sidebar-btn">
+      <i class="icon">⊞</i> Toggle Year Ruler
+    </button>
+    <button id="save-canvas-btn" class="sidebar-btn">
+      <i class="icon">💾</i> Save Current View
+    </button>
+    <button id="fullscreen-toggle-btn" class="sidebar-btn">
+      <i class="icon">👁️</i> Toggle UI Elements (F)
+    </button>
+    <button id="help-btn" class="sidebar-btn">
+      <i class="icon">❓</i> How to Use
+    </button>
+    
+    <div class="section-divider"></div>
+    
+    <h3>Era Filters</h3>
+    <div class="era-buttons">
+      <button class="era-btn active" data-era="all">All Eras</button>
+      <button class="era-btn" data-era="early">Early Fluxus (1953-1963)</button>
+      <button class="era-btn" data-era="middle">Core Fluxus (1964-1973)</button>
+      <button class="era-btn" data-era="late">Late Fluxus (1974-1984)</button>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <div id="hero-image-section">
+      <h3>About the Hero Image</h3>
+      <div id="hero-description">
+        This mosaic is arranged over Mieko Shiomi's "Disappearing Music for Face" (1966), a Fluxus film study of a smile slowly transforming into a neutral expression. The work explores the subtle transitions of facial expression over time, reflecting Fluxus interests in everyday gestures and time-based art.
+      </div>
+    </div>
+    
+    <div id="keyboard-shortcuts">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-item">
+        <span>Toggle Ruler</span>
+        <span class="key">T</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Toggle UI Elements</span>
+        <span class="key">F</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Reset View</span>
+        <span class="key">R</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Close Popups</span>
+        <span class="key">ESC</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add this for fullscreen mode notification -->
+  <div id="fullscreen-notification" class="fullscreen-notification">
+    Press F to return to normal view
+  </div>
+  
+  <!-- Remove the original control-bar div or comment it out -->
+  <!-- <div id="control-bar">...</div> -->
+    <!-- <div id="control-bar">
         <button id="help-btn" class="control-btn">How to Use</button>
         <button id="reset-view-btn" class="control-btn">Reset View</button>
         <div class="era-buttons">
@@ -358,7 +429,7 @@
             <button class="era-btn" data-era="middle">Core Fluxus</button>
             <button class="era-btn" data-era="late">Late Fluxus</button>
         </div>
-    </div>
+    </div> -->
     
     <!-- Main viewport container -->
     <div id="main">
@@ -378,6 +449,9 @@
     <!-- Help modal -->
     <div id="help-modal">
         <div id="help-content">
+            <!-- Add this to the help modal content in front.html -->
+            <li><strong>Toggle Ruler:</strong> Press the 'T' key to show/hide the year ruler</li>
+            <button id="toggle-ruler-btn" class="control-btn">Toggle Ruler</button>
             <button id="help-close">&times;</button>
             <h2>How to Use the Fluxus Art Mosaic</h2>
             <p>This interactive visualization displays artworks from the Fluxus movement (1953-1984), arranged chronologically from bottom to top.</p>
@@ -412,6 +486,20 @@
     
     <!-- UI controls and event handlers -->
     <script>
+        // Add this to the script section in front.html
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+    
+    // Add toggle ruler button handler
+        const toggleRulerBtn = document.getElementById('toggle-ruler-btn');
+            if (toggleRulerBtn) {
+                toggleRulerBtn.addEventListener('click', function() {
+                    // This simulates a 'T' keypress
+                    const event = new KeyboardEvent('keydown', { 'key': 'T' });
+                    document.dispatchEvent(event);
+                });
+            }
+        });
         // Set up UI controls
         document.addEventListener('DOMContentLoaded', function() {
             // Help modal

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fluxus Medium Mosaic Explorer</title>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./modules/three/three.module.js",
+                "three/addons/": "./modules/three/addons/"
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="front.css">
+    
+    <style>
+        /* Medium buttons style */
+        .medium-btn {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .medium-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .medium-btn.painting {
+            border-left: 4px solid rgb(0, 100, 255);
+        }
+        
+        .medium-btn.drawing {
+            border-left: 4px solid rgb(100, 150, 255);
+        }
+        
+        .medium-btn.print {
+            border-left: 4px solid rgb(200, 100, 0);
+        }
+        
+        .medium-btn.sculpture {
+            border-left: 4px solid rgb(50, 200, 50);
+        }
+        
+        .medium-btn.photograph {
+            border-left: 4px solid rgb(150, 50, 200);
+        }
+        
+        .medium-btn.mixed {
+            border-left: 4px solid rgb(200, 180, 0);
+        }
+    </style>
+</head>
+ 
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
+        <div class="nav-subtitle">Mediums Visualization</div>
+        <div class="nav-links">
+            <a href="front.html" class="nav-link">Timeline</a>
+            <a href="medium.html" class="nav-link active">Mediums</a>
+            <a href="about.html" class="nav-link">About</a>
+        </div>
+    </nav>
+    
+    <!-- Loading overlay with spinner -->
+    <div id="loading-overlay">
+        <div class="loader"></div>
+        <p>Loading Fluxus Medium Mosaic...</p>
+    </div>
+    
+    <div id="control-bar">
+        <button id="help-btn" class="control-btn">How to Use</button>
+        <button id="reset-view-btn" class="control-btn">Reset View</button>
+        <div class="medium-buttons">
+            <button class="medium-btn active" data-medium="all">All Mediums</button>
+            <button class="medium-btn painting" data-medium="painting">Painting</button>
+            <button class="medium-btn drawing" data-medium="drawing">Drawing</button>
+            <button class="medium-btn print" data-medium="print">Print</button>
+            <button class="medium-btn sculpture" data-medium="sculpture">Sculpture</button>
+            <button class="medium-btn photograph" data-medium="photograph">Photography</button>
+            <button class="medium-btn mixed" data-medium="mixed">Mixed Media</button>
+        </div>
+    </div>
+    
+    <!-- Main viewport container -->
+    <div id="main">
+        <div id="viewport"></div>               
+    </div>
+    
+    <!-- Info panel for image details -->
+    <div id="info_div"></div>
+    
+    <!-- Help modal -->
+    <div id="help-modal">
+        <div id="help-content">
+            <button id="help-close">&times;</button>
+            <h2>How to Use the Fluxus Medium Mosaic</h2>
+            <p>This interactive visualization displays artworks from the Fluxus movement organized by artistic medium.</p>
+            
+            <h3>Navigation:</h3>
+            <ul>
+                <li><strong>Pan:</strong> Click and drag to move around the mosaic</li>
+                <li><strong>Zoom:</strong> Use mouse wheel to zoom in/out</li>
+                <li><strong>Select Image:</strong> Click on any artwork to view its details</li>
+                <li><strong>Reset View:</strong> Click the Reset View button to return to the default view</li>
+            </ul>
+            
+            <h3>Medium Filters:</h3>
+            <ul>
+                <li><strong>All:</strong> View all mediums</li>
+                <li><strong>Painting:</strong> Oil, acrylic, and other paint mediums</li>
+                <li><strong>Drawing:</strong> Pencil, ink, charcoal works</li>
+                <li><strong>Print:</strong> Lithographs, etchings, and other print works</li>
+                <li><strong>Sculpture:</strong> Three-dimensional works</li>
+                <li><strong>Photography:</strong> Photos, films, and video documentation</li>
+                <li><strong>Mixed Media:</strong> Books, collages, and combined techniques</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="medium.js" type="module"></script>
+    <script>
+        // Set up UI controls
+        document.addEventListener('DOMContentLoaded', function() {
+            // Help modal
+            const helpBtn = document.getElementById('help-btn');
+            const helpModal = document.getElementById('help-modal');
+            const helpClose = document.getElementById('help-close');
+            
+            if (helpBtn && helpModal) {
+                helpBtn.addEventListener('click', function() {
+                    helpModal.style.display = 'flex';
+                });
+            }
+            
+            if (helpClose && helpModal) {
+                helpClose.addEventListener('click', function() {
+                    helpModal.style.display = 'none';
+                });
+                
+                helpModal.addEventListener('click', function(e) {
+                    if (e.target === helpModal) {
+                        helpModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Reset view button
+            const resetViewBtn = document.getElementById('reset-view-btn');
+            if (resetViewBtn && window.resetView) {
+                resetViewBtn.addEventListener('click', window.resetView);
+            }
+            
+            // Medium filter buttons
+            const mediumButtons = document.querySelectorAll('.medium-btn');
+            mediumButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    mediumButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const medium = this.dataset.medium;
+                    if (window.filterByMedium) {
+                        window.filterByMedium(medium);
+                    }
+                });
+            });
+            
+            // Hide loading overlay after a delay
+            setTimeout(function() {
+                const loadingOverlay = document.getElementById('loading-overlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.opacity = '0';
+                    loadingOverlay.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 500);
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

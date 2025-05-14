@@ -11,6 +11,8 @@ var image_sprites = [];
 let tiles_x = 0;
 let tiles_y = 0;
 let yearRuler;
+let rulerVisible = true; // Initial state: ruler is visible
+
 // Track mouse position for hover effects
 const mouse = new THREE.Vector2();
 let hoveredSprite = null;
@@ -409,6 +411,7 @@ function createYearRuler() {
     rulerGroup.add(rulerTitle);
     
     scene.add(rulerGroup);
+    rulerGroup.visible = rulerVisible;
     return rulerGroup;
 }
 
@@ -709,6 +712,40 @@ function filterByEra(era) {
     }
 }
 
+// Add this helper function to show a temporary tooltip
+function showTooltip(message) {
+    // Create or update tooltip
+    let tooltip = document.getElementById('visibility-tooltip');
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'visibility-tooltip';
+        tooltip.style.position = 'fixed';
+        tooltip.style.bottom = '80px';
+        tooltip.style.left = '50%';
+        tooltip.style.transform = 'translateX(-50%)';
+        tooltip.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        tooltip.style.color = 'white';
+        tooltip.style.padding = '8px 15px';
+        tooltip.style.borderRadius = '4px';
+        tooltip.style.zIndex = '2000';
+        tooltip.style.fontFamily = 'Arial, sans-serif';
+        tooltip.style.fontSize = '14px';
+        tooltip.style.fontWeight = 'bold';
+        tooltip.style.transition = 'opacity 0.3s ease';
+        document.body.appendChild(tooltip);
+    }
+    
+    // Set message and show tooltip
+    tooltip.textContent = message;
+    tooltip.style.opacity = '1';
+    
+    // Hide after delay
+    setTimeout(() => {
+        tooltip.style.opacity = '0';
+    }, 2000);
+}
+
+
 // Function to zoom in
 function zoomIn() {
     // Get current camera zoom
@@ -731,6 +768,22 @@ function zoomOut() {
 function resetView() {
     centerCameraOnGrid();
 }
+
+// Add this event listener to handle keyboard events
+document.addEventListener('keydown', function(event) {
+    // Check if the key pressed is 'T' or 't'
+    if (event.key === 't' || event.key === 'T') {
+        // Toggle ruler visibility
+        rulerVisible = !rulerVisible;
+        
+        // Update ruler visibility if it exists
+        if (yearRuler) {
+            yearRuler.visible = rulerVisible;
+        }
+        
+        console.log(`Ruler visibility: ${rulerVisible ? 'visible' : 'hidden'}`);
+    }
+});
 
 // Make these functions available to the HTML
 window.filterByEra = filterByEra;

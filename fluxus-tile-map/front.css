@@ -778,6 +778,9 @@ body {
         background-position: 0% 50%;
     }
 }
+.medium-btn.drawing {
+    border-left: 4px solid rgb(100, 150, 255);
+}
 /* Vignette overlay for 3D depth */
 /* #viewport::before {
     content: '';
