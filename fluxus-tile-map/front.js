@@ -193,8 +193,12 @@ controls.maxZoom = 10;          // How close the user can zoom
 
 //________________________________Handle window resizing
 function onWindowResize(){
-    const w = viewport_div.clientWidth;
-    const h = viewport_div.clientHeight;
+    // Get viewport dimensions accounting for sidebar
+    const sidebar = document.getElementById('sidebar-panel');
+    const sidebarWidth = (sidebar && sidebar.style.display !== 'none') ? sidebar.offsetWidth : 0;
+    
+    const w = window.innerWidth - sidebarWidth;
+    const h = window.innerHeight - 60; // Accounting for navbar
     const aspect = w / h;
 
     // Update orthographic camera
@@ -608,7 +612,6 @@ update_images({count: 1750});
 //update_images({folder_id: "fluxus_1"});
 
 // Animation loop
-// Animation loop
 function animate() {
     requestAnimationFrame(animate);
     controls.update(); // required for damping
@@ -668,7 +671,11 @@ function animate() {
             }
         });
     }
-    
+    // Initialize enhanced UI if not already done
+    if (typeof window.uiInitialized === 'undefined' && typeof window.initEnhancedUI === 'function') {
+        window.initEnhancedUI();
+        window.uiInitialized = true;
+    }
     renderer.render(scene, camera);
 }
 

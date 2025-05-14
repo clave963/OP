@@ -2,358 +2,48 @@
 <html lang="en-US">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fluxus Art Mosaic Explorer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluxus Art Mosaic Explorer</title>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "./modules/three/three.module.js",
-                "three/addons/": "./modules/three/addons/"
-            }
-        }
-    </script>
-    <link rel="stylesheet" href="enhanced-ui.css">
-    <link rel="stylesheet" href="front.css">
-    
-    <style>
-        body {
-            background-color: #121212;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-        
-        /* Header styles */
-        #header {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        #title-area {
-            flex: 1;
-        }
-        
-        #title {
-            margin: 0;
-            font-size: 1.8em;
-        }
-        
-        #subtitle {
-            margin: 0;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-        
-        #controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .control-btn {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .control-btn:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Era filters */
-        #era-filters {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 8px;
-            z-index: 900;
-        }
-        
-        .era-btn {
-            margin-right: 10px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .era-btn.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        /* Loading overlay */
-        #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-            color: white;
-            flex-direction: column;
-            transition: opacity 0.5s ease;
-        }
-        
-        .loader {
-            border: 5px solid #333;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Make sure canvas has the right cursor */
-        canvas {
-            cursor: move;
-        }
-        
-        /* Help modal */
-        #help-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #help-content {
-            width: 60%;
-            max-width: 700px;
-            background-color: #222;
-            color: white;
-            padding: 30px;
-            border-radius: 8px;
-            position: relative;
-        }
-        
-        #help-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            color: white;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        
-        /* Initially hide the info_div completely */
-        #info_div {
-            display: none !important;
-        }
-        
-        /* Only show it when it has content AND the show-info class */
-        #info_div.show-info:not(:empty) {
-            display: block !important;
-            position: fixed !important;
-            left: 50% !important;
-            top: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            width: 80% !important;
-            max-width: 500px !important;
-            max-height: 80vh !important;
-            background-color: rgba(0, 0, 0, 0.9) !important;
-            color: white !important;
-            padding: 20px !important;
-            border-radius: 8px !important;
-            z-index: 9999 !important;
-            overflow-y: auto !important;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) !important;
-        }
-        
-        /* Make image fit better */
-        #info_div img, #info_div .info-image {
-            max-width: 100% !important;
-            height: auto !important;
-            margin: 0 auto 15px auto !important;
-            display: block !important;
-            border-radius: 4px !important;
-        }
-        
-        /* Improve text readability */
-        #info_div h2 {
-            margin-top: 0 !important;
-            font-size: 1.6em !important;
-        }
-        
-        #info_div h3 {
-            font-size: 1.3em !important;
-        }
-        
-        #info_div ul, #info_div .info-list {
-            padding-left: 0 !important;
-        }
-        
-        #info_div li, #info_div .info-list li {
-            margin-bottom: 8px !important;
-            line-height: 1.5 !important;
-        }
-        /* Improved close button for metadata popup */
-        .metadata-close {
-            position: absolute !important;
-            top: 10px !important;
-            right: 10px !important;
-            width: 36px !important;
-            height: 36px !important;
-            background-color: rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 50% !important;
-            font-size: 20px !important;
-            line-height: 1 !important;
-            cursor: pointer !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            transition: background-color 0.2s ease !important;
-            z-index: 10000 !important;
-        }
-        
-        .metadata-close:hover {
-            background-color: rgba(255, 255, 255, 0.4) !important;
-        }
-        
-        /* Position the info_div content to accommodate the close button */
-        #info_div {
-            position: relative !important;
-            padding-top: 35px !important;
-        }
-        
-        /* Make headings and content more readable */
-        #info_div h2 {
-            margin-top: 15px !important;
-            margin-bottom: 10px !important;
-            font-size: 1.8em !important;
-            line-height: 1.2 !important;
-        }
-        
-        #info_div h3 {
-            margin-top: 5px !important;
-            margin-bottom: 15px !important;
-            font-size: 1.4em !important;
-            opacity: 0.85 !important;
-        }
-        
-        /* Style the image better */
-        #info_div img {
-            max-width: 100% !important;
-            border-radius: 4px !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-            margin-bottom: 20px !important;
-        }
-        
-        /* Improve list presentation */
-        #info_div ul {
-            margin: 0 !important;
-            padding: 0 !important;
-            list-style-type: none !important;
-        }
-        
-        #info_div li {
-            position: relative !important;
-            padding-left: 1.5em !important;
-            margin-bottom: 10px !important;
-            line-height: 1.5 !important;
-        }
-        
-        #info_div li:before {
-            content: "•" !important;
-            position: absolute !important;
-            left: 0.5em !important;
-            color: rgba(255, 255, 255, 0.7) !important;
-        }
-        /* Ensure navbar fits properly and doesn't cut off */
-    .navbar {
-        width: 100%;
-        box-sizing: border-box;
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./modules/three/three.module.js",
+        "three/addons/": "./modules/three/addons/"
+      }
     }
-    
-    /* Ensure navbar links are visible */
-    .nav-logo, .nav-link {
-        color: white !important;
-    }
-    
-    /* Highlight active link */
-    .nav-link.active {
-        background-color: rgba(76, 175, 80, 0.3);
-    }
-    /* Footer styling */
-    .site-footer {
-        text-align: center;
-        padding: 15px 20px;
-        color: #bbb !important;
-        background-color: rgba(0, 0, 0, 0.8);
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        z-index: 900;
-        font-size: 14px;
-    }
-    
-    .site-footer p {
-        margin: 0;
-        color: #bbb !important;
-    }
-    </style>
+  </script>
+  
+  <!-- Original style sheets -->
+  <link rel="stylesheet" href="front.css">
+  
+  <!-- Enhanced UI stylesheet -->
+  <link rel="stylesheet" href="enhanced-ui.css">
+  
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&display=swap">
 </head>
  
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
-        <div class="nav-subtitle">Interactive Timeline Visualization (1953-2000)</div>
-        <div class="nav-links">
-            <a href="front.html" class="nav-link active">Visualization</a>
-            <a href="about.html" class="nav-link">About</a>
-        </div>
-    </nav>
-    
-    <!-- Loading overlay with spinner -->
-    <div id="loading-overlay">
-        <div class="loader"></div>
-        <p>Loading Fluxus Art Mosaic...</p>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
+    <div class="nav-subtitle">Interactive Timeline Visualization (1953-2000)</div>
+    <div class="nav-links">
+      <a href="front.html" class="nav-link active">Visualization</a>
+      <a href="about.html" class="nav-link">About</a>
     </div>
-    <!-- HTML to add to front.html -->
-
-<!-- Add this after the navbar and before the main content -->
-<div id="sidebar-panel">
+  </nav>
+  
+  <!-- Loading overlay with spinner -->
+  <div id="loading-overlay">
+    <div class="loader"></div>
+    <p>Loading Fluxus Art Mosaic...</p>
+  </div>
+  
+  <!-- Sidebar panel with controls -->
+  <div id="sidebar-panel">
     <h2>Fluxus Mosaic Explorer</h2>
     <p>This interactive visualization displays Fluxus movement artworks (1953-2000), arranged chronologically from bottom to top. Use the controls below to explore the collection.</p>
     
@@ -413,419 +103,99 @@
     </div>
   </div>
   
-  <!-- Add this for fullscreen mode notification -->
+  <!-- Fullscreen notification -->
   <div id="fullscreen-notification" class="fullscreen-notification">
     Press F to return to normal view
   </div>
   
-  <!-- Remove the original control-bar div or comment it out -->
-  <!-- <div id="control-bar">...</div> -->
-    <!-- <div id="control-bar">
-        <button id="help-btn" class="control-btn">How to Use</button>
-        <button id="reset-view-btn" class="control-btn">Reset View</button>
-        <div class="era-buttons">
-            <button class="era-btn active" data-era="all">All Eras</button>
-            <button class="era-btn" data-era="early">Early Fluxus</button>
-            <button class="era-btn" data-era="middle">Core Fluxus</button>
-            <button class="era-btn" data-era="late">Late Fluxus</button>
-        </div>
-    </div> -->
-    
-    <!-- Main viewport container -->
-    <div id="main">
-        <div id="viewport"></div>               
-    </div>
-    
-    <!-- Info panel for image details -->
-    <div id="info_div"></div>
-<!--     
-    <div id="era-filters" style="right: 20px; left: auto;">
-        <button class="era-btn active" data-era="all">All Eras</button>
-        <button class="era-btn" data-era="early">Early Fluxus</button>
-        <button class="era-btn" data-era="middle">Core Fluxus</button>
-        <button class="era-btn" data-era="late">Late Fluxus</button>
-    </div> -->
-    
-    <!-- Help modal -->
-    <div id="help-modal">
-        <div id="help-content">
-            <!-- Add this to the help modal content in front.html -->
-            <li><strong>Toggle Ruler:</strong> Press the 'T' key to show/hide the year ruler</li>
-            <button id="toggle-ruler-btn" class="control-btn">Toggle Ruler</button>
-            <button id="help-close">&times;</button>
-            <h2>How to Use the Fluxus Art Mosaic</h2>
-            <p>This interactive visualization displays artworks from the Fluxus movement (1953-1984), arranged chronologically from bottom to top.</p>
-            
-            <h3>Navigation:</h3>
-            <ul>
-                <li><strong>Pan:</strong> Click and drag to move around the mosaic</li>
-                <li><strong>Zoom:</strong> Use mouse wheel, or the Zoom buttons</li>
-                <li><strong>Select Image:</strong> Click on any artwork to view its details</li>
-                <li><strong>Reset View:</strong> Click the Reset View button to return to the default view</li>
-            </ul>
-            
-            <h3>Features:</h3>
-            <ul>
-                <li><strong>Year Ruler:</strong> The vertical timeline on the left shows the chronological progression of Fluxus art</li>
-                <li><strong>Era Filters:</strong> Use the buttons at the bottom to highlight specific Fluxus eras</li>
-                <li><strong>Image Details:</strong> Click any artwork to view its metadata including artist, title, date and medium</li>
-            </ul>
-            
-            <p>The colors of the artworks correspond to their era in the Fluxus movement:</p>
-            <ul>
-                <li><strong>Early Fluxus (1953-1963):</strong> Grayscale tones</li>
-                <li><strong>Core Fluxus (1964-1973):</strong> Sepia tones</li>
-                <li><strong>Late Fluxus (1974-1984):</strong> Colorized with red enhancement</li>
-            </ul>
-        </div>
-    </div>
-    
-    <script src="front.js" type="module"></script>
-    <script src="hover-effect-patch.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    
-    <!-- UI controls and event handlers -->
-    <script>
-        // Add this to the script section in front.html
-document.addEventListener('DOMContentLoaded', function() {
-    // ... existing code ...
-    
-    // Add toggle ruler button handler
-        const toggleRulerBtn = document.getElementById('toggle-ruler-btn');
-            if (toggleRulerBtn) {
-                toggleRulerBtn.addEventListener('click', function() {
-                    // This simulates a 'T' keypress
-                    const event = new KeyboardEvent('keydown', { 'key': 'T' });
-                    document.dispatchEvent(event);
-                });
-            }
-        });
-        // Set up UI controls
-        document.addEventListener('DOMContentLoaded', function() {
-            // Help modal
-            const helpBtn = document.getElementById('help-btn');
-            const helpModal = document.getElementById('help-modal');
-            const helpClose = document.getElementById('help-close');
-            
-            if (helpBtn && helpModal) {
-                helpBtn.addEventListener('click', function() {
-                    helpModal.style.display = 'flex';
-                });
-            }
-            
-            if (helpClose && helpModal) {
-                helpClose.addEventListener('click', function() {
-                    helpModal.style.display = 'none';
-                });
-                
-                helpModal.addEventListener('click', function(e) {
-                    if (e.target === helpModal) {
-                        helpModal.style.display = 'none';
-                    }
-                });
-            }
-            
-            // Zoom controls
-            const zoomInBtn = document.getElementById('zoom-in-btn');
-            const zoomOutBtn = document.getElementById('zoom-out-btn');
-            const resetViewBtn = document.getElementById('reset-view-btn');
-            
-            if (zoomInBtn && window.zoomIn) {
-                zoomInBtn.addEventListener('click', window.zoomIn);
-            }
-            
-            if (zoomOutBtn && window.zoomOut) {
-                zoomOutBtn.addEventListener('click', window.zoomOut);
-            }
-            
-            if (resetViewBtn && window.resetView) {
-                resetViewBtn.addEventListener('click', window.resetView);
-            }
-            
-            // Era filters
-            const eraButtons = document.querySelectorAll('.era-btn');
-            
-            eraButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    eraButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const era = this.dataset.era;
-                    if (window.filterByEra) {
-                        window.filterByEra(era);
-                    }
-                });
-            });
-            
-            // Hide loading overlay after a delay
-            setTimeout(function() {
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if (loadingOverlay) {
-                    loadingOverlay.style.opacity = '0';
-                    loadingOverlay.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                    }, 500);
-                }
-            }, 3000);
-        });
-    </script>
-    
-    <!-- Fix black bar issue -->
-    <script>
-        // Explicit fix for black bar issue
-        (function() {
-            console.log("Initializing black bar fix");
-            
-            // First clear any existing content in the info_div (in case it has empty content)
-            const infoDiv = document.getElementById('info_div');
-            if (infoDiv) {
-                // Initially clear any content and hide it
-                infoDiv.innerHTML = '';
-                infoDiv.style.display = 'none';
-                infoDiv.classList.remove('show-info');
-            }
-            
-            // Function to track when the original select function is called
-            function enhanceSelectFunction() {
-                // Check if the original function exists
-                if (window.on_sprite_selected && !window.original_on_sprite_selected) {
-                    console.log("Enhancing sprite selection function");
-                    
-                    // Store original function
-                    window.original_on_sprite_selected = window.on_sprite_selected;
-                    
-                    // Override with our enhanced version
-                    window.on_sprite_selected = function(sprite) {
-                        // First clear and hide the info_div
-                        const infoDiv = document.getElementById('info_div');
-                        if (infoDiv) {
-                            infoDiv.innerHTML = '';
-                            infoDiv.style.display = 'none';
-                            infoDiv.classList.remove('show-info');
-                        }
-                        
-                        // Call the original function to populate the info_div
-                        window.original_on_sprite_selected(sprite);
-                        
-                        // After a slight delay, check if content was added and make it visible
-                        setTimeout(function() {
-                            if (infoDiv && infoDiv.innerHTML.trim() !== '') {
-                                console.log("Content detected, showing info_div");
-                                infoDiv.classList.add('show-info');
-                            }
-                        }, 50);
-                    };
-                } else {
-                    // Try again after a delay
-                    setTimeout(enhanceSelectFunction, 200);
-                }
-            }
-            
-            // Start enhancing the function
-            enhanceSelectFunction();
-            
-            // Safety check: Hide any empty info_div
-            setInterval(function() {
-                const infoDiv = document.getElementById('info_div');
-                if (infoDiv) {
-                    if (infoDiv.innerHTML.trim() === '') {
-                        // No content, hide it
-                        infoDiv.style.display = 'none';
-                        infoDiv.classList.remove('show-info');
-                    } else if (infoDiv.innerHTML.trim() !== '' && !infoDiv.classList.contains('show-info')) {
-                        // Has content but not shown yet
-                        infoDiv.classList.add('show-info');
-                    }
-                }
-            }, 200);
-        })();
-    </script>
-    
-    <!-- Adaptive sizing script -->
-    <script>
-        // Adaptive metadata popup size based on image aspect ratio
-        (function() {
-            console.log("Initializing adaptive-size metadata popup");
-            
-            // Function to handle adaptive sizing
-            function adaptiveSize() {
-                const infoDiv = document.getElementById('info_div');
-                if (!infoDiv || infoDiv.innerHTML.trim() === '') return;
-                
-                // Find the image
-                const image = infoDiv.querySelector('img');
-                if (!image) return;
-                
-                // Check if image is loaded
-                if (image.complete) {
-                    applyAdaptiveSizing(image, infoDiv);
-                } else {
-                    // Wait for image to load
-                    image.addEventListener('load', function() {
-                        applyAdaptiveSizing(image, infoDiv);
-                    });
-                }
-            }
-            
-            // Function to calculate and apply adaptive sizing
-            function applyAdaptiveSizing(image, infoDiv) {
-                // Get natural dimensions (original image size)
-                const imageWidth = image.naturalWidth || image.width;
-                const imageHeight = image.naturalHeight || image.height;
-                const aspectRatio = imageWidth / imageHeight;
-                
-                console.log(`Image dimensions: ${imageWidth}x${imageHeight}, ratio: ${aspectRatio.toFixed(2)}`);
-                
-                // Determine optimal popup dimensions based on aspect ratio
-                let popupWidth, popupMaxWidth;
-                
-                if (aspectRatio >= 1.5) {
-                    // Landscape - wide image
-                    console.log("Wide image detected");
-                    popupWidth = "85%";
-                    popupMaxWidth = "1000px";
-                    
-                    // Enhance image display for wide images
-                    image.style.maxWidth = "100%";
-                    image.style.maxHeight = "60vh";
-                    image.style.objectFit = "contain";
-                } else if (aspectRatio <= 0.75) {
-                    // Portrait - tall image
-                    console.log("Tall image detected");
-                    popupWidth = "60%";
-                    popupMaxWidth = "600px";
-                    
-                    // Enhance image display for tall images
-                    image.style.maxWidth = "100%";
-                    image.style.maxHeight = "65vh";
-                    image.style.objectFit = "contain";
-                } else {
-                    // Standard ratio
-                    console.log("Standard image ratio detected");
-                    popupWidth = "70%";
-                    popupMaxWidth = "800px";
-                    
-                    // Standard image display
-                    image.style.maxWidth = "100%";
-                    image.style.maxHeight = "60vh";
-                    image.style.objectFit = "contain";
-                }
-                
-                // Update style attribute directly to ensure important flag is applied
-                infoDiv.setAttribute('style', infoDiv.getAttribute('style') + 
-                    `;width: ${popupWidth} !important; max-width: ${popupMaxWidth} !important;`);
-                
-                // Ensure image has good styling
-                image.style.display = "block";
-                image.style.margin = "0 auto 15px auto";
-                image.style.borderRadius = "4px";
-            }
-            
-            // Call the adaptive sizing function periodically
-            setInterval(function() {
-                const infoDiv = document.getElementById('info_div');
-                if (infoDiv && infoDiv.innerHTML.trim() !== '' && 
-                    infoDiv.classList.contains('show-info')) {
-                    adaptiveSize();
-                }
-            }, 500);
-        })();
-    </script>
-
-<!-- Add this script at the end of your body, after the other scripts -->
-<script>
-    // Enhanced metadata popup with improved close button
-    (function() {
-      console.log("Initializing enhanced metadata popup with close button");
+  <!-- Main viewport container -->
+  <div id="main">
+    <div id="viewport"></div>               
+  </div>
+  
+  <!-- Info panel for image details -->
+  <div id="info_div"></div>
+  
+  <!-- Help modal with updated content -->
+  <div id="help-modal">
+    <div id="help-content">
+      <button id="help-close">&times;</button>
+      <h2>How to Use the Fluxus Art Mosaic</h2>
+      <p>This interactive visualization displays artworks from the Fluxus movement (1953-1984), arranged chronologically from bottom to top.</p>
       
-      // Function to enhance the original sprite selection function
-      function enhanceMetadataWithCloseButton() {
-        // Check if we've already enhanced this function
-        if (window.on_sprite_selected && !window.metadata_close_enhanced) {
-          console.log("Adding close button to metadata popup");
-          
-          // Mark that we've enhanced this function
-          window.metadata_close_enhanced = true;
-          
-          // Store the original function or use one that was already stored
-          const originalFn = window.original_on_sprite_selected || window.on_sprite_selected;
-          
-          // Override the function
-          window.on_sprite_selected = function(sprite) {
-            // Call the original function
-            originalFn(sprite);
-            
-            // After a slight delay, add the close button if it doesn't exist
-            setTimeout(function() {
-              const infoDiv = document.getElementById('info_div');
-              if (!infoDiv) return;
-              
-              // If there's no close button yet, add one
-              if (!infoDiv.querySelector('.metadata-close')) {
-                console.log("Adding close button to info_div");
-                
-                // Create the close button
-                const closeBtn = document.createElement('button');
-                closeBtn.className = 'metadata-close';
-                closeBtn.innerHTML = '×'; // Using the multiplication symbol for the X
-                closeBtn.setAttribute('aria-label', 'Close');
-                closeBtn.setAttribute('title', 'Close');
-                
-                // Add click event to close the popup
-                closeBtn.addEventListener('click', function(e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  infoDiv.style.display = 'none';
-                  infoDiv.classList.remove('show-info');
-                  infoDiv.innerHTML = '';
-                });
-                
-                // Add the button to the info_div
-                infoDiv.prepend(closeBtn);
-              }
-            }, 100);
-          };
-        } else {
-          // Try again after a delay
-          setTimeout(enhanceMetadataWithCloseButton, 300);
-        }
+      <h3>Navigation</h3>
+      <ul>
+        <li><strong>Pan:</strong> Click and drag to move around the mosaic</li>
+        <li><strong>Zoom:</strong> Use mouse wheel to zoom in and out</li>
+        <li><strong>Select Image:</strong> Click on any artwork to view its details</li>
+        <li><strong>Reset View:</strong> Click the Reset View button or press R key to return to the default view</li>
+        <li><strong>Toggle UI:</strong> Press F key to hide/show all UI elements</li>
+      </ul>
+      
+      <h3>Features</h3>
+      <ul>
+        <li><strong>Year Ruler:</strong> The vertical timeline on the left shows the chronological progression of Fluxus art</li>
+        <li><strong>Era Filters:</strong> Use the buttons in the sidebar to highlight specific Fluxus eras</li>
+        <li><strong>Image Details:</strong> Click any artwork to view its metadata including artist, title, date and medium</li>
+        <li><strong>Save View:</strong> Use the Save Current View button to capture the current visualization as a PNG image</li>
+      </ul>
+      
+      <p>The colors of the artworks correspond to their era in the Fluxus movement:</p>
+      <ul>
+        <li><strong>Early Fluxus (1953-1963):</strong> Grayscale tones</li>
+        <li><strong>Core Fluxus (1964-1973):</strong> Sepia tones</li>
+        <li><strong>Late Fluxus (1974-1984):</strong> Colorized with red enhancement</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Core scripts -->
+  <script src="front.js" type="module"></script>
+  <script src="hover-effect-patch.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  
+  <!-- Enhanced UI script -->
+  <script src="enhanced-ui.js"></script>
+  
+  <!-- UI controls and event handlers (original) -->
+  <script>
+    // Set up UI controls
+    document.addEventListener('DOMContentLoaded', function() {
+      // Help modal
+      const helpBtn = document.getElementById('help-btn');
+      const helpModal = document.getElementById('help-modal');
+      const helpClose = document.getElementById('help-close');
+      
+      if (helpBtn && helpModal) {
+        helpBtn.addEventListener('click', function() {
+          helpModal.style.display = 'flex';
+        });
       }
       
-      // Start the enhancement process
-      enhanceMetadataWithCloseButton();
-      
-      // Also add keyboard support for closing (Escape key)
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          const infoDiv = document.getElementById('info_div');
-          if (infoDiv && infoDiv.classList.contains('show-info')) {
-            infoDiv.style.display = 'none';
-            infoDiv.classList.remove('show-info');
-            infoDiv.innerHTML = '';
+      if (helpClose && helpModal) {
+        helpClose.addEventListener('click', function() {
+          helpModal.style.display = 'none';
+        });
+        
+        helpModal.addEventListener('click', function(e) {
+          if (e.target === helpModal) {
+            helpModal.style.display = 'none';
           }
-        }
-      });
+        });
+      }
       
-      // Add click outside to close
-      document.addEventListener('click', function(e) {
-        const infoDiv = document.getElementById('info_div');
-        if (infoDiv && infoDiv.classList.contains('show-info')) {
-          // Check if click was outside the info_div
-          if (!infoDiv.contains(e.target) && e.target !== infoDiv) {
-            // Make sure we're not clicking on a sprite or something in the Three.js scene
-            if (!(e.target.tagName === 'CANVAS' || e.target.closest('#viewport'))) {
-              infoDiv.style.display = 'none';
-              infoDiv.classList.remove('show-info');
-              infoDiv.innerHTML = '';
-            }
-          }
+      // Hide loading overlay after a delay
+      setTimeout(function() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (loadingOverlay) {
+          loadingOverlay.style.opacity = '0';
+          loadingOverlay.style.pointerEvents = 'none';
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 500);
         }
-      });
-    })();
+      }, 3000);
+    });
   </script>
-<!-- <footer class="site-footer">
-    <p>© 2025 Fluxus Mosaic Explorer | Created using data from the Museum of Modern Art Collection</p>
-</footer> -->
 </body>
 </html>
