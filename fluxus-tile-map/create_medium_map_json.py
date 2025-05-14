@@ -17,8 +17,23 @@ THUMB_FOLDER = os.path.join(MAP_NAME, "thumbs")
 IMAGES_FOLDER = os.path.join(MAP_NAME, "images")  
 
 # Hero image path - this will be blended with the tiles
-HERO_IMAGE = "../Fluxus_Images/137345_Still_from_Disappearing_Music_for_Face.jpg"
-HERO_OVERLAY_OPACITY = 0.25  # Adjust the blend factor (0.0-1.0)
+# SRC_IMAGE = "../Fluxus_Images/181806_Bag_Piece_(1964),_performed_during_Perpetual_Fluxfest,_Cinematheque,_New_York,_June_27,_1965.jpg"
+# SRC_IMAGE = "../Fluxus_Images/137345_Still_from_Disappearing_Music_for_Face.jpg"
+# SRC_IMAGE = "../Fluxus_Images/138294_Hand_Show.jpg"
+# SRC_IMAGE = "../Fluxus_Images/127410_heute___+morgn___+immer___wieder___bis….jpg"
+# SRC_IMAGE = "../Fluxus_Images/140218_U.S.A._Surpasses_All_the_Genocide_Records,_U.S._Surpasses_All_Genocide_Records....jpg"
+# SRC_IMAGE = "../Fluxus_Images/150219_Four_(Fluxfilm_no._16).jpg"
+# SRC_IMAGE = "../Fluxus_Images/150227_Eyeblink_(Fluxfilm_no._9).jpg"
+# SRC_IMAGE = "../Fluxus_Images/149311_Put_Finger_in_Hole_from_Fluxkit.jpg"
+# SRC_IMAGE = "../Fluxus_Images/152698_Shigeko_Kubota_Performs_The_Identical_Lunch.jpg"
+# SRC_IMAGE = "../Fluxus_Images/178953_Lying_Ceremony_from_Performance_Files.jpg"
+# SRC_IMAGE = "../Fluxus_Images/184356_Hotel_Event,_performed_at_Waldorf_Astoria,_New_York,_June_4,_1966.jpg"
+# SRC_IMAGE = "../Fluxus_Images/192930_Name_card_for_Christo.jpg"
+# SRC_IMAGE = "../Fluxus_Images/127907_Flux_Stationery_Foot_in_Shoe.jpg"
+# SRC_IMAGE = "../Fluxus_Images/127908_Flux_Stationery_Hand_in_Glove.jpg"
+
+HERO_IMAGE = "../Fluxus_Images/181806_Bag_Piece_(1964),_performed_during_Perpetual_Fluxfest,_Cinematheque,_New_York,_June_27,_1965.jpg"
+HERO_OVERLAY_OPACITY = 0.3  # Adjust the blend factor (0.0-1.0)
 
 # === GRID SETUP ===
 # Define a smaller 90x60 grid (90 width x 60 height)
