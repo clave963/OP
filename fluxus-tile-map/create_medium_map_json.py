@@ -1,274 +1,419 @@
+#!/usr/bin/env python3
 import os
 import json
 import random
+import cv2
 import re
+import shutil
 import numpy as np
-from PIL import Image
-from math import sqrt
-from collections import Counter
 
-# Basic configuration
+# Source metadata and destination paths
 SRC_JSON = "fluxus_metadata.json"
 MAP_NAME = "medium_map"
+
+# Output file locations
 MAP_JSON = os.path.join(MAP_NAME, "tiles.json")
 THUMB_FOLDER = os.path.join(MAP_NAME, "thumbs")
-IMAGES_FOLDER = os.path.join(MAP_NAME, "images")
+IMAGES_FOLDER = os.path.join(MAP_NAME, "images")  
 
-# Path to the main "hero" image for this mosaic
-SRC_IMAGE = "../Fluxus_Images/181806_Bag_Piece_(1964),_performed_during_Perpetual_Fluxfest,_Cinematheque,_New_York,_June_27,_1965.jpg"
+# Hero image path - this will be blended with the tiles
+HERO_IMAGE = "../Fluxus_Images/137345_Still_from_Disappearing_Music_for_Face.jpg"
+HERO_OVERLAY_OPACITY = 0.25  # Adjust the blend factor (0.0-1.0)
 
-# Create necessary directories
-os.makedirs(THUMB_FOLDER, exist_ok=True)
-os.makedirs(IMAGES_FOLDER, exist_ok=True)
+# === GRID SETUP ===
+# Define a smaller 90x60 grid (90 width x 60 height)
+GRID_WIDTH = 90
+GRID_HEIGHT = 60
 
-# === CONFIGURATION SETTINGS ===
-# Maximum number of duplications allowed for any single artwork
-MAX_DUPLICATIONS = 5
-
-# Mosaic settings
-TILE_SIZE = 25
-COLORIZATION_STRENGTH = 0.7
-OVERLAY_ALPHA = 0.0
-
-# Single semi-white overlay color for all medium categories
-DEFAULT_OVERLAY_COLOR = (0.9, 0.9, 0.9)  # Semi-white
-
-# Medium categories (all using the same color)
+# Medium categories 
 MEDIUM_CATEGORIES = {
-    "performance": DEFAULT_OVERLAY_COLOR,
-    "print": DEFAULT_OVERLAY_COLOR,
-    "object": DEFAULT_OVERLAY_COLOR,
-    "photograph": DEFAULT_OVERLAY_COLOR,
-    "publication": DEFAULT_OVERLAY_COLOR,
-    "drawing": DEFAULT_OVERLAY_COLOR,
-    "painting": DEFAULT_OVERLAY_COLOR,
-    "unknown": DEFAULT_OVERLAY_COLOR
+    "painting":    ["painting", "oil", "acrylic", "canvas", "panel", "gouache"],
+    "drawing":     ["drawing", "chalk", "crayon", "pencil", "pen and ink", "pastel", "charcoal", "graphite", "sketch"],
+    "print":       ["print", "lithograph", "etching", "woodcut", "screenprint", "linocut", "engraving", "monotype", "drypoint"],
+    "sculpture":   ["sculpture", "wood", "metal", "bronze", "ceramic", "plaster", "steel", "installation", "assemblage", "object"],
+    "photograph":  ["photograph", "gelatin silver", "c-print", "digital", "chromogenic", "photogram", "polaroid", "photo"],
+    "mixed media": ["mixed media", "collage", "illustrated book", "multiple", "book", "mixed"]
 }
 
-# Medium classification rules (using keywords)
-MEDIUM_KEYWORDS = {
-    "performance": ["performance", "action", "happening", "event", "concert"],
-    "print": ["print", "lithograph", "screenprint", "woodcut", "etching", "engraving"],
-    "object": ["object", "sculpture", "assemblage", "box", "multiple", "plastic", "wood", "metal", "glass", "ceramic"],
-    "photograph": ["photograph", "photo", "gelatin silver", "polaroid", "slide"],
-    "publication": ["book", "score", "magazine", "newspaper", "poster", "publication", "edition", "card", "postcard"],
-    "drawing": ["drawing", "ink", "pencil", "graphite", "crayon", "pastel", "watercolor"],
-    "painting": ["painting", "oil", "acrylic", "canvas", "panel"]
+# Grid boundaries - 6 equal regions
+GRID_BOUNDARIES = {
+    "painting":    (0,  0,  29, 29),    # Top-left
+    "drawing":     (30, 0,  59, 29),    # Top-middle
+    "print":       (60, 0,  89, 29),    # Top-right
+    "sculpture":   (0,  30, 29, 59),    # Bottom-left
+    "photograph":  (30, 30, 59, 59),    # Bottom-middle
+    "mixed media": (60, 30, 89, 59)     # Bottom-right
 }
 
-# === COLOR PROCESSING FUNCTIONS ===
-
-def compute_average_color(img):
-    """
-    Compute (R, G, B) average color of a PIL Image.
-    """
-    img = img.convert("RGB")
-    pixels = img.getdata()
-    r_total, g_total, b_total = 0, 0, 0
-    for (r, g, b) in pixels:
-        r_total += r
-        g_total += g
-        b_total += b
-    count = len(pixels)
-    return (r_total/count, g_total/count, b_total/count)
-
-def color_distance(c1, c2):
-    """
-    Euclidean distance between two RGB colors (R, G, B).
-    """
-    return sqrt((c1[0] - c2[0])**2 + (c1[1] - c2[1])**2 + (c1[2] - c2[2])**2)
-
-def colorize_tile(img, target_color, strength):
-    """
-    Tint the img toward target_color by 'strength' (0..1).
-    A simple alpha-blend approach:
-       final = img*(1-strength) + target_color*(strength)
-    """
-    if strength <= 0:
-        return img
-
-    img = img.convert("RGB")
-    new_img = Image.new("RGB", img.size)
-    pix_in = img.load()
-    pix_out = new_img.load()
-
-    reg_r, reg_g, reg_b = target_color
-    for y in range(img.height):
-        for x in range(img.width):
-            r, g, b = pix_in[x, y]
-            nr = int(r*(1-strength) + reg_r*(strength))
-            ng = int(g*(1-strength) + reg_g*(strength))
-            nb = int(b*(1-strength) + reg_b*(strength))
-            pix_out[x, y] = (nr, ng, nb)
-    return new_img
-
-def average_grayscale(image):
-    """Calculate the average grayscale value of an image"""
-    return sum(image.convert("L").getdata()) / (image.size[0] * image.size[1])
-
-# === MEDIUM CLASSIFICATION FUNCTIONS ===
-
-def classify_medium(medium_text):
-    """
-    Classify the medium of an artwork based on its description.
-    Returns one of the categories in MEDIUM_CATEGORIES.
-    """
+# === HELPER FUNCTIONS ===
+def determine_medium_category(medium_text):
+    """Determine which medium category an artwork belongs to."""
     if not medium_text or not isinstance(medium_text, str):
-        return "unknown"
-        
+        return "mixed media"  # Default if no medium specified
+    
     medium_text = medium_text.lower()
     
     # Check each category's keywords
-    for category, keywords in MEDIUM_KEYWORDS.items():
+    for category, keywords in MEDIUM_CATEGORIES.items():
         for keyword in keywords:
             if keyword in medium_text:
                 return category
     
-    # Default classification if no keywords matched
-    return "unknown"
+    # If no match found, default to mixed media
+    return "mixed media"
 
-def get_medium_color(medium_category, base_color):
+def extract_year_from_date(date_str):
+    """Extract year from date formats in the Fluxus collection."""
+    if not date_str or not isinstance(date_str, str):
+        return 1965
+    
+    # Try to extract a 4-digit year
+    year_match = re.search(r'\b(19|20)\d{2}\b', date_str)
+    if year_match:
+        return int(year_match.group(0))
+    
+    # Try to extract a 2-digit year
+    year_match = re.search(r'\b\d{2}\b', date_str)
+    if year_match:
+        year = int(year_match.group(0))
+        return 1900 + year
+    
+    # Default to middle of Fluxus period
+    return 1965
+
+def blend_with_hero_image(image, hero_image, blend_factor, x_pos, y_pos, grid_width, grid_height):
     """
-    Get a consistent semi-white overlay color regardless of medium category.
+    Blend the tile image with a portion of the hero image based on grid position.
+    
+    Args:
+        image: The tile image (grayscale or color)
+        hero_image: The hero image to blend with
+        blend_factor: Factor determining blend strength (0.0-1.0)
+        x_pos, y_pos: Position in the grid
+        grid_width, grid_height: Total grid dimensions
+    
+    Returns:
+        Blended image
     """
-    # We'll use a subtle blend with the base color
-    # 80% our default color, 20% influence from the base image
+    # First, make sure both images are the same size
+    image_h, image_w = image.shape[:2]
+    hero_h, hero_w = hero_image.shape[:2]
     
-    # Convert base_color to 0-1 range if needed
-    if isinstance(base_color[0], int):
-        base_color = [c/255.0 for c in base_color]
+    # Calculate which part of the hero image this tile corresponds to
+    x_ratio = x_pos / (grid_width - 1)  # 0.0 to 1.0 across the grid
+    y_ratio = y_pos / (grid_height - 1)  # 0.0 to 1.0 down the grid
     
-    # Blend default color with base color
-    r = 0.8 * DEFAULT_OVERLAY_COLOR[0] + 0.2 * base_color[0]
-    g = 0.8 * DEFAULT_OVERLAY_COLOR[1] + 0.2 * base_color[1]
-    b = 0.8 * DEFAULT_OVERLAY_COLOR[2] + 0.2 * base_color[2]
+    # Calculate pixel coordinates in the hero image
+    hero_x = int(x_ratio * (hero_w - image_w))
+    hero_y = int(y_ratio * (hero_h - image_h))
     
-    return [r, g, b]
+    # Ensure we don't go out of bounds
+    hero_x = min(max(0, hero_x), hero_w - image_w)
+    hero_y = min(max(0, hero_y), hero_h - image_h)
+    
+    # Extract the corresponding region from the hero image
+    hero_region = hero_image[hero_y:hero_y+image_h, hero_x:hero_x+image_w]
+    
+    # Resize if dimensions don't match
+    if hero_region.shape[:2] != image.shape[:2]:
+        hero_region = cv2.resize(hero_region, (image_w, image_h))
+    
+    # Blend the images
+    blended = cv2.addWeighted(image, 1.0 - blend_factor, hero_region, blend_factor, 0)
+    
+    return blended
 
-# === MOSAIC GENERATION FUNCTIONS ===
+def create_category_label_image(category_name, width=300, height=60, font_scale=1.0, thickness=2):
+    """
+    Create an image with a category label that can be overlaid on the visualization.
+    
+    Args:
+        category_name: Name of the category
+        width, height: Dimensions of the label image
+        font_scale: Size of the font
+        thickness: Line thickness of the font
+    
+    Returns:
+        Image with the label text
+    """
+    # Create a transparent background
+    label_img = np.zeros((height, width, 4), dtype=np.uint8)
+    
+    # Add a semi-transparent black background
+    cv2.rectangle(label_img, (0, 0), (width, height), (0, 0, 0, 180), -1)
+    
+    # Set up the font
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    text_size = cv2.getTextSize(category_name, font, font_scale, thickness)[0]
+    
+    # Calculate text position for center alignment
+    text_x = (width - text_size[0]) // 2
+    text_y = (height + text_size[1]) // 2
+    
+    # Add the text in white
+    cv2.putText(label_img, category_name, (text_x, text_y), font, font_scale, (255, 255, 255, 255), thickness)
+    
+    return label_img
 
-def load_fluxus_metadata():
-    """Load the Fluxus metadata from JSON file."""
-    with open(SRC_JSON, 'r', encoding='utf-8') as f:
-        metadata = json.load(f)
-    print(f"Loaded {len(metadata)} metadata records")
-    return metadata
+def create_grid_overlay_data():
+    """Create data for grid overlay with medium category headers."""
+    overlay = {
+        "grid": {
+            "visible": True,
+            "color": [1.0, 1.0, 1.0, 0.3],  # Slightly more transparent
+            "lineWidth": 1
+        },
+        "categories": []
+    }
+    
+    # Add category boundaries and headers with UI settings
+    for category, (start_x, start_y, end_x, end_y) in GRID_BOUNDARIES.items():
+        width = end_x - start_x + 1
+        height = end_y - start_y + 1
+        
+        # Create the label image filename
+        label_filename = f"label_{category.replace(' ', '_')}.png"
+        label_path = os.path.join(MAP_NAME, "images", label_filename).replace('\\', '/')
+        
+        overlay["categories"].append({
+            "name": category.title(),
+            "startX": start_x,
+            "startY": start_y,
+            "endX": end_x,
+            "endY": end_y,
+            "width": width,
+            "height": height,
+            "color": [1.0, 1.0, 1.0],
+            "labelImage": label_path,
+            "labelVisible": True
+        })
+    
+    return overlay
 
-def build_tile_library(metadata):
-    """Build a library of tiles from the metadata."""
-    tiles = []
-    for entry in metadata:
-        local_path = entry.get("LocalPath", "")
-        if not local_path or not os.path.exists(local_path):
+def create_enhanced_medium_map():
+    """Create a medium map with hero image blending and improved UI."""
+    print("Starting enhanced medium map creation")
+    
+    # Start fresh - delete existing folders and recreate them
+    for folder in [THUMB_FOLDER, IMAGES_FOLDER]:
+        if os.path.exists(folder):
+            shutil.rmtree(folder)
+        os.makedirs(folder, exist_ok=True)
+    
+    # Load metadata from JSON file
+    src = json.load(open(SRC_JSON, "r"))
+    print(f"Loaded {len(src)} metadata records")
+    
+    # Load the hero image if it exists
+    hero_image = None
+    if os.path.exists(HERO_IMAGE):
+        hero_image = cv2.imread(HERO_IMAGE)
+        print(f"Loaded hero image: {HERO_IMAGE}")
+    else:
+        print(f"Warning: Hero image not found at {HERO_IMAGE}")
+    
+    # Find all local images
+    image_dir = "../Fluxus_Images"
+    local_images = {}
+    
+    if os.path.exists(image_dir):
+        for filename in os.listdir(image_dir):
+            if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+                parts = filename.split('_', 1)
+                if len(parts) > 0:
+                    obj_id = parts[0]
+                    local_images[obj_id] = os.path.join(image_dir, filename)
+    
+    print(f"Found {len(local_images)} local images")
+    
+    # Group metadata by category
+    items_by_category = {category: [] for category in MEDIUM_CATEGORIES.keys()}
+    
+    # Process each metadata item
+    for item in src:
+        obj_id = str(item.get("ObjectID", ""))
+        
+        # Skip if no matching local image
+        if obj_id not in local_images:
             continue
-        try:
-            img = Image.open(local_path).convert("RGB").resize((TILE_SIZE, TILE_SIZE))
-            grayscale = average_grayscale(img)
-            
-            # Classify the medium
-            medium_category = classify_medium(entry.get("Medium", ""))
-            
-            # Store the entry, image, grayscale value, and medium category
-            tiles.append((entry, img.copy(), grayscale, medium_category))
-        except Exception as e:
-            print(f"⚠️ Skipped {local_path}: {e}")
+        
+        # Determine medium category
+        if "Medium" in item and item["Medium"]:
+            medium_text = item["Medium"]
+            category = determine_medium_category(medium_text)
+        elif "Classification" in item and item["Classification"]:
+            classification = item["Classification"]
+            category = determine_medium_category(classification)
+        else:
+            category = "mixed media"  # Default if no medium/classification info
+        
+        # Extract year
+        year = extract_year_from_date(item.get("Date", ""))
+        
+        # Store with local image path
+        item["LocalImagePath"] = local_images[obj_id]
+        items_by_category[category].append((obj_id, item, year))
     
-    print(f"Built tile library with {len(tiles)} valid tiles")
-    return tiles
-
-def find_best_match(grayscale_val, tile_library):
-    """Find the best matching tile based on grayscale value."""
-    return min(tile_library, key=lambda x: abs(x[2] - grayscale_val))
-
-def create_medium_map():
-    """Create a medium-based mosaic map from the Fluxus image data."""
-    metadata = load_fluxus_metadata()
-    tile_library = build_tile_library(metadata)
-
-    if not tile_library:
-        print("❌ No valid tiles found.")
-        return
-
-    # Load and process the main image
-    main_img = Image.open(SRC_IMAGE).convert("RGB")
-    width, height = main_img.size
+    # Print category counts
+    for category, items in items_by_category.items():
+        print(f"{category}: {len(items)} original artworks")
     
-    # Calculate grid dimensions
-    cols = width // TILE_SIZE
-    rows = height // TILE_SIZE
+    # Create all possible grid positions
+    all_positions = []
+    for category, (start_x, start_y, end_x, end_y) in GRID_BOUNDARIES.items():
+        for y in range(start_y, end_y + 1):
+            for x in range(start_x, end_x + 1):
+                all_positions.append((x, y, category))
     
-    print(f"Creating mosaic with dimensions: {cols}x{rows} tiles")
+    # Shuffle positions for variety
+    random.shuffle(all_positions)
+    print(f"Created {len(all_positions)} grid positions")
     
-    # Track tile usage to limit repetition
-    tile_usage_count = Counter()
-    output = []
-
-    # Process region by region
-    for row in range(rows):
-        for col in range(cols):
-            x, y = col * TILE_SIZE, row * TILE_SIZE
-            box = (x, y, x + TILE_SIZE, y + TILE_SIZE)
-            region = main_img.crop(box)
-            region_avg = average_grayscale(region)
-            region_color = compute_average_color(region)
-            
-            # Find matches not exceeding maximum usage
-            valid_matches = [t for t in tile_library 
-                           if tile_usage_count[t[0].get("Title", "")] < MAX_DUPLICATIONS]
-            
-            # If no valid matches, reset counters for the least used tiles
-            if not valid_matches:
-                print("⚠️ All tiles reached maximum usage, resetting least used tiles")
-                min_usage = min(tile_usage_count.values()) if tile_usage_count else 0
-                valid_matches = [t for t in tile_library 
-                               if tile_usage_count[t[0].get("Title", "")] == min_usage]
-            
-            # Find the best match
-            matched_entry, matched_img, _, medium_category = find_best_match(region_avg, valid_matches)
-            
-            # Update usage count
-            tile_usage_count[matched_entry.get("Title", "")] += 1
-            
-            # Get category color and apply colorization
-            base_color = [c * 255 for c in compute_average_color(region)]
-            medium_color = get_medium_color(medium_category, base_color)
-            
-            # Colorize the matched image
-            colorized_img = colorize_tile(matched_img, 
-                                       (int(medium_color[0]*255), 
-                                        int(medium_color[1]*255), 
-                                        int(medium_color[2]*255)), 
-                                       COLORIZATION_STRENGTH)
-            
-            # Save thumbnail
-            filename = os.path.basename(matched_entry.get("LocalPath", f"tile_{col}_{row}.jpg"))
-            thumb_path = os.path.join(THUMB_FOLDER, filename)
-            colorized_img.save(thumb_path)
-            
-            # Create tile record for JSON
-            tile_record = {
-                "pos": [col, row],
-                "url": os.path.join("thumbs", filename),
-                "Title": matched_entry.get("Title", ""),
-                "Artist": matched_entry.get("Artist", ""),
-                "Medium": matched_entry.get("Medium", ""),
-                "Date": matched_entry.get("Date", ""),
-                "color": medium_color,  # Use the medium-based color
-                "Medium_Category": medium_category  # Store the classified medium category
-            }
-            output.append(tile_record)
-
-    # Save the mosaic data to JSON
-    with open(MAP_JSON, "w", encoding="utf-8") as f:
-        json.dump({"images": output}, f, indent=2, ensure_ascii=False)
-
-    print(f"✅ Medium map saved to {MAP_JSON}")
+    # Calculate how many images we have in total and how many we need
+    total_available = sum(len(items) for items in items_by_category.values())
+    total_needed = len(all_positions)
+    print(f"Need {total_needed} images, have {total_available} unique images")
     
-    # Create a summary of medium categories used
-    medium_counts = Counter([tile["Medium_Category"] for tile in output])
-    print("\nMedium category distribution:")
-    for category, count in medium_counts.most_common():
-        print(f"  {category}: {count} tiles ({count/len(output)*100:.1f}%)")
+    # Generate positioned items for the final map
+    positioned_items = []
+    
+    # Fill every position with an artwork, duplicating if necessary
+    position_index = 0
+    for x, y, category in all_positions:
+        category_items = items_by_category[category]
+        
+        # Skip if category has no items at all
+        if not category_items:
+            continue
+        
+        # Select an artwork from this category (with wrapping)
+        item_index = position_index % len(category_items)
+        obj_id, item, year = category_items[item_index]
+        
+        # Add to positioned items
+        positioned_items.append((obj_id, item, x, y, year, category))
+        position_index += 1
+    
+    print(f"Positioned {len(positioned_items)} items in the grid")
+    
+    # Create category label images
+    print("Creating category label images")
+    for category in MEDIUM_CATEGORIES.keys():
+        label_img = create_category_label_image(category.title(), width=240, height=50)
+        label_filename = f"label_{category.replace(' ', '_')}.png"
+        cv2.imwrite(os.path.join(IMAGES_FOLDER, label_filename), label_img)
+    
+    # Process images and create tiles
+    tiles_info = []
+    
+    # Process in batches with progress reporting
+    batch_size = 100
+    total_items = len(positioned_items)
+    
+    for i in range(0, total_items, batch_size):
+        batch_end = min(i + batch_size, total_items)
+        print(f"Processing batch: {i} to {batch_end} of {total_items}")
+        
+        for j in range(i, batch_end):
+            obj_id, item, x_pos, y_pos, year, category = positioned_items[j]
+            
+            # Get local image path
+            local_image_path = item.get("LocalImagePath")
+            if not local_image_path or not os.path.exists(local_image_path):
+                continue
+            
+            # Create filenames based on grid position for uniqueness
+            image_filename = f"img_{x_pos}_{y_pos}.jpg"
+            thumb_filename = f"thumb_{x_pos}_{y_pos}.jpg"
+            
+            # Create relative paths for JSON
+            rel_image_path = os.path.join(MAP_NAME, "images", image_filename).replace('\\', '/')
+            rel_thumb_path = os.path.join(MAP_NAME, "thumbs", thumb_filename).replace('\\', '/')
+            
+            # Create absolute paths for file operations
+            abs_image_path = os.path.join(IMAGES_FOLDER, image_filename)
+            abs_thumb_path = os.path.join(THUMB_FOLDER, thumb_filename)
+            
+            try:
+                # Read the original image
+                image = cv2.imread(local_image_path)
+                if image is None:
+                    print(f"Failed to read image: {local_image_path}")
+                    continue
+                    
+                # Save a copy of the original to the images folder
+                cv2.imwrite(abs_image_path, image)
+                
+                # Create grayscale thumbnail
+                # Convert to grayscale first
+                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                gray_bgr = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+                
+                # Then resize
+                thumbnail = cv2.resize(gray_bgr, (64, 64))
+                
+                # Blend with hero image if available
+                if hero_image is not None:
+                    thumbnail = blend_with_hero_image(
+                        thumbnail, 
+                        hero_image, 
+                        HERO_OVERLAY_OPACITY,
+                        x_pos, y_pos, 
+                        GRID_WIDTH, GRID_HEIGHT
+                    )
+                
+                # Save thumbnail
+                cv2.imwrite(abs_thumb_path, thumbnail)
+                
+                # Add tile info
+                tile_data = {
+                    'thumbnail_url': rel_thumb_path,
+                    'url': rel_image_path,
+                    'pos': [x_pos, y_pos],
+                    'color': [0.8, 0.8, 0.8],  # Neutral gray
+                    'Category': category,
+                    'Year': year
+                }
+                
+                # Add metadata fields
+                for key in ["Title", "Artist", "Date", "Medium", "Classification", 
+                            "Dimensions", "Nationality", "ImageURL"]:
+                    tile_data[key] = item.get(key, "")
+                
+                tiles_info.append(tile_data)
+                
+            except Exception as e:
+                print(f"Error processing image {local_image_path}: {e}")
+    
+    print(f"Created {len(tiles_info)} tiles")
+    
+    # Create grid overlay data
+    grid_overlay = create_grid_overlay_data()
+    
+    # Combine tiles and grid overlay data
+    final_data = {
+        "tiles": tiles_info,
+        "grid_overlay": grid_overlay,
+        "dimensions": {
+            "width": GRID_WIDTH,
+            "height": GRID_HEIGHT
+        },
+        "ui_settings": {
+            "show_labels": True,
+            "label_shortcut_key": "L",
+            "grid_shortcut_key": "G",
+            "hero_image_path": HERO_IMAGE.replace('\\', '/'),
+            "hero_blend_factor": HERO_OVERLAY_OPACITY
+        }
+    }
+    
+    # Save the combined data to JSON
+    os.makedirs(os.path.dirname(MAP_JSON), exist_ok=True)
+    with open(MAP_JSON, "w") as f:
+        json.dump(final_data, f, indent=2)
+    
+    print(f"Saved tile data to {MAP_JSON}")
+    print("Done!")
 
 if __name__ == "__main__":
-    create_medium_map()
+    create_enhanced_medium_map()

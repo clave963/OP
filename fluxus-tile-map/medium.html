@@ -2,189 +2,387 @@
 <html lang="en-US">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fluxus Medium Mosaic Explorer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluxus Art by Medium - Mosaic Explorer</title>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "./modules/three/three.module.js",
-                "three/addons/": "./modules/three/addons/"
-            }
-        }
-    </script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./modules/three/three.module.js",
+        "three/addons/": "./modules/three/addons/"
+      }
+    }
+  </script>
+  
+  <!-- Original style sheets -->
+  <link rel="stylesheet" href="front.css">
+  
+  <!-- Enhanced UI stylesheet -->
+  <link rel="stylesheet" href="enhanced-ui.css">
+  
+  <!-- Minimal style overrides for medium page -->
+  <style>
+    /* Clean dark background */
+    body {
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+    }
     
-    <link rel="stylesheet" href="front.css">
+    /* Sleek sidebar with no bold colors */
+    #sidebar-panel {
+      background-color: rgba(12, 12, 14, 0.85);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.7);
+    }
     
-    <style>
-        /* Medium buttons style */
-        .medium-btn {
-            margin-right: 10px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .medium-btn.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .medium-btn.painting {
-            border-left: 4px solid rgb(0, 100, 255);
-        }
-        
-        .medium-btn.drawing {
-            border-left: 4px solid rgb(100, 150, 255);
-        }
-        
-        .medium-btn.print {
-            border-left: 4px solid rgb(200, 100, 0);
-        }
-        
-        .medium-btn.sculpture {
-            border-left: 4px solid rgb(50, 200, 50);
-        }
-        
-        .medium-btn.photograph {
-            border-left: 4px solid rgb(150, 50, 200);
-        }
-        
-        .medium-btn.mixed {
-            border-left: 4px solid rgb(200, 180, 0);
-        }
-    </style>
+    /* Modern buttons */
+    .sidebar-btn {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #e0e0e0;
+      border: none;
+      font-weight: normal;
+      border-left: 3px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-btn:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-left: 3px solid rgba(200, 200, 200, 0.5);
+      transform: translateX(3px);
+    }
+    
+    /* Toggle switches with subtle animation */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    
+    .toggle-switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    /* Toggle label styling */
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #e0e0e0;
+    }
+    
+    /* Make viewport take up more space */
+    #viewport {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: calc(100% - 320px);
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+    
+    /* Cleaner info panel */
+    #info_div.show-info {
+      background-color: rgba(12, 12, 14, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Clean tooltips */
+    #visibility-notification {
+      background-color: rgba(12, 12, 14, 0.9);
+      color: #e0e0e0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Hero image section styling */
+    #hero-image-section {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      border-left: 3px solid rgba(200, 200, 200, 0.3);
+    }
+    
+    /* Keyboard shortcuts styling */
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    
+    .key {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      min-width: 25px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Loading animation */
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Enhanced navbar */
+    .navbar {
+      background-color: rgba(12, 12, 14, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.4);
+    }
+  </style>
+  
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap">
 </head>
  
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
-        <div class="nav-subtitle">Mediums Visualization</div>
-        <div class="nav-links">
-            <a href="front.html" class="nav-link">Timeline</a>
-            <a href="medium.html" class="nav-link active">Mediums</a>
-            <a href="about.html" class="nav-link">About</a>
-        </div>
-    </nav>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
+    <div class="nav-links">
+      <a href="front.html" class="nav-link">Chronological</a>
+      <a href="medium.html" class="nav-link active">By Medium</a>
+      <a href="about.html" class="nav-link">About</a>
+    </div>
+  </nav>
+  
+  <!-- Loading overlay with spinner -->
+  <div id="loading-overlay">
+    <div class="loader"></div>
+    <p>Loading Medium Mosaic...</p>
+  </div>
+  
+  <!-- Sidebar panel with controls -->
+  <div id="sidebar-panel">
+    <h2>Medium Categories</h2>
     
-    <!-- Loading overlay with spinner -->
-    <div id="loading-overlay">
-        <div class="loader"></div>
-        <p>Loading Fluxus Medium Mosaic...</p>
+    <button id="reset-view-btn" class="sidebar-btn">
+      <i class="icon">⟲</i> Reset View
+    </button>
+    
+    <button id="fullscreen-toggle-btn" class="sidebar-btn">
+      <i class="icon">👁️</i> Toggle UI (F)
+    </button>
+    
+    <div class="section-divider"></div>
+    
+    <div id="medium-controls">
+      <label class="toggle-label">
+        <span class="toggle-switch">
+          <input type="checkbox" id="grid-toggle" checked>
+          <span class="slider"></span>
+        </span>
+        Show Grid Lines
+      </label>
+      
+      <label class="toggle-label">
+        <span class="toggle-switch">
+          <input type="checkbox" id="labels-toggle" checked>
+          <span class="slider"></span>
+        </span>
+        Show Category Labels
+      </label>
+      
+      <label class="toggle-label">
+        <span class="toggle-switch">
+          <input type="checkbox" id="hero-toggle" checked>
+          <span class="slider"></span>
+        </span>
+        Enhance Hero Image
+      </label>
     </div>
     
-    <div id="control-bar">
-        <button id="help-btn" class="control-btn">How to Use</button>
-        <button id="reset-view-btn" class="control-btn">Reset View</button>
-        <div class="medium-buttons">
-            <button class="medium-btn active" data-medium="all">All Mediums</button>
-            <button class="medium-btn painting" data-medium="painting">Painting</button>
-            <button class="medium-btn drawing" data-medium="drawing">Drawing</button>
-            <button class="medium-btn print" data-medium="print">Print</button>
-            <button class="medium-btn sculpture" data-medium="sculpture">Sculpture</button>
-            <button class="medium-btn photograph" data-medium="photograph">Photography</button>
-            <button class="medium-btn mixed" data-medium="mixed">Mixed Media</button>
-        </div>
+    <div class="section-divider"></div>
+    
+    <div id="hero-image-section">
+      <h3>About This View</h3>
+      <div id="hero-description">
+        This visualization organizes the Fluxus collection by medium, blended with Mieko Shiomi's "Disappearing Music for Face" (1966), a Fluxus film that captures a smile slowly fading to a neutral expression. The collection is divided into six quadrants: painting, drawing, print, sculpture, photograph, and mixed media.
+      </div>
     </div>
     
-    <!-- Main viewport container -->
-    <div id="main">
-        <div id="viewport"></div>               
+    <div id="keyboard-shortcuts">
+      <h3>Keyboard Controls</h3>
+      <div class="shortcut-item">
+        <span>Toggle UI</span>
+        <span class="key">F</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Toggle Grid</span>
+        <span class="key" id="grid-key">G</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Toggle Labels</span>
+        <span class="key" id="label-key">L</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Reset View</span>
+        <span class="key">R</span>
+      </div>
+      <div class="shortcut-item">
+        <span>Close Popups</span>
+        <span class="key">ESC</span>
+      </div>
     </div>
-    
-    <!-- Info panel for image details -->
-    <div id="info_div"></div>
-    
-    <!-- Help modal -->
-    <div id="help-modal">
-        <div id="help-content">
-            <button id="help-close">&times;</button>
-            <h2>How to Use the Fluxus Medium Mosaic</h2>
-            <p>This interactive visualization displays artworks from the Fluxus movement organized by artistic medium.</p>
-            
-            <h3>Navigation:</h3>
-            <ul>
-                <li><strong>Pan:</strong> Click and drag to move around the mosaic</li>
-                <li><strong>Zoom:</strong> Use mouse wheel to zoom in/out</li>
-                <li><strong>Select Image:</strong> Click on any artwork to view its details</li>
-                <li><strong>Reset View:</strong> Click the Reset View button to return to the default view</li>
-            </ul>
-            
-            <h3>Medium Filters:</h3>
-            <ul>
-                <li><strong>All:</strong> View all mediums</li>
-                <li><strong>Painting:</strong> Oil, acrylic, and other paint mediums</li>
-                <li><strong>Drawing:</strong> Pencil, ink, charcoal works</li>
-                <li><strong>Print:</strong> Lithographs, etchings, and other print works</li>
-                <li><strong>Sculpture:</strong> Three-dimensional works</li>
-                <li><strong>Photography:</strong> Photos, films, and video documentation</li>
-                <li><strong>Mixed Media:</strong> Books, collages, and combined techniques</li>
-            </ul>
-        </div>
-    </div>
-    
-    <script src="medium.js" type="module"></script>
-    <script>
-        // Set up UI controls
-        document.addEventListener('DOMContentLoaded', function() {
-            // Help modal
-            const helpBtn = document.getElementById('help-btn');
-            const helpModal = document.getElementById('help-modal');
-            const helpClose = document.getElementById('help-close');
-            
-            if (helpBtn && helpModal) {
-                helpBtn.addEventListener('click', function() {
-                    helpModal.style.display = 'flex';
-                });
-            }
-            
-            if (helpClose && helpModal) {
-                helpClose.addEventListener('click', function() {
-                    helpModal.style.display = 'none';
-                });
-                
-                helpModal.addEventListener('click', function(e) {
-                    if (e.target === helpModal) {
-                        helpModal.style.display = 'none';
-                    }
-                });
-            }
-            
-            // Reset view button
-            const resetViewBtn = document.getElementById('reset-view-btn');
-            if (resetViewBtn && window.resetView) {
-                resetViewBtn.addEventListener('click', window.resetView);
-            }
-            
-            // Medium filter buttons
-            const mediumButtons = document.querySelectorAll('.medium-btn');
-            mediumButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    mediumButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const medium = this.dataset.medium;
-                    if (window.filterByMedium) {
-                        window.filterByMedium(medium);
-                    }
-                });
-            });
-            
-            // Hide loading overlay after a delay
-            setTimeout(function() {
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if (loadingOverlay) {
-                    loadingOverlay.style.opacity = '0';
-                    loadingOverlay.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                    }, 500);
-                }
-            }, 3000);
+  </div>
+  
+  <!-- Fullscreen notification -->
+  <div id="fullscreen-notification" class="fullscreen-notification">
+    Press F to return to normal view
+  </div>
+  
+  <!-- Visibility notification for toggle actions -->
+  <div id="visibility-notification"></div>
+  
+  <!-- Main viewport container -->
+  <div id="main">
+    <div id="viewport"></div>               
+  </div>
+  
+  <!-- Info panel for image details -->
+  <div id="info_div"></div>
+  
+  <!-- Core scripts -->
+  <script src="medium.js" type="module"></script>
+  
+  <!-- Enhanced UI script -->
+  <script src="enhanced-ui.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Grid toggle
+      const gridToggle = document.getElementById('grid-toggle');
+      if (gridToggle) {
+        gridToggle.addEventListener('change', function() {
+          if (window.toggleGridVisibility) {
+            window.toggleGridVisibility(this.checked);
+          }
         });
-    </script>
+      }
+      
+      // Labels toggle
+      const labelsToggle = document.getElementById('labels-toggle');
+      if (labelsToggle) {
+        labelsToggle.addEventListener('change', function() {
+          if (window.toggleLabelVisibility) {
+            window.toggleLabelVisibility(this.checked);
+          }
+        });
+      }
+      
+      // Hero image toggle
+      const heroToggle = document.getElementById('hero-toggle');
+      if (heroToggle) {
+        heroToggle.addEventListener('change', function() {
+          if (window.toggleHeroVisibility) {
+            window.toggleHeroVisibility(this.checked);
+          } else {
+            // Fallback if function not available
+            const message = this.checked ? "Hero image enhanced" : "Hero image effect disabled";
+            const notification = document.getElementById('visibility-notification');
+            if (notification) {
+              notification.textContent = message;
+              notification.style.opacity = '1';
+              setTimeout(() => {
+                notification.style.opacity = '0';
+              }, 2000);
+            }
+          }
+        });
+      }
+      
+      // Reset view button
+      const resetViewBtn = document.getElementById('reset-view-btn');
+      if (resetViewBtn) {
+        resetViewBtn.addEventListener('click', function() {
+          if (window.resetView) {
+            window.resetView();
+          }
+        });
+      }
+      
+      // Fullscreen toggle button
+      const fullscreenToggleBtn = document.getElementById('fullscreen-toggle-btn');
+      if (fullscreenToggleBtn) {
+        fullscreenToggleBtn.addEventListener('click', function() {
+          if (window.toggleUIVisibility) {
+            window.toggleUIVisibility();
+          }
+        });
+      }
+      
+      // Hide loading overlay after delay
+      setTimeout(function() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (loadingOverlay) {
+          loadingOverlay.style.opacity = '0';
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 500);
+        }
+      }, 1000);
+    });
+  </script>
 </body>
 </html>

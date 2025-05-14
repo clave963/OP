@@ -16,7 +16,13 @@ METADATA = json.load(open("fluxus_metadata.json"))
 
 # Load pre-computed tiles for different mosaics
 CHRONOLOGICAL_TILES = json.load(open("map_1/tiles.json", "r"))  # Original tiles
-MEDIUM_TILES = json.load(open("medium_map/tiles.json", "r"))    # New medium-based tiles
+
+# Load medium tiles if the file exists, otherwise create an empty dict
+try:
+    MEDIUM_TILES = json.load(open("medium_map/tiles.json", "r"))    # New medium-based tiles
+except FileNotFoundError:
+    print("Warning: medium_map/tiles.json not found. Medium view will not work properly until you generate the file.")
+    MEDIUM_TILES = {"tiles": [], "dimensions": {"width": 0, "height": 0}, "grid_overlay": {"categories": []}}
 
 @app.route('/random-images', methods=['POST'])
 def get_random_images():
@@ -29,8 +35,8 @@ def get_random_images():
 @app.route('/medium-images', methods=['POST'])
 def get_medium_images():
     try:
-        # New endpoint for medium-based mosaic
-        return jsonify({"images": MEDIUM_TILES})
+        # Return the medium-based tiles
+        return jsonify(MEDIUM_TILES)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
@@ -40,7 +46,7 @@ def serve_index():
 
 @app.route('/medium')
 def serve_medium():
-    return send_from_directory('.', 'medium.html')  # New route for medium page
+    return send_from_directory('.', 'medium.html')  # Route for medium page
 
 @app.route('/<path:path>')
 def serve_static(path):
