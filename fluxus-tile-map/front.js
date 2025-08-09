@@ -215,7 +215,7 @@ function onWindowResize(){
 window.addEventListener('resize', onWindowResize, false);
 onWindowResize();
 
-// Function to center the camera on the grid
+// 1. FIX INITIAL CAMERA ZOOM - Replace your centerCameraOnGrid function
 function centerCameraOnGrid() {
     // Calculate the center and extent of the grid
     const gridWidth = tiles_x * sprite_size;
@@ -230,25 +230,25 @@ function centerCameraOnGrid() {
     // Set proper camera orientation
     camera.up.set(0, 0, -1);
     
-    // Adjust frustum size to ensure the entire grid is visible
-    // with less background space (smaller margin)
-    const requiredWidth = gridWidth * 1.05;  // Reduced from 1.2 to 1.05 for tighter view
-    const requiredHeight = gridHeight * 1.05; // Reduced from 1.2 to 1.05
+    // FIXED: More zoomed out initial view with larger margin
+    const requiredWidth = gridWidth * 1.3;   // Increased from 1.05 to 1.3
+    const requiredHeight = gridHeight * 1.3; // Increased from 1.05 to 1.3
     
     // Get current aspect ratio
     const w = viewport_div.clientWidth;
     const h = viewport_div.clientHeight;
     const aspect = w / h;
     
-    // Calculate new frustum size to fit the grid
+    // Calculate new frustum size to fit the grid with more breathing room
     let newFrustumSize;
     if (requiredWidth / aspect > requiredHeight) {
-        // Width is the constraining dimension
         newFrustumSize = requiredWidth / aspect;
     } else {
-        // Height is the constraining dimension
         newFrustumSize = requiredHeight;
     }
+    
+    // Add extra zoom out buffer
+    newFrustumSize *= 1.2; // 20% more zoom out
     
     // Update camera frustum
     camera.left = -newFrustumSize * aspect / 2;
@@ -261,10 +261,50 @@ function centerCameraOnGrid() {
     controls.target.set(centerX, 0, centerZ);
     controls.update();
 }
+// 2. FIX F KEY TOGGLE - Add proper UI toggle function
+let uiVisible = true;
+let sidebarVisible = true;
 
-// Function to create a year ruler along the Y-axis
+function toggleUIElements() {
+    uiVisible = !uiVisible;
+    
+    const elementsToToggle = [
+        document.querySelector('.navbar'),
+        document.getElementById('sidebar-panel')
+    ];
+    
+    elementsToToggle.forEach(element => {
+        if (element) {
+            element.style.display = uiVisible ? '' : 'none';
+        }
+    });
+    
+    // Update main area to use full space when UI is hidden
+    const main = document.getElementById('main');
+    if (main) {
+        if (uiVisible) {
+            main.style.top = '60px';
+            main.style.right = sidebarVisible ? '320px' : '0';
+        } else {
+            main.style.top = '0';
+            main.style.right = '0';
+        }
+    }
+    
+    // Show/hide fullscreen notification
+    const notification = document.getElementById('fullscreen-notification');
+    if (notification) {
+        notification.classList.toggle('visible', !uiVisible);
+    }
+    
+    // Trigger resize to adjust canvas
+    setTimeout(() => {
+        onWindowResize();
+    }, 100);
+}
+
+// 4. IMPROVED RULER CREATION - Replace your createYearRuler function
 function createYearRuler() {
-    // Updated year range from 1955 to 2000
     const YEAR_MIN_DISPLAY = 1955;
     const YEAR_MAX_DISPLAY = 2000;
     const years = [];
@@ -273,118 +313,95 @@ function createYearRuler() {
         years.push(year);
     }
     
-    // Create a group to hold all ruler elements
     const rulerGroup = new THREE.Group();
     
-    // Calculate grid dimensions precisely
     const gridWidth = tiles_x * sprite_size;
     const gridHeight = tiles_y * sprite_size;
     
-    // Position the ruler on the left edge with more space for labels
-    const rulerX = -30; // Moved further left
+    // FIXED: Move ruler further left to avoid covering image
+    const rulerX = -50; // Moved from -30 to -50
     const rulerOffsetX = 20;
     
-    // Create semi-transparent background panel for the ruler
-    const panelGeometry = new THREE.PlaneGeometry(90, gridHeight); // Wider panel to accommodate labels
+    // FIXED: Smaller, more positioned background panel
+    const panelGeometry = new THREE.PlaneGeometry(70, gridHeight); // Narrower panel
     const panelMaterial = new THREE.MeshBasicMaterial({
         color: 0x000000,
         transparent: true,
-        opacity: 0.6,
+        opacity: 0.4, // Less opaque
         side: THREE.DoubleSide
     });
     const panel = new THREE.Mesh(panelGeometry, panelMaterial);
-    panel.position.set(rulerX + rulerOffsetX - 25, 1, gridHeight / 2);
+    panel.position.set(rulerX + rulerOffsetX - 35, 0.5, gridHeight / 2); // Lower Y position
     panel.rotation.x = Math.PI / 2;
     rulerGroup.add(panel);
     
-    // Create thicker ruler line with exact grid height
+    // Create ruler line
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = new Float32Array([
-        rulerX + rulerOffsetX, 1, 0,
-        rulerX + rulerOffsetX, 1, gridHeight
+        rulerX + rulerOffsetX, 2, 0, // Higher Y position
+        rulerX + rulerOffsetX, 2, gridHeight
     ]);
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
     const lineMaterial = new THREE.LineBasicMaterial({ 
         color: 0xffffff, 
-        linewidth: 5,
+        linewidth: 3,
         transparent: false,
         opacity: 1.0
     });
     const rulerLine = new THREE.Line(lineGeometry, lineMaterial);
     rulerGroup.add(rulerLine);
     
-    // Define key years to display (based on your new 1955-2000 range)
-    const selectedYears = [
-        1955, // Start year
-        1960,
-        1965,
-        1970,
-        1975,
-        1980,
-        1985,
-        1990,
-        1995,
-        2000  // End year
-    ];
+    const selectedYears = [1955, 1960, 1965, 1970, 1975, 1980, 1985, 1990, 1995, 2000];
     
-    // Map years to positions exactly matching grid height
     selectedYears.forEach((year) => {
-        // Normalize position between 0 and 1
         const normalizedPos = 1 - ((year - YEAR_MIN_DISPLAY) / (YEAR_MAX_DISPLAY - YEAR_MIN_DISPLAY));
-        // Map to grid height
         const zPos = normalizedPos * gridHeight;
         
-        // Skip if outside grid
-        if (zPos < 0 || zPos > gridHeight) {
-            return;
-        }
+        if (zPos < 0 || zPos > gridHeight) return;
         
-        // Create thicker tick mark
-        const tickWidth = 20;
+        // Create tick mark
+        const tickWidth = 15;
         const tickGeometry = new THREE.BufferGeometry();
         const tickPositions = new Float32Array([
-            rulerX + rulerOffsetX, 1, zPos,
-            rulerX + rulerOffsetX - tickWidth, 1, zPos
+            rulerX + rulerOffsetX, 2, zPos,
+            rulerX + rulerOffsetX - tickWidth, 2, zPos
         ]);
         tickGeometry.setAttribute('position', new THREE.BufferAttribute(tickPositions, 3));
         const tickMaterial = new THREE.LineBasicMaterial({
             color: 0xffffff,
-            linewidth: 3,
+            linewidth: 2,
             transparent: false,
             opacity: 1.0
         });
         const tickLine = new THREE.Line(tickGeometry, tickMaterial);
         rulerGroup.add(tickLine);
         
-        // Add year label with better background and position
-        // Move year labels further left to avoid overlap
-        const yearLabel = createTextSprite(year.toString(), 45, 'rgba(255,255,255,1.0)', 'rgba(0,0,0,0.7)');
-        yearLabel.position.set(rulerX + rulerOffsetX - tickWidth - 25, 1, zPos); // Further left
+        // FIXED: Year labels with higher Z position to avoid flickering
+        const yearLabel = createTextSprite(year.toString(), 40, 'rgba(255,255,255,1.0)', 'rgba(0,0,0,0.8)');
+        yearLabel.position.set(rulerX + rulerOffsetX - tickWidth - 20, 3, zPos); // Higher Y position
         rulerGroup.add(yearLabel);
         
-        // Add era labels based on year - positioned to the left side
-        // Only add era labels at key years and positioned well away from year numbers
+        // Era labels positioned better
         let eraLabel;
         if (year === 1960) {
-            eraLabel = createTextSprite("Early Fluxus", 40, 'rgba(235,235,235,1.0)', 'rgba(20,20,20,0.7)');
-            eraLabel.position.set(rulerX - 90, 1, zPos - 15); // Offset vertically
+            eraLabel = createTextSprite("Early Fluxus", 35, 'rgba(235,235,235,1.0)', 'rgba(20,20,20,0.9)');
+            eraLabel.position.set(rulerX - 80, 3, zPos - 10);
             rulerGroup.add(eraLabel);
         } else if (year === 1970) {
-            eraLabel = createTextSprite("Core Fluxus", 40, 'rgba(255,220,180,1.0)', 'rgba(20,20,20,0.7)');
-            eraLabel.position.set(rulerX - 90, 1, zPos - 50); // Offset vertically
+            eraLabel = createTextSprite("Core Fluxus", 35, 'rgba(255,220,180,1.0)', 'rgba(20,20,20,0.9)');
+            eraLabel.position.set(rulerX - 80, 3, zPos - 40);
             rulerGroup.add(eraLabel);
         } else if (year === 1980) {
-            eraLabel = createTextSprite("Late Fluxus", 40, 'rgba(255,180,180,1.0)', 'rgba(20,20,20,0.7)');
-            eraLabel.position.set(rulerX - 90, 1, zPos - 95); // Offset vertically
+            eraLabel = createTextSprite("Late Fluxus", 35, 'rgba(255,180,180,1.0)', 'rgba(20,20,20,0.9)');
+            eraLabel.position.set(rulerX - 80, 3, zPos - 80);
             rulerGroup.add(eraLabel);
         }
     });
     
-    // Add shorter but more visible horizontal tick lines at regular intervals
-    for (let i = 0; i < 45; i++) { // More tick marks for extended range
+    // Minor ticks
+    for (let i = 0; i < 45; i++) {
         const zPos = (i / 45) * gridHeight;
         
-        // Skip positions where we already have major ticks
         if (selectedYears.some(year => {
             const yearPos = (1 - ((year - YEAR_MIN_DISPLAY) / (YEAR_MAX_DISPLAY - YEAR_MIN_DISPLAY))) * gridHeight;
             return Math.abs(yearPos - zPos) < 3;
@@ -392,32 +409,32 @@ function createYearRuler() {
             continue;
         }
         
-        // Create minor tick with improved visibility
-        const minorTickWidth = 10;
+        const minorTickWidth = 8;
         const tickGeometry = new THREE.BufferGeometry();
         const tickPositions = new Float32Array([
-            rulerX + rulerOffsetX, 1, zPos,
-            rulerX + rulerOffsetX - minorTickWidth, 1, zPos
+            rulerX + rulerOffsetX, 2, zPos,
+            rulerX + rulerOffsetX - minorTickWidth, 2, zPos
         ]);
         tickGeometry.setAttribute('position', new THREE.BufferAttribute(tickPositions, 3));
         const minorTickMaterial = new THREE.LineBasicMaterial({ 
             color: 0xcccccc, 
             transparent: true,
-            opacity: 0.8
+            opacity: 0.6
         });
         const tickLine = new THREE.Line(tickGeometry, minorTickMaterial);
         rulerGroup.add(tickLine);
     }
     
-    // Add "YEAR" title at the top with better visibility
-    const rulerTitle = createTextSprite('YEAR', 50, 'rgba(255,255,255,1.0)', 'rgba(0,0,0,0.8)');
-    rulerTitle.position.set(rulerX + rulerOffsetX - 10, 1, gridHeight + 20); // Moved up and left
+    // FIXED: YEAR title with higher position
+    const rulerTitle = createTextSprite('YEAR', 45, 'rgba(255,255,255,1.0)', 'rgba(0,0,0,0.9)');
+    rulerTitle.position.set(rulerX + rulerOffsetX - 5, 3, gridHeight + 25);
     rulerGroup.add(rulerTitle);
     
     scene.add(rulerGroup);
     rulerGroup.visible = rulerVisible;
     return rulerGroup;
 }
+
 
 // Function to wait for images to load before centering
 function waitForImagesAndCenter() {
@@ -439,31 +456,29 @@ function waitForImagesAndCenter() {
 }
 
 //______________________________Create a sprite from the received json data
-// Improved text sprite function with more appropriate sizing
-function createTextSprite(text, fontSize = 48, color = 'rgba(255,255,255,1.0)', bgColor = 'rgba(0,0,0,0.7)', widthMultiplier = 1.0) {
+// 7. IMPROVED TEXT SPRITE CREATION - Replace your createTextSprite function
+function createTextSprite(text, fontSize = 48, color = 'rgba(255,255,255,1.0)', bgColor = 'rgba(0,0,0,0.8)', widthMultiplier = 1.0) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     
-    // Determine if this is a year label or era label
     const isYearLabel = !isNaN(parseInt(text));
-    const padding = isYearLabel ? 8 : 16;
-    const effectiveFontSize = isYearLabel ? fontSize * 0.8 : fontSize;
+    const padding = isYearLabel ? 6 : 12;
+    const effectiveFontSize = isYearLabel ? fontSize * 0.9 : fontSize;
     
-    // Estimate text width
+    // Better text measurement
     context.font = `Bold ${effectiveFontSize}px Arial`;
     const textMetrics = context.measureText(text);
-    const textWidth = textMetrics.width + padding * 2;
+    const textWidth = Math.ceil(textMetrics.width) + padding * 2;
     
-    // Apply width multiplier for wider backgrounds
     const calculatedWidth = isYearLabel ? textWidth : textWidth * widthMultiplier;
     
     canvas.width = calculatedWidth;
     canvas.height = effectiveFontSize + padding * 2;
     
-    // Draw rounded rectangle background
+    // FIXED: Better background with stronger opacity
     if (bgColor) {
         context.fillStyle = bgColor;
-        const cornerRadius = 8; // Rounded corners
+        const cornerRadius = 6;
         
         context.beginPath();
         context.moveTo(cornerRadius, 0);
@@ -479,30 +494,31 @@ function createTextSprite(text, fontSize = 48, color = 'rgba(255,255,255,1.0)', 
         context.fill();
     }
     
-    // Text with better shadow for improved legibility
+    // FIXED: Stronger text rendering
     context.fillStyle = color;
     context.font = `Bold ${effectiveFontSize}px Arial`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.shadowColor = 'rgba(0,0,0,0.7)';
-    context.shadowBlur = 4;
+    context.shadowColor = 'rgba(0,0,0,0.9)';
+    context.shadowBlur = 2;
     context.shadowOffsetX = 1;
     context.shadowOffsetY = 1;
     context.fillText(text, canvas.width/2, canvas.height/2);
     
     const texture = new THREE.CanvasTexture(canvas);
     texture.minFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false; // Prevent flickering
     
     const spriteMaterial = new THREE.SpriteMaterial({ 
         map: texture,
-        transparent: true
+        transparent: true,
+        alphaTest: 0.1 // Prevent flickering
     });
     
     const sprite = new THREE.Sprite(spriteMaterial);
     
-    // Scale based on canvas aspect ratio and type
     const aspectRatio = canvas.width / canvas.height;
-    const scale = isYearLabel ? 16 : 20;
+    const scale = isYearLabel ? 14 : 18;
     sprite.scale.set(scale * aspectRatio, scale, 1);
     return sprite;
 }
@@ -771,32 +787,79 @@ function zoomOut() {
     controls.update();
 }
 
-// Function to reset view to initial position
+// 3. FIX RESET VIEW - Replace your resetView function
 function resetView() {
+    // Reset camera zoom
+    controls.zoom = 1;
+    
+    // Recenter and zoom out the camera
     centerCameraOnGrid();
+    
+    // Reset any sprite selections
+    if (selected_sprite) {
+        const prev = selected_sprite.image_info;
+        selected_sprite.material.color.set(prev.color[0], prev.color[1], prev.color[2]);
+        selected_sprite.scale.set(sprite_size, sprite_size, 1);
+        selected_sprite = null;
+    }
+    
+    // Hide info panel
+    const info_div = document.getElementById('info_div');
+    if (info_div) {
+        info_div.classList.remove('visible', 'show-info');
+        info_div.innerHTML = '';
+    }
+    
+    // Reset era filters to "all"
+    const eraButtons = document.querySelectorAll('.era-btn');
+    eraButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.era === 'all') {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Reset sprite filtering
+    filterByEra('all');
+    
+    console.log('View reset to default zoomed-out position');
 }
 
-// Add this event listener to handle keyboard events
+
+// 5. UPDATED KEYBOARD HANDLER - Replace your existing keyboard event listener
 document.addEventListener('keydown', function(event) {
-    // Check if the key pressed is 'T' or 't'
+    // Prevent default behavior for our keys
+    if (['t', 'T', 'f', 'F', 'r', 'R'].includes(event.key)) {
+        event.preventDefault();
+    }
+    
     if (event.key === 't' || event.key === 'T') {
         // Toggle ruler visibility
         rulerVisible = !rulerVisible;
-        
-        // Update ruler visibility if it exists
         if (yearRuler) {
             yearRuler.visible = rulerVisible;
         }
-        
         console.log(`Ruler visibility: ${rulerVisible ? 'visible' : 'hidden'}`);
+    }
+    
+    // FIXED: F key only toggles UI, doesn't affect camera
+    if (event.key === 'f' || event.key === 'F') {
+        toggleUIElements();
+    }
+    
+    // FIXED: R key resets view properly
+    if (event.key === 'r' || event.key === 'R') {
+        resetView();
     }
 });
 
-// Make these functions available to the HTML
+// 6. UPDATE WINDOW FUNCTIONS - Replace your window assignments
 window.filterByEra = filterByEra;
 window.zoomIn = zoomIn;
 window.zoomOut = zoomOut;
 window.resetView = resetView;
+window.toggleUIElements = toggleUIElements; // Add this line
+
 
 // Signal when images are loaded (for loading screen)
 // function waitForImagesAndCenter() {

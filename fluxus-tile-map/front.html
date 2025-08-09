@@ -19,23 +19,51 @@
   <link rel="stylesheet" href="front.css">
   
   <!-- Enhanced UI stylesheet -->
-  <link rel="stylesheet" href="enhanced-ui.css">
+  <!-- <link rel="stylesheet" href="enhanced-ui.css"> -->
+  <link rel="stylesheet" href="enhanced-design-system.css">
   
   <!-- Google Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&display=swap">
+  
+  <!-- Enhanced styling for the medium view button -->
+  <style>
+  #medium-view-btn {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: #ffffff !important;
+    border: 1px solid var(--color-accent);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  #medium-view-btn:hover {
+    background: linear-gradient(135deg, var(--color-accent-hover), #004499);
+    transform: translateX(3px);
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+  }
+
+  #medium-view-btn::before {
+    content: '🎨';
+    margin-right: 8px;
+  }
+  </style>
 </head>
  
 <body>
   <!-- Navigation Bar -->
+<!-- Enhanced Navigation Bar -->
   <nav class="navbar">
-    <a href="front.html" class="nav-logo">Fluxus Mosaic</a>
-    <div class="nav-subtitle">Interactive Timeline Visualization (1953-2000)</div>
+    <a href="index.html" class="nav-logo">MoMA</a>
+    <div class="nav-subtitle">Fluxus Mosaic - Interactive Timeline Visualization (1953-2000)</div>
     <div class="nav-links">
-      <a href="front.html" class="nav-link active">Visualization</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="front.html" class="nav-link active">Chronological</a>
+      <a href="medium.html" class="nav-link">By Medium</a>
       <a href="about.html" class="nav-link">About</a>
+      <!-- Removed tickets button -->
     </div>
   </nav>
-  
+ 
   <!-- Loading overlay with spinner -->
   <div id="loading-overlay">
     <div class="loader"></div>
@@ -43,73 +71,117 @@
   </div>
   
   <!-- Sidebar panel with controls -->
-  <div id="sidebar-panel">
-    <h2>Fluxus Mosaic Explorer</h2>
-    <p>This interactive visualization displays Fluxus movement artworks (1953-2000), arranged chronologically from bottom to top. Use the controls below to explore the collection.</p>
-    
-    <button id="reset-view-btn" class="sidebar-btn">
-      <i class="icon">⟲</i> Reset View
-    </button>
-    <button id="toggle-ruler-btn" class="sidebar-btn">
-      <i class="icon">⊞</i> Toggle Year Ruler
-    </button>
-    <button id="save-canvas-btn" class="sidebar-btn">
-      <i class="icon">💾</i> Save Current View
-    </button>
-    <button id="fullscreen-toggle-btn" class="sidebar-btn">
-      <i class="icon">👁️</i> Toggle UI Elements (F)
-    </button>
-    <button id="help-btn" class="sidebar-btn">
-      <i class="icon">❓</i> How to Use
-    </button>
-    
-    <div class="section-divider"></div>
-    
-    <h3>Era Filters</h3>
-    <div class="era-buttons">
-      <button class="era-btn active" data-era="all">All Eras</button>
-      <button class="era-btn" data-era="early">Early Fluxus (1953-1963)</button>
-      <button class="era-btn" data-era="middle">Core Fluxus (1964-1973)</button>
-      <button class="era-btn" data-era="late">Late Fluxus (1974-1984)</button>
-    </div>
-    
-    <div class="section-divider"></div>
-    
-    <div id="hero-image-section">
-      <h3>About the Hero Image</h3>
-      <div id="hero-description">
-        This mosaic is arranged over Mieko Shiomi's "Disappearing Music for Face" (1966), a Fluxus film study of a smile slowly transforming into a neutral expression. The work explores the subtle transitions of facial expression over time, reflecting Fluxus interests in everyday gestures and time-based art.
-      </div>
-    </div>
-    
-    <div id="keyboard-shortcuts">
-      <h3>Keyboard Shortcuts</h3>
-      <div class="shortcut-item">
-        <span>Toggle Ruler</span>
-        <span class="key">T</span>
-      </div>
-      <div class="shortcut-item">
-        <span>Toggle UI Elements</span>
-        <span class="key">F</span>
-      </div>
-      <div class="shortcut-item">
-        <span>Reset View</span>
-        <span class="key">R</span>
-      </div>
-      <div class="shortcut-item">
-        <span>Close Popups</span>
-        <span class="key">ESC</span>
-      </div>
+  <!-- Replace your sidebar buttons in front.html with these -->
+<div id="sidebar-panel">
+  <h2>Fluxus Mosaic Explorer</h2>
+  <p>This interactive visualization displays Fluxus movement artworks (1953-2000), arranged chronologically from bottom to top. Use the controls below to explore the collection.</p>
+  
+  <button id="reset-view-btn" class="sidebar-btn">
+    Reset View
+  </button>
+  <button id="toggle-ruler-btn" class="sidebar-btn">
+    Toggle Year Ruler
+  </button>
+  <button id="save-canvas-btn" class="sidebar-btn">
+    Save Current View
+  </button>
+  <button id="fullscreen-toggle-btn" class="sidebar-btn">
+    Toggle UI Elements (F)
+  </button>
+  <button id="help-btn" class="sidebar-btn">
+    How to Use
+  </button>
+  
+  <!-- NEW MEDIUM VIEW BUTTON -->
+  <button id="medium-view-btn" class="sidebar-btn">
+    View by Medium
+  </button>
+  
+  <div class="section-divider"></div>
+  
+  <h3>Era Filters</h3>
+  <div class="era-buttons">
+    <button class="era-btn active" data-era="all">All Eras</button>
+    <button class="era-btn" data-era="early">Early Fluxus (1953-1963)</button>
+    <button class="era-btn" data-era="middle">Core Fluxus (1964-1973)</button>
+    <button class="era-btn" data-era="late">Late Fluxus (1974-1984)</button>
+  </div>
+  
+  <div class="section-divider"></div>
+  
+  <div id="hero-image-section">
+    <h3>About the Hero Image</h3>
+    <div id="hero-description">
+      This mosaic is arranged over Mieko Shiomi's "Disappearing Music for Face" (1966), a Fluxus film study of a smile slowly transforming into a neutral expression. The work explores the subtle transitions of facial expression over time, reflecting Fluxus interests in everyday gestures and time-based art.
     </div>
   </div>
   
+  <div id="keyboard-shortcuts">
+    <h3>Keyboard Shortcuts</h3>
+    <div class="shortcut-item">
+      <span>Toggle Ruler</span>
+      <span class="key">T</span>
+    </div>
+    <div class="shortcut-item">
+      <span>Toggle UI Elements</span>
+      <span class="key">F</span>
+    </div>
+    <div class="shortcut-item">
+      <span>Reset View</span>
+      <span class="key">R</span>
+    </div>
+    <div class="shortcut-item">
+      <span>Close Popups</span>
+      <span class="key">ESC</span>
+    </div>
+  </div>
+</div>
+
+<!-- UPDATED JavaScript to wire up the buttons -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Reset View button
+  document.getElementById('reset-view-btn')?.addEventListener('click', function() {
+    if (window.resetView) {
+      window.resetView();
+    }
+  });
+  
+  // Toggle UI button  
+  document.getElementById('fullscreen-toggle-btn')?.addEventListener('click', function() {
+    if (window.toggleUIElements) {
+      window.toggleUIElements();
+    }
+  });
+  
+  // NEW: Medium View button
+  document.getElementById('medium-view-btn')?.addEventListener('click', function() {
+    window.location.href = '/medium';
+  });
+  
+  // Era filter buttons
+  document.querySelectorAll('.era-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Remove active class from all buttons
+      document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      // Call filter function
+      if (window.filterByEra) {
+        window.filterByEra(this.dataset.era);
+      }
+    });
+  });
+});
+</script>
   <!-- Fullscreen notification -->
   <div id="fullscreen-notification" class="fullscreen-notification">
     Press F to return to normal view
   </div>
   
   <!-- Main viewport container -->
-  <div id="main">
+  <div id="main" style="top: 80px;"> <!-- Changed back to just 80px -->
     <div id="viewport"></div>               
   </div>
   
@@ -138,6 +210,7 @@
         <li><strong>Era Filters:</strong> Use the buttons in the sidebar to highlight specific Fluxus eras</li>
         <li><strong>Image Details:</strong> Click any artwork to view its metadata including artist, title, date and medium</li>
         <li><strong>Save View:</strong> Use the Save Current View button to capture the current visualization as a PNG image</li>
+        <li><strong>View by Medium:</strong> Switch to the medium-based organization to explore artworks by material type</li>
       </ul>
       
       <p>The colors of the artworks correspond to their era in the Fluxus movement:</p>
@@ -153,6 +226,8 @@
   <script src="front.js" type="module"></script>
   <script src="hover-effect-patch.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="enhanced-interactions.js"></script>
+  <script src="integration.js"></script>
   
   <!-- Enhanced UI script -->
   <script src="enhanced-ui.js"></script>

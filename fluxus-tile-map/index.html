@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Museum of Modern Art</title>
+    <style>
+        /* MoMA Typography System - Franklin Gothic */
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --moma-black: #000000;
+            --moma-white: #ffffff;
+            --moma-gray-100: #f8f8f8;
+            --moma-gray-200: #e8e8e8;
+            --moma-gray-300: #d0d0d0;
+            --moma-gray-600: #666666;
+            --moma-gray-800: #333333;
+            --moma-blue: #007aff;
+            --moma-red: #e31e24;
+            
+            /* Typography Scale */
+            --font-xs: 0.75rem;
+            --font-sm: 0.875rem;
+            --font-base: 1rem;
+            --font-lg: 1.125rem;
+            --font-xl: 1.25rem;
+            --font-2xl: 1.5rem;
+            --font-3xl: 1.875rem;
+            --font-4xl: 2.25rem;
+            --font-5xl: 3rem;
+            
+            /* Spacing */
+            --space-2: 0.5rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--moma-black);
+            background: var(--moma-white);
+        }
+
+        /* Header */
+        .header {
+            background: var(--moma-white);
+            border-bottom: 1px solid var(--moma-gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: var(--space-1) 0;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* MUCH LARGER LOGO */
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--moma-black);
+            text-decoration: none;
+            letter-spacing: -0.05em;
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--space-8);
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--moma-black);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: var(--font-base);
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--moma-blue);
+        }
+
+        .tickets-btn {
+            background: var(--moma-blue);
+            color: var(--moma-white);
+            padding: var(--space-2) var(--space-6);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .tickets-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            background: var(--moma-gray-100);
+            padding: var(--space-4) 0;
+            font-size: var(--font-sm);
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .breadcrumb-trail {
+            color: var(--moma-gray-600);
+        }
+
+        .breadcrumb-trail a {
+            color: var(--moma-gray-600);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb-trail a:hover {
+            color: var(--moma-blue);
+        }
+
+        .breadcrumb-current {
+            color: var(--moma-black);
+            font-weight: 500;
+        }
+
+        /* HERO SECTION - MUCH LARGER IMAGE */
+        .hero {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            padding: var(--space-24) 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 85vh;
+        }
+
+        .hero-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 var(--space-8);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--space-24);
+            align-items: center;
+            min-height: 75vh;
+        }
+
+        .hero-content {
+            padding-right: var(--space-12);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: var(--space-8);
+            color: var(--moma-black);
+        }
+
+        .hero-content .subtitle {
+            font-size: var(--font-2xl);
+            color: var(--moma-gray-600);
+            margin-bottom: var(--space-8);
+            font-weight: 500;
+        }
+
+        .hero-content .description {
+            font-size: var(--font-xl);
+            line-height: 1.8;
+            margin-bottom: var(--space-12);
+            color: var(--moma-gray-800);
+            max-width: 85%;
+        }
+
+        /* DRAMATICALLY LARGER HERO IMAGE */
+        .hero-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 40px 80px rgba(0,0,0,0.25),
+                0 20px 40px rgba(0,0,0,0.15);
+            width: 100%;
+            height: 650px;
+            min-height: 500px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.03);
+        }
+
+        /* LARGER, MORE PROMINENT BADGE */
+        .hero-badge {
+            position: absolute;
+            top: var(--space-8);
+            left: var(--space-8);
+            background: var(--moma-red);
+            color: var(--moma-white);
+            padding: var(--space-4) var(--space-12);
+            border-radius: 12px;
+            font-size: var(--font-lg);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 8px 30px rgba(227, 30, 36, 0.5);
+            z-index: 20;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: var(--space-6) var(--space-12);
+            font-size: var(--font-lg);
+            font-weight: 700;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--moma-black);
+            color: var(--moma-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--moma-gray-800);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--moma-black);
+            border: 2px solid var(--moma-black);
+        }
+
+        .btn-secondary:hover {
+            background: var(--moma-black);
+            color: var(--moma-white);
+        }
+
+        /* Dual Visualizations Section */
+        .dual-visualizations {
+            padding: var(--space-20) 0;
+            background: linear-gradient(135deg, var(--moma-gray-100) 0%, var(--moma-white) 100%);
+        }
+
+        .dual-viz-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .dual-visualizations h2 {
+            font-size: var(--font-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            text-align: center;
+            color: var(--moma-black);
+        }
+
+        .section-intro {
+            font-size: var(--font-xl);
+            text-align: center;
+            color: var(--moma-gray-600);
+            max-width: 900px;
+            margin: 0 auto var(--space-16);
+            line-height: 1.7;
+        }
+
+        .visualization-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            margin-top: var(--space-12);
+        }
+
+        .viz-option {
+            background: var(--moma-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .viz-option:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .viz-preview {
+            height: 280px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chronological-preview {
+            background: linear-gradient(45deg, #333 0%, #666 25%, #999 50%, #bbb 75%, #ddd 100%);
+        }
+
+        .medium-preview {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 33%, #F4A460 66%, #DDD 100%);
+        }
+
+        .preview-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--moma-white);
+            padding: var(--space-8);
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .preview-overlay h3 {
+            font-size: var(--font-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .preview-overlay p {
+            font-size: var(--font-lg);
+            opacity: 0.9;
+        }
+
+        .viz-description {
+            padding: var(--space-8);
+        }
+
+        .viz-description h4 {
+            font-size: var(--font-2xl);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            color: var(--moma-black);
+        }
+
+        .viz-description > p {
+            font-size: var(--font-lg);
+            line-height: 1.6;
+            color: var(--moma-gray-600);
+            margin-bottom: var(--space-6);
+        }
+
+        .viz-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: var(--space-8);
+        }
+
+        .viz-features li {
+            padding: var(--space-2) 0;
+            color: var(--moma-gray-600);
+            position: relative;
+            padding-left: var(--space-6);
+            font-size: var(--font-base);
+        }
+
+        .viz-features li::before {
+            content: "→";
+            color: var(--moma-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .viz-button {
+            background: var(--moma-black);
+            color: var(--moma-white);
+            padding: var(--space-4) var(--space-8);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: var(--font-lg);
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .viz-button:hover {
+            background: var(--moma-gray-800);
+            transform: translateY(-1px);
+        }
+
+        .medium-explorer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .medium-explorer h2 {
+            font-size: var(--font-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-8);
+            text-align: center;
+            color: var(--moma-black);
+        }
+
+        .medium-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-12);
+            margin-bottom: var(--space-16);
+            align-items: center;
+        }
+
+        .medium-description {
+            font-size: var(--font-lg);
+            line-height: 1.7;
+            color: var(--moma-gray-800);
+        }
+
+        .medium-description h3 {
+            font-size: var(--font-2xl);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            color: var(--moma-black);
+        }
+
+        .medium-benefits {
+            background: var(--moma-gray-100);
+            padding: var(--space-8);
+            border-radius: 12px;
+        }
+
+        .medium-benefits h4 {
+            font-size: var(--font-xl);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            color: var(--moma-black);
+        }
+
+        .medium-benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .medium-benefits li {
+            padding: var(--space-2) 0;
+            color: var(--moma-gray-600);
+            position: relative;
+            padding-left: var(--space-6);
+        }
+
+        .medium-benefits li::before {
+            content: "→";
+            color: var(--moma-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .medium-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-16);
+        }
+
+        .category-card {
+            background: var(--moma-white);
+            border: 2px solid var(--moma-gray-200);
+            padding: var(--space-6);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .category-card:hover {
+            border-color: var(--moma-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.1);
+        }
+
+        .category-card h4 {
+            font-size: var(--font-xl);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            color: var(--moma-black);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .category-card p {
+            color: var(--moma-gray-600);
+            line-height: 1.6;
+            font-size: var(--font-base);
+        }
+
+        .medium-cta {
+            text-align: center;
+            background: linear-gradient(135deg, var(--moma-blue), #0056b3);
+            padding: var(--space-12);
+            border-radius: 16px;
+            color: var(--moma-white);
+        }
+
+        .medium-cta h3 {
+            font-size: var(--font-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+        }
+
+        .medium-cta p {
+            font-size: var(--font-lg);
+            margin-bottom: var(--space-8);
+            opacity: 0.9;
+        }
+
+        .btn-medium {
+            background: var(--moma-white);
+            color: var(--moma-blue);
+            padding: var(--space-6) var(--space-12);
+            font-size: var(--font-lg);
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .btn-medium:hover {
+            background: var(--moma-gray-100);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Methodology Section */
+        .methodology {
+            padding: var(--space-20) 0;
+            background: var(--moma-white);
+        }
+
+        .methodology-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .methodology h2 {
+            font-size: var(--font-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-8);
+            text-align: center;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
+            margin-top: var(--space-12);
+        }
+
+        .methodology-card {
+            background: var(--moma-gray-100);
+            padding: var(--space-8);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .methodology-card h3 {
+            font-size: var(--font-xl);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            color: var(--moma-black);
+        }
+
+        .methodology-card p {
+            color: var(--moma-gray-600);
+            line-height: 1.6;
+        }
+
+        /* Era Sections */
+        .eras {
+            padding: var(--space-20) 0;
+            background: var(--moma-gray-100);
+        }
+
+        .eras-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .eras h2 {
+            font-size: var(--font-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-12);
+            text-align: center;
+        }
+
+        .era-section {
+            margin-bottom: var(--space-16);
+        }
+
+        .era-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: var(--space-6);
+            background: var(--moma-white);
+            border-radius: 8px;
+            margin-bottom: var(--space-4);
+            transition: all 0.2s ease;
+        }
+
+        .era-header:hover {
+            background: var(--moma-gray-200);
+        }
+
+        .era-header h3 {
+            font-size: var(--font-2xl);
+            font-weight: 600;
+            color: var(--moma-black);
+        }
+
+        .era-years {
+            font-size: var(--font-lg);
+            color: var(--moma-gray-600);
+            font-weight: 400;
+        }
+
+        .expand-icon {
+            font-size: var(--font-xl);
+            color: var(--moma-gray-600);
+            transition: transform 0.2s ease;
+        }
+
+        .era-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: var(--moma-white);
+            border-radius: 8px;
+        }
+
+        .era-content.expanded {
+            max-height: 500px;
+        }
+
+        .era-content-inner {
+            padding: var(--space-8);
+        }
+
+        .era-content p {
+            color: var(--moma-gray-800);
+            line-height: 1.7;
+            margin-bottom: var(--space-4);
+        }
+
+        .era-highlights {
+            margin-top: var(--space-6);
+        }
+
+        .era-highlights h4 {
+            font-size: var(--font-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            color: var(--moma-black);
+        }
+
+        .era-highlights ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .era-highlights li {
+            padding: var(--space-2) 0;
+            color: var(--moma-gray-600);
+            position: relative;
+            padding-left: var(--space-6);
+        }
+
+        .era-highlights li::before {
+            content: "•";
+            color: var(--moma-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Tutorial Overlay */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tutorial-content {
+            background: var(--moma-white);
+            padding: var(--space-12);
+            border-radius: 12px;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+        }
+
+        .tutorial-content h3 {
+            font-size: var(--font-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+        }
+
+        .tutorial-content p {
+            font-size: var(--font-lg);
+            line-height: 1.6;
+            margin-bottom: var(--space-8);
+            color: var(--moma-gray-600);
+        }
+
+        .tutorial-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: none;
+            border: none;
+            font-size: var(--font-2xl);
+            cursor: pointer;
+            color: var(--moma-gray-600);
+        }
+
+        .skip-tutorial {
+            color: var(--moma-gray-600);
+            text-decoration: none;
+            font-size: var(--font-sm);
+            margin-left: var(--space-4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--moma-black);
+            color: var(--moma-white);
+            padding: var(--space-16) 0 var(--space-8);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--moma-gray-300);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1400px) {
+            .hero-container {
+                max-width: 1300px;
+                gap: var(--space-20);
+            }
+            
+            .hero-image {
+                height: 580px;
+                min-height: 450px;
+            }
+            
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .hero-container {
+                max-width: 1100px;
+                grid-template-columns: 1fr 1.3fr;
+                gap: var(--space-16);
+            }
+            
+            .hero-image {
+                height: 520px;
+                min-height: 400px;
+            }
+            
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .medium-overview {
+                grid-template-columns: 1fr;
+                gap: var(--space-8);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .hero {
+                padding: var(--space-20) 0;
+                min-height: auto;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-16);
+                text-align: center;
+                min-height: auto;
+            }
+            
+            .hero-content {
+                order: 1;
+                padding-right: 0;
+            }
+            
+            .hero-image {
+                order: 2;
+                height: 420px;
+                min-height: 350px;
+                margin: 0 auto;
+                max-width: 700px;
+            }
+            
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .hero {
+                padding: var(--space-16) 0;
+            }
+            
+            .hero-container {
+                padding: 0 var(--space-6);
+                gap: var(--space-12);
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content .subtitle {
+                font-size: var(--font-xl);
+            }
+            
+            .hero-content .description {
+                font-size: var(--font-lg);
+                max-width: 100%;
+            }
+            
+            .hero-image {
+                height: 320px;
+                min-height: 250px;
+                border-radius: 16px;
+            }
+            
+            .hero-badge {
+                font-size: var(--font-base);
+                padding: var(--space-3) var(--space-6);
+                top: var(--space-6);
+                left: var(--space-6);
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: var(--space-4) var(--space-8);
+                font-size: var(--font-base);
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .visualization-comparison {
+                grid-template-columns: 1fr;
+                gap: var(--space-12);
+            }
+
+            .viz-preview {
+                height: 200px;
+            }
+        }
+
+        /* Smooth animations */
+        .hero-content > * {
+            animation: fadeInUp 1s ease both;
+        }
+
+        .hero-content h1 { animation-delay: 0.1s; }
+        .hero-content .subtitle { animation-delay: 0.2s; }
+        .hero-content .description { animation-delay: 0.3s; }
+        .hero-content .cta-buttons { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">MoMA</a>
+            <nav class="nav">
+                <a href="#" class="nav-link">Visit</a>
+                <a href="#" class="nav-link">Exhibitions and events</a>
+                <a href="#" class="nav-link">Art and artists</a>
+                <a href="#" class="nav-link">Store</a>
+                <a href="#" class="tickets-btn">Tickets</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb">
+        <div class="breadcrumb-container">
+            <div class="breadcrumb-trail">
+                <a href="#">Home</a> › <a href="#">Digital Exhibitions</a> › <span class="breadcrumb-current">Fluxus Mosaic</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tutorial Overlay -->
+    <div class="tutorial-overlay" id="tutorialOverlay">
+        <div class="tutorial-content">
+            <button class="tutorial-close" id="tutorialClose">&times;</button>
+            <h3>Welcome to Fluxus Mosaic</h3>
+            <p>This interactive visualization displays over 2,800 artworks from the Fluxus movement (1953-1984), arranged chronologically to reveal patterns across time.</p>
+            <p><strong>Navigation:</strong> Pan and zoom to explore • Click artworks for details • Use era filters to highlight specific periods</p>
+            <div style="margin-top: 2rem;">
+                <button class="btn-primary" onclick="startExperience()">Start Exploring</button>
+                <a href="#" class="skip-tutorial" onclick="skipTutorial()">Skip tutorial</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Fluxus Mosaic</h1>
+                <div class="subtitle">Interactive Digital Exhibitions</div>
+                <div class="description">
+                    Explore the revolutionary Fluxus art movement through two innovative photomosaic visualizations. Discover how avant-garde artists challenged traditional boundaries between art forms from 1953 to 1984.
+                </div>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="launchVisualization()">Chronological View</button>
+                    <button class="btn-primary" onclick="launchMediumView()">Medium View</button>
+                    <a href="#methodology" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- <div class="hero-badge">Digital Exhibition</div> -->
+                <img src="Performer_Fluxus.png" alt="Fluxus Mosaic - Interactive Timeline Visualization" id="hero-preview-image">
+                
+                <!-- Fallback script -->
+                <script>
+                    document.getElementById('hero-preview-image').onerror = function() {
+                        this.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080' viewBox='0 0 1920 1080'%3E%3Crect width='1920' height='1080' fill='%23f0f0f0'/%3E%3Cg opacity='0.2'%3E%3Crect x='0' y='0' width='240' height='135' fill='%23666'/%3E%3Crect x='240' y='0' width='240' height='135' fill='%23888'/%3E%3Crect x='480' y='0' width='240' height='135' fill='%23aaa'/%3E%3Crect x='720' y='0' width='240' height='135' fill='%23666'/%3E%3Crect x='960' y='0' width='240' height='135' fill='%23999'/%3E%3Crect x='1200' y='0' width='240' height='135' fill='%23777'/%3E%3Crect x='1440' y='0' width='240' height='135' fill='%23555'/%3E%3Crect x='1680' y='0' width='240' height='135' fill='%23888'/%3E%3C/g%3E%3Ctext x='960' y='540' font-family='Arial, sans-serif' font-size='48' font-weight='bold' text-anchor='middle' fill='%23333'%3EFluxus Mosaic Preview%3C/text%3E%3Ctext x='960' y='590' font-family='Arial, sans-serif' font-size='28' text-anchor='middle' fill='%23666'%3E2,847 Artworks • 1953-1984%3C/text%3E%3C/svg%3E";
+                    };
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dual Visualization Approaches Section -->
+    <section class="dual-visualizations">
+        <div class="dual-viz-container">
+            <h2>Two Perspectives on Fluxus</h2>
+            <p class="section-intro">Experience the same collection of 2,847 Fluxus artworks through two complementary curatorial approaches, each revealing different patterns and insights about this revolutionary art movement.</p>
+            
+            <div class="visualization-comparison">
+                <div class="viz-option">
+                    <div class="viz-preview chronological-preview">
+                        <div class="preview-overlay">
+                            <h3>Chronological View</h3>
+                            <p>Timeline Organization</p>
+                        </div>
+                    </div>
+                    <div class="viz-description">
+                        <h4>Temporal Evolution</h4>
+                        <p>Artworks arranged chronologically from 1953-1984, revealing the movement's development across three distinct eras. This view shows how Fluxus evolved from experimental compositions to international festivals to institutional integration.</p>
+                        <ul class="viz-features">
+                            <li>Era-based color coding (grayscale → sepia → color)</li>
+                            <li>Year ruler for temporal navigation</li>
+                            <li>Historical progression visualization</li>
+                            <li>Mieko Shiomi's "Disappearing Music for Face" as hero image</li>
+                        </ul>
+                        <a href="/visualization" class="viz-button">Explore Timeline</a>
+                    </div>
+                </div>
+                
+                <div class="viz-option">
+                    <div class="viz-preview medium-preview">
+                        <div class="preview-overlay">
+                            <h3>Medium View</h3>
+                            <p>Material Organization</p>
+                        </div>
+                    </div>
+                    <div class="viz-description">
+                        <h4>Material Exploration</h4>
+                        <p>Artworks organized by medium type in six categories, revealing how Fluxus artists challenged traditional material boundaries and embraced interdisciplinary experimentation across painting, sculpture, photography, and more.</p>
+                        <ul class="viz-features">
+                            <li>Six medium categories with clear boundaries</li>
+                            <li>Cross-medium influence patterns</li>
+                            <li>Material-based discovery interface</li>
+                            <li>"Bag Piece" performance as underlying composition</li>
+                        </ul>
+                        <a href="/medium" class="viz-button">Explore Materials</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medium Explorer Section -->
+    <section class="medium-explorer" id="medium-explorer">
+        <div class="medium-explorer-container">
+            <h2>Explore by Medium</h2>
+            
+            <div class="medium-overview">
+                <div class="medium-description">
+                    <h3>Material-Based Discovery</h3>
+                    <p>Our Medium Explorer organizes the Fluxus collection by artistic materials and techniques, revealing how different mediums contributed to the movement's revolutionary approach to art-making.</p>
+                    <p>Rather than viewing artworks chronologically, this visualization groups them by their physical properties—painting, drawing, sculpture, photography, printmaking, and mixed media—creating a new perspective on Fluxus experimentation.</p>
+                </div>
+                
+                <div class="medium-benefits">
+                    <h4>Why This Matters</h4>
+                    <ul>
+                        <li>Reveals cross-medium influences and exchanges</li>
+                        <li>Shows how Fluxus artists challenged medium specificity</li>
+                        <li>Highlights the movement's democratic approach to materials</li>
+                        <li>Demonstrates interdisciplinary experimentation</li>
+                        <li>Uncovers patterns in material usage across decades</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="medium-categories-grid">
+                <div class="category-card">
+                    <h4>Painting</h4>
+                    <p>Traditional and experimental painted works that challenged conventional approaches to canvas, color, and composition.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h4>Drawing</h4>
+                    <p>Sketches, studies, and finished drawings that captured the spontaneous and conceptual nature of Fluxus practice.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h4>Print</h4>
+                    <p>Multiples, lithographs, and experimental printmaking that democratized art distribution and challenged uniqueness.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h4>Sculpture</h4>
+                    <p>Three-dimensional works and installations that expanded the definition of sculptural practice and spatial experience.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h4>Photography</h4>
+                    <p>Documentary and artistic photography that captured performances, events, and conceptual investigations.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h4>Mixed Media</h4>
+                    <p>Hybrid works combining multiple materials and techniques, embodying Fluxus's interdisciplinary approach.</p>
+                </div>
+            </div>
+
+            <div class="medium-cta">
+                <h3>Experience Material Patterns</h3>
+                <p>Discover how Fluxus artists used different mediums to challenge artistic conventions and explore new forms of expression.</p>
+                <a href="/medium" class="btn-medium">Explore by Medium</a>
+            </div>
+        </div>
+    </section>

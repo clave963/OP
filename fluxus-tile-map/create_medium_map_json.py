@@ -17,23 +17,9 @@ THUMB_FOLDER = os.path.join(MAP_NAME, "thumbs")
 IMAGES_FOLDER = os.path.join(MAP_NAME, "images")  
 
 # Hero image path - this will be blended with the tiles
-# SRC_IMAGE = "../Fluxus_Images/181806_Bag_Piece_(1964),_performed_during_Perpetual_Fluxfest,_Cinematheque,_New_York,_June_27,_1965.jpg"
-# SRC_IMAGE = "../Fluxus_Images/137345_Still_from_Disappearing_Music_for_Face.jpg"
-# SRC_IMAGE = "../Fluxus_Images/138294_Hand_Show.jpg"
-# SRC_IMAGE = "../Fluxus_Images/127410_heute___+morgn___+immer___wieder___bis….jpg"
-# SRC_IMAGE = "../Fluxus_Images/140218_U.S.A._Surpasses_All_the_Genocide_Records,_U.S._Surpasses_All_Genocide_Records....jpg"
-# SRC_IMAGE = "../Fluxus_Images/150219_Four_(Fluxfilm_no._16).jpg"
-# SRC_IMAGE = "../Fluxus_Images/150227_Eyeblink_(Fluxfilm_no._9).jpg"
-# SRC_IMAGE = "../Fluxus_Images/149311_Put_Finger_in_Hole_from_Fluxkit.jpg"
-# SRC_IMAGE = "../Fluxus_Images/152698_Shigeko_Kubota_Performs_The_Identical_Lunch.jpg"
-# SRC_IMAGE = "../Fluxus_Images/178953_Lying_Ceremony_from_Performance_Files.jpg"
-# SRC_IMAGE = "../Fluxus_Images/184356_Hotel_Event,_performed_at_Waldorf_Astoria,_New_York,_June_4,_1966.jpg"
-# SRC_IMAGE = "../Fluxus_Images/192930_Name_card_for_Christo.jpg"
-# SRC_IMAGE = "../Fluxus_Images/127907_Flux_Stationery_Foot_in_Shoe.jpg"
-# SRC_IMAGE = "../Fluxus_Images/127908_Flux_Stationery_Hand_in_Glove.jpg"
-
-HERO_IMAGE = "../Fluxus_Images/181806_Bag_Piece_(1964),_performed_during_Perpetual_Fluxfest,_Cinematheque,_New_York,_June_27,_1965.jpg"
-HERO_OVERLAY_OPACITY = 0.3  # Adjust the blend factor (0.0-1.0)
+HERO_IMAGE = "../Fluxus_Images/150227_Eyeblink_(Fluxfilm_no._9).jpg"
+# HERO_IMAGE = "../Fluxus_Images/181806_Bag_Piece_(1964),_performed_during_Perpetual_Fluxfest,_Cinematheque,_New_York,_June_27,_1965.jpg"
+HERO_OVERLAY_OPACITY = 0.85  # Very strong blend for maximum visibility
 
 # === GRID SETUP ===
 # Define a smaller 90x60 grid (90 width x 60 height)
@@ -96,9 +82,9 @@ def extract_year_from_date(date_str):
     # Default to middle of Fluxus period
     return 1965
 
-def blend_with_hero_image(image, hero_image, blend_factor, x_pos, y_pos, grid_width, grid_height):
+def enhance_contrast_and_blend(image, hero_image, blend_factor, x_pos, y_pos, grid_width, grid_height):
     """
-    Blend the tile image with a portion of the hero image based on grid position.
+    Enhanced blending with dramatic darkening and high contrast for hero visibility.
     
     Args:
         image: The tile image (grayscale or color)
@@ -108,7 +94,7 @@ def blend_with_hero_image(image, hero_image, blend_factor, x_pos, y_pos, grid_wi
         grid_width, grid_height: Total grid dimensions
     
     Returns:
-        Blended image
+        Blended image with enhanced visibility and dramatic contrast
     """
     # First, make sure both images are the same size
     image_h, image_w = image.shape[:2]
@@ -133,40 +119,129 @@ def blend_with_hero_image(image, hero_image, blend_factor, x_pos, y_pos, grid_wi
     if hero_region.shape[:2] != image.shape[:2]:
         hero_region = cv2.resize(hero_region, (image_w, image_h))
     
-    # Blend the images
-    blended = cv2.addWeighted(image, 1.0 - blend_factor, hero_region, blend_factor, 0)
+    # Convert hero region to grayscale and get luminance values
+    hero_gray = cv2.cvtColor(hero_region, cv2.COLOR_BGR2GRAY)
     
-    return blended
+    # Create dramatic contrast enhancement for hero image
+    # Use aggressive histogram equalization
+    hero_enhanced = cv2.createCLAHE(clipLimit=4.0, tileGridSize=(4,4)).apply(hero_gray)
+    
+    # Apply very strong contrast and brightness adjustments
+    hero_enhanced = cv2.convertScaleAbs(hero_enhanced, alpha=2.2, beta=40)
+    
+    # Create luminance mask with more dramatic range
+    luminance_mask = hero_enhanced.astype(np.float32) / 255.0
+    
+    # DRAMATICALLY DARKEN the original artwork tiles
+    image_float = image.astype(np.float32) / 255.0
+    
+    # Apply aggressive darkening - reduce brightness by 60-80%
+    darkening_factor = 0.2 + 0.2 * (1.0 - luminance_mask)  # Range 0.2 to 0.4 (very dark)
+    darkened_image = image_float * np.stack([darkening_factor] * 3, axis=2) if len(image_float.shape) == 3 else image_float * darkening_factor
+    
+    # Create high-contrast toning based on hero image luminance
+    # Dark areas get deep sepia/brown, light areas get warm highlights
+    sepia_factor = 1.0 - luminance_mask  # More sepia in dark areas
+    highlight_factor = luminance_mask ** 2  # Concentrated highlights in brightest areas
+    
+    if len(darkened_image.shape) == 3:
+        # Create deep sepia tone for dark areas
+        sepia_r = darkened_image[:,:,2] * 0.5 + darkened_image[:,:,1] * 0.9 + darkened_image[:,:,0] * 0.3
+        sepia_g = darkened_image[:,:,2] * 0.4 + darkened_image[:,:,1] * 0.8 + darkened_image[:,:,0] * 0.2
+        sepia_b = darkened_image[:,:,2] * 0.2 + darkened_image[:,:,1] * 0.5 + darkened_image[:,:,0] * 0.1
+        
+        sepia_image = np.stack([
+            np.clip(sepia_b, 0, 1),
+            np.clip(sepia_g, 0, 1), 
+            np.clip(sepia_r, 0, 1)
+        ], axis=2)
+        
+        # Create warm highlights for light areas
+        highlighted_image = darkened_image.copy()
+        highlighted_image[:,:,2] = np.clip(highlighted_image[:,:,2] + highlight_factor * 0.3, 0, 1)  # Warm red
+        highlighted_image[:,:,1] = np.clip(highlighted_image[:,:,1] + highlight_factor * 0.2, 0, 1)  # Warm yellow
+        highlighted_image[:,:,0] = np.clip(highlighted_image[:,:,0] * 0.7, 0, 1)  # Reduce blue
+        
+        # Blend sepia and highlights based on luminance
+        sepia_factor_3d = np.stack([sepia_factor] * 3, axis=2)
+        highlight_factor_3d = np.stack([highlight_factor] * 3, axis=2)
+        
+        toned_image = sepia_image * sepia_factor_3d + highlighted_image * highlight_factor_3d
+    else:
+        # For grayscale, apply dramatic darkening with sepia tone
+        toned_image = darkened_image * (0.3 + 0.4 * sepia_factor)
+    
+    # Create VERY STRONG hero overlay
+    # Use the enhanced hero image as dominant overlay
+    hero_overlay_strength = blend_factor * (0.6 + 0.4 * luminance_mask)  # Range 0.6 to 1.0 (very strong)
+    
+    if len(toned_image.shape) == 3:
+        hero_overlay_3d = np.stack([hero_overlay_strength] * 3, axis=2)
+        # Convert hero to warm tones to match the aesthetic
+        hero_color = hero_enhanced / 255.0
+        hero_color_warm = np.stack([
+            hero_color * 0.7,  # Less blue
+            hero_color * 0.9,  # Good green
+            hero_color * 1.1   # More red
+        ], axis=2)
+        hero_color_warm = np.clip(hero_color_warm, 0, 1)
+        
+        # Blend the toned image with the strong hero overlay
+        final_blend = toned_image * (1.0 - hero_overlay_3d) + hero_color_warm * hero_overlay_3d
+    else:
+        final_blend = toned_image * (1.0 - hero_overlay_strength) + (hero_enhanced/255.0) * hero_overlay_strength
+    
+    # Final dramatic contrast boost
+    final_blend = cv2.convertScaleAbs(final_blend * 255, alpha=1.3, beta=15)
+    
+    return final_blend
 
-def create_category_label_image(category_name, width=300, height=60, font_scale=1.0, thickness=2):
+def create_enhanced_category_label_image(category_name, width=400, height=80):
     """
-    Create an image with a category label that can be overlaid on the visualization.
+    Create a larger, more stylized category label that matches the site design.
     
     Args:
         category_name: Name of the category
         width, height: Dimensions of the label image
-        font_scale: Size of the font
-        thickness: Line thickness of the font
     
     Returns:
-        Image with the label text
+        Image with the enhanced label text
     """
-    # Create a transparent background
+    # Create image with alpha channel
     label_img = np.zeros((height, width, 4), dtype=np.uint8)
     
-    # Add a semi-transparent black background
-    cv2.rectangle(label_img, (0, 0), (width, height), (0, 0, 0, 180), -1)
+    # Create a more sophisticated background with gradient
+    # Glassmorphism effect - semi-transparent with blur-like appearance
+    bg_color = (28, 28, 30, 200)  # Dark background matching site theme
     
-    # Set up the font
+    # Add rounded rectangle background
+    cv2.rectangle(label_img, (0, 0), (width, height), bg_color, -1)
+    
+    # Add border with site accent color (blue)
+    border_color = (0, 122, 255, 180)  # MoMA blue from site
+    cv2.rectangle(label_img, (2, 2), (width-2, height-2), border_color, 2)
+    
+    # Set up the enhanced font
     font = cv2.FONT_HERSHEY_SIMPLEX
-    text_size = cv2.getTextSize(category_name, font, font_scale, thickness)[0]
+    font_scale = 1.4  # Larger font
+    thickness = 3     # Thicker for better visibility
+    
+    # Get text size for center alignment
+    text_size = cv2.getTextSize(category_name.upper(), font, font_scale, thickness)[0]
     
     # Calculate text position for center alignment
     text_x = (width - text_size[0]) // 2
     text_y = (height + text_size[1]) // 2
     
-    # Add the text in white
-    cv2.putText(label_img, category_name, (text_x, text_y), font, font_scale, (255, 255, 255, 255), thickness)
+    # Add text shadow for depth
+    shadow_color = (0, 0, 0, 255)
+    cv2.putText(label_img, category_name.upper(), (text_x + 2, text_y + 2), 
+                font, font_scale, shadow_color, thickness)
+    
+    # Add the main text in white
+    text_color = (255, 255, 255, 255)
+    cv2.putText(label_img, category_name.upper(), (text_x, text_y), 
+                font, font_scale, text_color, thickness)
     
     return label_img
 
@@ -175,13 +250,13 @@ def create_grid_overlay_data():
     overlay = {
         "grid": {
             "visible": True,
-            "color": [1.0, 1.0, 1.0, 0.3],  # Slightly more transparent
-            "lineWidth": 1
+            "color": [1.0, 1.0, 1.0, 0.4],  # Slightly more visible
+            "lineWidth": 2  # Thicker lines
         },
         "categories": []
     }
     
-    # Add category boundaries and headers with UI settings
+    # Add category boundaries and headers with enhanced UI settings
     for category, (start_x, start_y, end_x, end_y) in GRID_BOUNDARIES.items():
         width = end_x - start_x + 1
         height = end_y - start_y + 1
@@ -206,7 +281,7 @@ def create_grid_overlay_data():
     return overlay
 
 def create_enhanced_medium_map():
-    """Create a medium map with hero image blending and improved UI."""
+    """Create a medium map with enhanced hero image blending and improved UI."""
     print("Starting enhanced medium map creation")
     
     # Start fresh - delete existing folders and recreate them
@@ -311,10 +386,10 @@ def create_enhanced_medium_map():
     
     print(f"Positioned {len(positioned_items)} items in the grid")
     
-    # Create category label images
-    print("Creating category label images")
+    # Create enhanced category label images
+    print("Creating enhanced category label images")
     for category in MEDIUM_CATEGORIES.keys():
-        label_img = create_category_label_image(category.title(), width=240, height=50)
+        label_img = create_enhanced_category_label_image(category, width=400, height=80)
         label_filename = f"label_{category.replace(' ', '_')}.png"
         cv2.imwrite(os.path.join(IMAGES_FOLDER, label_filename), label_img)
     
@@ -359,17 +434,13 @@ def create_enhanced_medium_map():
                 # Save a copy of the original to the images folder
                 cv2.imwrite(abs_image_path, image)
                 
-                # Create grayscale thumbnail
-                # Convert to grayscale first
-                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                gray_bgr = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+                # Create thumbnail with better processing
+                # DON'T convert to grayscale immediately - keep color information
+                thumbnail = cv2.resize(image, (64, 64))
                 
-                # Then resize
-                thumbnail = cv2.resize(gray_bgr, (64, 64))
-                
-                # Blend with hero image if available
+                # Enhanced blending with hero image if available
                 if hero_image is not None:
-                    thumbnail = blend_with_hero_image(
+                    thumbnail = enhance_contrast_and_blend(
                         thumbnail, 
                         hero_image, 
                         HERO_OVERLAY_OPACITY,

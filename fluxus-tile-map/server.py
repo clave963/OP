@@ -40,8 +40,19 @@ def get_medium_images():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# FIXED: Root route serves landing page
 @app.route('/')
-def serve_index():
+def serve_landing():
+    return send_from_directory('.', 'index.html')
+
+# FIXED: Visualization route serves the Fluxus app
+@app.route('/visualization')
+def serve_visualization():
+    return send_from_directory('.', 'front.html')
+
+# Keep the old /front route for backward compatibility
+@app.route('/front')
+def serve_front():
     return send_from_directory('.', 'front.html')
 
 @app.route('/medium')
